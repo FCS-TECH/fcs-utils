@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -33,6 +33,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>FCS.Lib.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,7 +53,7 @@
     <Compile Include="ExtensionsEx.cs" />
     <Compile Include="Generators.cs" />
     <Compile Include="IRepository.cs" />
-    <Compile Include="IRepositoryAsync.cs" />
+    <Compile Include="IAsyncReadonlyRepo.cs" />
     <Compile Include="IRepositoryEx.cs" />
     <Compile Include="Mogrifiers.cs" />
     <Compile Include="StringOptions.cs" />
@@ -58,7 +64,9 @@
     </Compile>
     <Compile Include="Squid.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="FCS.Lib.pfx" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="Properties\AssemblyInfo.tt">

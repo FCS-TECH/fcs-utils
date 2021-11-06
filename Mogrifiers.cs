@@ -4,7 +4,7 @@
 // Created          : 27-08-2016
 //
 // Last Modified By : Frede H.
-// Last Modified On : 2020-08-30
+// Last Modified On : 2021-02-24
 // ***********************************************************************
 // <copyright file="Mogrifiers.cs" company="FCS">
 //     Copyright © FCS 2015-2020
@@ -15,20 +15,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace FCS.Lib
 {
     /// <summary>
-    /// Class Converters
+    ///     Class Converters
     /// </summary>
     public static class Mogrifiers
     {
         /// <summary>
-        /// Reverse boolean
+        ///     Reverse boolean
         /// </summary>
         /// <param name="value">if set to <c>true</c> [value].</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
@@ -38,7 +39,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Boolean to integer
+        ///     Boolean to integer
         /// </summary>
         /// <param name="value">if set to <c>true</c> [value].</param>
         /// <returns>System.Int32.</returns>
@@ -48,7 +49,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Boolean to string
+        ///     Boolean to string
         /// </summary>
         /// <param name="value">if set to <c>true</c> [value].</param>
         /// <returns>System.String.</returns>
@@ -59,7 +60,7 @@ namespace FCS.Lib
 
 
         /// <summary>
-        /// Enum to integer
+        ///     Enum to integer
         /// </summary>
         /// <param name="enumeration">The enumeration.</param>
         /// <returns>System.Int32.</returns>
@@ -70,7 +71,7 @@ namespace FCS.Lib
 
 
         /// <summary>
-        /// Enum to string.
+        ///     Enum to string.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>System.String.</returns>
@@ -79,18 +80,23 @@ namespace FCS.Lib
             return value == null ? string.Empty : value.ToString();
         }
 
+        public static IEnumerable<T> GetEnumList<T>()
+        {
+            return (T[])Enum.GetValues(typeof(T));
+        }
+
         /// <summary>
-        /// Integer to boolean.
+        ///     Integer to boolean.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public static bool IntToBool(int value)
         {
-            return value == 1;
+            return value > 0 || value < 0;
         }
 
         /// <summary>
-        /// Integer to enum.
+        ///     Integer to enum.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value">The value.</param>
@@ -101,7 +107,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Integer to letter.
+        ///     Integer to letter.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>System.String.</returns>
@@ -128,7 +134,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Lists to string using semicolon(;)
+        ///     Lists to string using semicolon(;)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list">The list.</param>
@@ -139,7 +145,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Lists to string userdefined delimiter
+        ///     Lists to string userdefined delimiter
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list">The list.</param>
@@ -157,13 +163,22 @@ namespace FCS.Lib
             return empty;
         }
 
+        /// <summary>
+        /// Pascals to lower.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>System.String.</returns>
+        public static string PascalToLower(string value)
+        {
+            var result = string.Join("-", Regex.Split(value, @"(?<!^)(?=[A-Z])").ToArray());
+            return result.ToLower(CultureInfo.InvariantCulture);
+        }
 
         /// <summary>
-        /// String to bool.
+        ///     String to bool.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-        [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>")]
         public static bool StringToBool(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -187,7 +202,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// String to decimal.
+        ///     String to decimal.
         /// </summary>
         /// <param name="inString">The in string.</param>
         /// <returns>System.Nullable&lt;System.Decimal&gt;.</returns>
@@ -202,7 +217,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// String to enum.
+        ///     String to enum.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value">The value.</param>
@@ -213,7 +228,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// String to list using semicolon(;).
+        ///     String to list using semicolon(;).
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value">The value.</param>
@@ -224,16 +239,19 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// String to list userdefined delimiter.
+        ///     String to list userdefined delimiter.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value">The value.</param>
         /// <param name="delimiter">The delimiter.</param>
         /// <returns>List&lt;T&gt;.</returns>
-        /// <exception cref="System.ArgumentNullException">value</exception>
-        /// <exception cref="System.ArgumentNullException">delimiter</exception>
         /// <exception cref="ArgumentNullException">value</exception>
         /// <exception cref="ArgumentNullException">delimiter</exception>
+        /// <exception cref="ArgumentNullException">value</exception>
+        /// <exception cref="ArgumentNullException">delimiter</exception>
+        /// <exception cref="ArgumentNullException">value</exception>
+        /// <exception cref="ArgumentNullException">delimiter</exception>
+        /// <exception cref="ArgumentNullException">value</exception>
         public static List<T> StringToList<T>(string value, string delimiter)
         {
             if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value));
@@ -265,7 +283,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// String to stream using system default encoding.
+        ///     String to stream using system default encoding.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>Stream.</returns>
@@ -276,7 +294,7 @@ namespace FCS.Lib
 
 
         /// <summary>
-        /// Strings to stream with userdefined encoding.
+        ///     Strings to stream with userdefined encoding.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="encoding">The encoding.</param>
@@ -287,7 +305,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Returns timestamp for current date-time object.
+        ///     Returns timestamp for current date-time object.
         /// </summary>
         /// <returns>System.Int32.</returns>
         public static long CurrentDateTimeToTimeStamp()
@@ -296,7 +314,25 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Convert a DateTime object to timestamp
+        ///     Currents the date time to alpha.
+        /// </summary>
+        /// <returns>System.String.</returns>
+        public static string CurrentDateTimeToAlpha()
+        {
+            var dt = DateTime.UtcNow.ToString("yy MM dd HH MM ss");
+            var sb = new StringBuilder();
+            var dts = dt.Split(' ');
+            sb.Append((char) int.Parse(dts[0]) + 65);
+            sb.Append((char) int.Parse(dts[1]) + 65);
+            sb.Append((char) int.Parse(dts[2]) + 97);
+            sb.Append((char) int.Parse(dts[3]) + 65);
+            sb.Append((char) int.Parse(dts[4]) + 97);
+            sb.Append((char) int.Parse(dts[5]) + 97);
+            return sb.ToString();
+        }
+
+        /// <summary>
+        ///     Convert a DateTime object to timestamp
         /// </summary>
         /// <param name="dateTime">The date time.</param>
         /// <returns>System.Int64.</returns>
@@ -304,16 +340,16 @@ namespace FCS.Lib
         {
             var bigDate = new DateTime(2038, 1, 19, 0, 0, 0, 0);
             var nixDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            
+
             if (dateTime >= bigDate)
-                return Convert.ToUInt32((bigDate - nixDate).TotalSeconds) +
-                       Convert.ToUInt32((dateTime - bigDate).TotalSeconds);
-            
-            return Convert.ToUInt32((dateTime - nixDate).TotalSeconds);
+                return Convert.ToInt64((bigDate - nixDate).TotalSeconds) +
+                       Convert.ToInt64((dateTime - bigDate).TotalSeconds);
+
+            return Convert.ToInt64((dateTime - nixDate).TotalSeconds);
         }
 
         /// <summary>
-        /// Convert timestamp to DataTime format
+        ///     Convert timestamp to DataTime format
         /// </summary>
         /// <param name="timeStamp">The time stamp.</param>
         /// <returns>DateTime.</returns>
@@ -324,7 +360,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Convert timespan to seconds
+        ///     Convert timespan to seconds
         /// </summary>
         /// <param name="timespan">The timespan.</param>
         /// <returns>System.Int32.</returns>
@@ -334,7 +370,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Converts seconds to timespan
+        ///     Converts seconds to timespan
         /// </summary>
         /// <param name="seconds">The seconds.</param>
         /// <returns>TimeSpan.</returns>
@@ -344,7 +380,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Converts timespan to minutes
+        ///     Converts timespan to minutes
         /// </summary>
         /// <param name="timespan">The timespan.</param>
         /// <returns>System.Int32.</returns>

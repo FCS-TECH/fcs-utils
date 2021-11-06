@@ -4,7 +4,7 @@
 // Created          : 2020-07-01
 //
 // Last Modified By : FH
-// Last Modified On : 2020-08-30
+// Last Modified On : 2021-02-24
 // ***********************************************************************
 // <copyright file="Squid.cs" company="Frede Hundewadt">
 //     Copyright © FCS 2015-2020
@@ -18,42 +18,44 @@ using System.Diagnostics;
 namespace FCS.Lib
 {
     /// <summary>
-    /// A wrapper for handling URL-safe Base64 encoded globally unique identifiers (GUID).
+    ///     A wrapper for handling URL-safe Base64 encoded globally unique identifiers (GUID).
     /// </summary>
-    /// <remarks>Special characters are replaced (/, +) or removed (==).
-    /// Derived from https:github.com/csharpvitamins/CSharpVitamins.ShortGuid</remarks>
+    /// <remarks>
+    ///     Special characters are replaced (/, +) or removed (==).
+    ///     Derived from https:github.com/csharpvitamins/CSharpVitamins.ShortGuid
+    /// </remarks>
     [DebuggerDisplay("{" + nameof(Value) + "}")]
     public readonly struct Squid : IEquatable<Squid>
     {
         /// <summary>
-        /// A read-only object of the Squid struct.
-        /// Value is guaranteed to be all zeroes.
-        /// Equivalent to <see cref="Guid.Empty" />.
+        ///     A read-only object of the Squid struct.
+        ///     Value is guaranteed to be all zeroes.
+        ///     Equivalent to <see cref="Guid.Empty" />.
         /// </summary>
-        public static readonly Squid Empty = new Squid(Guid.Empty);
+        public static readonly Squid Empty = new(Guid.Empty);
 
         /// <summary>
-        /// Creates a new Squid from a Squid encoded string.
+        ///     Creates a new Squid from a Squid encoded string.
         /// </summary>
         /// <param name="value">A valid Squid encodd string.</param>
         public Squid(string value)
         {
             Value = value;
-            Guid = Decode(value);
+            Guid = DecodeSquid(value);
         }
 
         /// <summary>
-        /// Creates a new Squid with the given <see cref="System.Guid" />.
+        ///     Creates a new Squid with the given <see cref="System.Guid" />.
         /// </summary>
         /// <param name="obj">A valid System.Guid object.</param>
         public Squid(Guid obj)
         {
-            Value = Encode(obj);
+            Value = EncodeGuid(obj);
             Guid = obj;
         }
 
         /// <summary>
-        /// Gets the underlying <see cref="System.Guid" /> for the encoded Squid.
+        ///     Gets the underlying <see cref="System.Guid" /> for the encoded Squid.
         /// </summary>
         /// <value>The unique identifier.</value>
 #pragma warning disable CA1720 // Identifier contains type name
@@ -61,14 +63,14 @@ namespace FCS.Lib
 #pragma warning restore CA1720 // Identifier contains type name
 
         /// <summary>
-        /// The encoded string value of the <see cref="Guid" />
-        /// as an URL-safe Base64 string.
+        ///     The encoded string value of the <see cref="Guid" />
+        ///     as an URL-safe Base64 string.
         /// </summary>
         /// <value>The value.</value>
         public string Value { get; }
 
         /// <summary>
-        /// Returns the encoded URL-safe Base64 string.
+        ///     Returns the encoded URL-safe Base64 string.
         /// </summary>
         /// <returns>A <see cref="string" /> that represents this instance.</returns>
         public override string ToString()
@@ -77,8 +79,8 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Returns a value indicating whether this object and a specified object represent the same type and value.
-        /// Compares for equality against other string, Guid and Squid types.
+        ///     Returns a value indicating whether this object and a specified object represent the same type and value.
+        ///     Compares for equality against other string, Guid and Squid types.
         /// </summary>
         /// <param name="obj">A Systerm.String, System.Guid or Squid object</param>
         /// <returns><c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
@@ -88,7 +90,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Equality comparison
+        ///     Equality comparison
         /// </summary>
         /// <param name="obj">A valid Squid object</param>
         /// <returns>A boolean indicating equality.</returns>
@@ -98,7 +100,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Returns the hash code for the underlying <see cref="System.Guid" />.
+        ///     Returns the hash code for the underlying <see cref="System.Guid" />.
         /// </summary>
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public override int GetHashCode()
@@ -110,35 +112,35 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Initialises a new object of the Squid using <see cref="Guid.NewGuid()" />.
+        ///     Initialises a new object of the Squid using <see cref="Guid.NewGuid()" />.
         /// </summary>
         /// <returns>New Squid object</returns>
         public static Squid NewGuid()
         {
-            return new Squid(Guid.NewGuid());
+            return new(Guid.NewGuid());
         }
 
         /// <summary>
-        /// Encode string as a new Squid encoded string.
-        /// The encoding is similar to Base64 with
-        /// non-URL safe characters replaced, and padding removed.
+        ///     Encode string as a new Squid encoded string.
+        ///     The encoding is similar to Base64 with
+        ///     non-URL safe characters replaced, and padding removed.
         /// </summary>
         /// <param name="value">A valid <see cref="System.Guid" />.Tostring().</param>
         /// <returns>A 22 character URL-safe Base64 string.</returns>
-        public static string Encode(string value)
+        public static string EncodeString(string value)
         {
             var guid = new Guid(value);
-            return Encode(guid);
+            return EncodeGuid(guid);
         }
 
         /// <summary>
-        /// Encode a <see cref="System.Guid" /> object to Squid.
-        /// The encoding is similar to Base64 with
-        /// non-URL safe characters replaced, and padding removed.
+        ///     Encode a <see cref="System.Guid" /> object to Squid.
+        ///     The encoding is similar to Base64 with
+        ///     non-URL safe characters replaced, and padding removed.
         /// </summary>
         /// <param name="obj">A valid <see cref="System.Guid" /> object.</param>
         /// <returns>A 22 character URL-safe Base64 string.</returns>
-        public static string Encode(Guid obj)
+        public static string EncodeGuid(Guid obj)
         {
             var encoded = Convert.ToBase64String(obj.ToByteArray());
             encoded = encoded
@@ -148,13 +150,13 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Decode Squid string to a <see cref="System.Guid" />.
-        /// See also <seealso cref="TryDecode(string, out System.Guid)" /> or
-        /// <seealso cref="TryParse(string, out System.Guid)" />.
+        ///     Decode Squid string to a <see cref="System.Guid" />.
+        ///     See also <seealso cref="TryDecode(string, out System.Guid)" /> or
+        ///     <seealso cref="TryParse(string, out System.Guid)" />.
         /// </summary>
         /// <param name="value">A valid Squid encoded string.</param>
         /// <returns>A new <see cref="System.Guid" /> object from the parsed string.</returns>
-        public static Guid Decode(string value)
+        public static Guid DecodeSquid(string value)
         {
             if (value == null) return Empty;
             value = value
@@ -166,7 +168,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Squid to Guid.
+        ///     Squid to Guid.
         /// </summary>
         /// <param name="obj">A valid Squid object.</param>
         /// <returns>System.Guid object.</returns>
@@ -176,7 +178,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// String to Squid.
+        ///     String to Squid.
         /// </summary>
         /// <param name="value">String value to convert</param>
         /// <returns>A Squid object.</returns>
@@ -188,7 +190,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Decodes the given value to a <see cref="System.Guid" />.
+        ///     Decodes the given value to a <see cref="System.Guid" />.
         /// </summary>
         /// <param name="value">The Squid encoded string to decode.</param>
         /// <param name="obj">A new <see cref="System.Guid" /> object from the parsed string.</param>
@@ -198,7 +200,7 @@ namespace FCS.Lib
             try
             {
                 // Decode as Squid
-                obj = Decode(value);
+                obj = DecodeSquid(value);
                 return true;
             }
 #pragma warning disable CA1031 // Do not catch general exception types
@@ -212,8 +214,8 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Tries to parse the given string value and
-        /// outputs the <see cref="Squid" /> object.
+        ///     Tries to parse the given string value and
+        ///     outputs the <see cref="Squid" /> object.
         /// </summary>
         /// <param name="value">The Squid encoded string or string representation of a Guid.</param>
         /// <param name="obj">A new <see cref="Squid" /> object from the parsed string.</param>
@@ -239,8 +241,8 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Tries to parse the string value and
-        /// outputs the underlying <see cref="System.Guid" /> object.
+        ///     Tries to parse the string value and
+        ///     outputs the underlying <see cref="System.Guid" /> object.
         /// </summary>
         /// <param name="value">The Squid encoded string or string representation of a Guid.</param>
         /// <param name="obj">A new <see cref="System.Guid" /> object from the parsed string.</param>
@@ -262,8 +264,8 @@ namespace FCS.Lib
         #region Operators
 
         /// <summary>
-        /// Determines if both Squid objects have the same
-        /// underlying <see cref="System.Guid" /> value.
+        ///     Determines if both Squid objects have the same
+        ///     underlying <see cref="System.Guid" /> value.
         /// </summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
@@ -274,8 +276,8 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Determines if both objects have the same
-        /// underlying <see cref="System.Guid" /> value.
+        ///     Determines if both objects have the same
+        ///     underlying <see cref="System.Guid" /> value.
         /// </summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
@@ -286,8 +288,8 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Determines if both objects have the same
-        /// underlying <see cref="System.Guid" /> value.
+        ///     Determines if both objects have the same
+        ///     underlying <see cref="System.Guid" /> value.
         /// </summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
@@ -298,8 +300,8 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Determines if both Squid objects do not have the same
-        /// underlying <see cref="System.Guid" /> value.
+        ///     Determines if both Squid objects do not have the same
+        ///     underlying <see cref="System.Guid" /> value.
         /// </summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
@@ -310,8 +312,8 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Determines if both objects do not have the same
-        /// underlying <see cref="System.Guid" /> value.
+        ///     Determines if both objects do not have the same
+        ///     underlying <see cref="System.Guid" /> value.
         /// </summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
@@ -322,8 +324,8 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Determines if both objects do not have the same
-        /// underlying <see cref="System.Guid" /> value.
+        ///     Determines if both objects do not have the same
+        ///     underlying <see cref="System.Guid" /> value.
         /// </summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
@@ -334,8 +336,8 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Implicitly converts the Squid to
-        /// its string equivalent.
+        ///     Implicitly converts the Squid to
+        ///     its string equivalent.
         /// </summary>
         /// <param name="oSquid">The o squid.</param>
         /// <returns>The result of the conversion.</returns>
@@ -345,8 +347,8 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Implicitly converts the Squid to
-        /// its <see cref="System.Guid" /> equivalent.
+        ///     Implicitly converts the Squid to
+        ///     its <see cref="System.Guid" /> equivalent.
         /// </summary>
         /// <param name="oSquid">The o squid.</param>
         /// <returns>The result of the conversion.</returns>
@@ -356,7 +358,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Implicitly converts the string to a Squid.
+        ///     Implicitly converts the string to a Squid.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
@@ -369,7 +371,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Implicitly converts the <see cref="System.Guid" /> to a Squid.
+        ///     Implicitly converts the <see cref="System.Guid" /> to a Squid.
         /// </summary>
         /// <param name="oGuid">The o unique identifier.</param>
         /// <returns>The result of the conversion.</returns>

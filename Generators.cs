@@ -4,7 +4,7 @@
 // Created          : 2020-07-01
 //
 // Last Modified By : FH
-// Last Modified On : 2020-09-11
+// Last Modified On : 2021-02-24
 // ***********************************************************************
 // <copyright file="Generators.cs" company="Frede Hundewadt">
 //     Copyright © FCS 2015-2020
@@ -20,13 +20,13 @@ using System.Security.Cryptography;
 namespace FCS.Lib
 {
     /// <summary>
-    /// Class Generators
-    /// <remarks>generates varioous kinds of random strings. </remarks>
+    ///     Class Generators
+    ///     <remarks>generates varioous kinds of random strings. </remarks>
     /// </summary>
     public static class Generators
     {
         /// <summary>
-        /// Shorts the URL generator.
+        ///     Shorts the URL generator.
         /// </summary>
         /// <returns>System.String.</returns>
         public static string ShortUrlGenerator()
@@ -35,11 +35,11 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Randoms the string.
+        ///     Randoms the string.
         /// </summary>
-        /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/ </remarks>
         /// <param name="length">The lengt  h.</param>
         /// <returns>System.String.</returns>
+        /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
         public static string ShortUrlGenerator(int length)
         {
             const string charsLower = "cdfghjkmnpqrstvwxyz";
@@ -161,6 +161,11 @@ namespace FCS.Lib
             return new string(shortUrl);
         }
 
+        /// <summary>
+        ///     Generates the username.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <returns>System.String.</returns>
         public static string GenerateUsername(StringOptions options = null)
         {
             options ??= new StringOptions
@@ -176,6 +181,11 @@ namespace FCS.Lib
             return GenerateRandomString(options);
         }
 
+        /// <summary>
+        ///     Generates the password.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <returns>System.String.</returns>
         public static string GeneratePassword(StringOptions options = null)
         {
             options ??= new StringOptions
@@ -191,6 +201,11 @@ namespace FCS.Lib
             return GenerateRandomString(options);
         }
 
+        /// <summary>
+        ///     Generates the random text.
+        /// </summary>
+        /// <param name="length">The length.</param>
+        /// <returns>System.String.</returns>
         public static string GenerateRandomText(int length)
         {
             const string consonants = "bdfghjklmnprstvyBDFGHJKLMNPRSTVY";
@@ -210,7 +225,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Generates the random password.
+        ///     Generates the random password.
         /// </summary>
         /// <param name="options">The options.</param>
         /// <returns>System.String.</returns>
@@ -268,10 +283,10 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        /// Randoms the seed.
+        ///     Randoms the seed.
         /// </summary>
-        /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/ </remarks>
         /// <returns>Random.</returns>
+        /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
         public static Random RandomSeed()
         {
             // As the default randomizer is based on the current time
