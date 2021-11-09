@@ -7,7 +7,7 @@
 // Last Modified On : 2021-02-24
 // ***********************************************************************
 // <copyright file="ExtensionsEx.cs" company="FCS">
-//     Copyright © FCS 2015-2020
+//     Copyright © FCS 2015-2022
 // </copyright>
 // <summary></summary>
 // ***********************************************************************

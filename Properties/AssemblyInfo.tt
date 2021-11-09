@@ -30,7 +30,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Frede Hundewadt")]
 [assembly: AssemblyProduct("FCSInno")]
-[assembly: AssemblyCopyright("Copyright © FCS 2015-2020")]
+[assembly: AssemblyCopyright("Copyright © FCS 2015-2022")]
 [assembly: AssemblyTrademark("FCS © Innotec Danmark A/S")]
 [assembly: AssemblyCulture("")]
 

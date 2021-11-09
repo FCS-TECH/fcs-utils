@@ -9,12 +9,12 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Frede Hundewadt")]
 [assembly: AssemblyProduct("FCSInno")]
-[assembly: AssemblyCopyright("Copyright © FCS 2015-2020")]
+[assembly: AssemblyCopyright("Copyright © FCS 2015-2022")]
 [assembly: AssemblyTrademark("FCS © Innotec Danmark A/S")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
 [assembly: Guid("aaf08873-14e5-411d-8ec8-629782ac8f03")]
 
-[assembly: AssemblyVersion("2.1.21308.1057")]
-[assembly: AssemblyFileVersion("2.1.21308.1057")]
+[assembly: AssemblyVersion("2.1.21313.1042")]
+[assembly: AssemblyFileVersion("2.1.21313.1042")]
