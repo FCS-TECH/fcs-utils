@@ -34,10 +34,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>FCS.Lib.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -66,7 +67,6 @@
     <Compile Include="Squid.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="FCS.Lib.pfx" />
     <None Include="LICENSE.md" />
   </ItemGroup>
   <ItemGroup>
