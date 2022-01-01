@@ -10,6 +10,7 @@
 //     Copyright © FCS 2015-2022
 // </copyright>
 // <summary>
+//        derived from https://sourceforge.net/projects/shorturl-dotnet
 //        Part of FCS.Lib - a set of utilities for C# - pieced together from fragments
 //        Copyright (C) 2021  FCS
 //
@@ -55,7 +56,7 @@ namespace FCS.Lib
         /// </summary>
         /// <param name="length">The lengt  h.</param>
         /// <returns>System.String.</returns>
-        /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
+        /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet </remarks>
         public static string ShortUrlGenerator(int length)
         {
             const string charsLower = "cdfghjkmnpqrstvwxyz";
@@ -139,10 +140,7 @@ namespace FCS.Lib
                     // this group.
                     if (lastCharIdx != nextCharIdx)
                     {
-                        var temp = charGroups[nextGroupIdx][lastCharIdx];
-                        charGroups[nextGroupIdx][lastCharIdx] =
-                            charGroups[nextGroupIdx][nextCharIdx];
-                        charGroups[nextGroupIdx][nextCharIdx] = temp;
+                        (charGroups[nextGroupIdx][lastCharIdx], charGroups[nextGroupIdx][nextCharIdx]) = (charGroups[nextGroupIdx][nextCharIdx], charGroups[nextGroupIdx][lastCharIdx]);
                     }
 
                     // Decrement the number of unprocessed characters in
@@ -162,10 +160,7 @@ namespace FCS.Lib
                     // so that we don't pick it until we process all groups.
                     if (lastLeftGroupsOrderIdx != nextLeftGroupsOrderIdx)
                     {
-                        var temp = leftGroupsOrder[lastLeftGroupsOrderIdx];
-                        leftGroupsOrder[lastLeftGroupsOrderIdx] =
-                            leftGroupsOrder[nextLeftGroupsOrderIdx];
-                        leftGroupsOrder[nextLeftGroupsOrderIdx] = temp;
+                        (leftGroupsOrder[lastLeftGroupsOrderIdx], leftGroupsOrder[nextLeftGroupsOrderIdx]) = (leftGroupsOrder[nextLeftGroupsOrderIdx], leftGroupsOrder[lastLeftGroupsOrderIdx]);
                     }
 
                     // Decrement the number of unprocessed groups.

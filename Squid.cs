@@ -47,7 +47,7 @@ namespace FCS.Lib
         /// <summary>
         ///     A read-only object of the Squid struct.
         ///     Value is guaranteed to be all zeroes.
-        ///     Equivalent to <see cref="Guid.Empty" />.
+        ///     Equivalent to Guid.Empty" />.
         /// </summary>
         public static readonly Squid Empty = new(Guid.Empty);
 
@@ -129,12 +129,12 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        ///     Initialises a new object of the Squid using <see cref="Guid.NewGuid()" />.
+        ///     Initialises a new object of the Squid using Guid.NewGuid()" />.
         /// </summary>
         /// <returns>New Squid object</returns>
         public static Squid NewGuid()
         {
-            return new(Guid.NewGuid());
+            return new Squid(Guid.NewGuid());
         }
 
         /// <summary>

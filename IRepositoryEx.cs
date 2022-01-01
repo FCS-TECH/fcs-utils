@@ -4,7 +4,7 @@
 // Created          : 03-10-2015
 //
 // Last Modified By : FH
-// Last Modified On : 2021-02-24
+// Last Modified On : 2021-11-13
 // ***********************************************************************
 // <copyright file="IRepositoryEx.cs" company="FCS">
 //     Copyright © FCS 2015-2022
@@ -41,13 +41,6 @@ namespace FCS.Lib
     /// <typeparam name="TEntity">The type of the t entity</typeparam>
     public interface IRepositoryEx<TEntity> where TEntity : class
     {
-        /// <summary>
-        ///     Get all entities asynchronous
-        /// </summary>
-        /// <param name="predicate">Predicate</param>
-        /// <returns>Task&lt;System.Boolean&gt;</returns>
-        Task<bool> AllAsync(Expression<Func<TEntity, bool>> predicate);
-
         /// <summary>
         ///     Get all entities synchronous
         /// </summary>
@@ -102,17 +95,11 @@ namespace FCS.Lib
         bool Any(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
-        ///     Get all entities
+        ///     Get entity by id
         /// </summary>
-        /// <returns>IQueryable&lt;TEntity&gt;</returns>
-        IQueryable<TEntity> All();
-
-        /// <summary>
-        ///     Find all matching entities matching query
-        /// </summary>
-        /// <param name="predicate">Predicate</param>
-        /// <returns>IQueryable&lt;TEntity&gt;</returns>
-        IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
+        /// <param name="id">The identifier.</param>
+        /// <returns>TEntity</returns>
+        TEntity GetById(string id);
 
         /// <summary>
         ///     Find first entity matching query
@@ -129,10 +116,16 @@ namespace FCS.Lib
         TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
-        ///     Get entity by id
+        ///     Find all matching entities matching query
         /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>TEntity</returns>
-        TEntity GetById(string id);
+        /// <param name="predicate">Predicate</param>
+        /// <returns>IQueryable&lt;TEntity&gt;</returns>
+        IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        ///     Get all entities
+        /// </summary>
+        /// <returns>IQueryable&lt;TEntity&gt;</returns>
+        IQueryable<TEntity> All();
     }
 }

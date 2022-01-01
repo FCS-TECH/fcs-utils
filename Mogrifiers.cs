@@ -119,7 +119,7 @@ namespace FCS.Lib
         /// <returns>T.</returns>
         public static T IntToEnum<T>(int value)
         {
-            return (T) Enum.ToObject(typeof(T), value);
+            return (T)Enum.ToObject(typeof(T), value);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace FCS.Lib
         {
             var empty = string.Empty;
             if (list == null) return empty;
-            var enumerator = (IEnumerator) list.GetType().GetMethod("GetEnumerator")?.Invoke(list, null);
+            var enumerator = (IEnumerator)list.GetType().GetMethod("GetEnumerator")?.Invoke(list, null);
             while (enumerator != null && enumerator.MoveNext())
                 if (enumerator.Current != null)
                     empty = string.Concat(empty, enumerator.Current.ToString(), delimiter);
@@ -228,8 +228,8 @@ namespace FCS.Lib
             return
                 !decimal.TryParse(inString.Replace(",", "").Replace(".", ""), NumberStyles.Number,
                     CultureInfo.InvariantCulture, out var num)
-                    ? (decimal?) null
-                    : decimal.Divide(num, new decimal((long) 100));
+                    ? null
+                    : decimal.Divide(num, new decimal((long)100));
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace FCS.Lib
         /// <returns>T.</returns>
         public static T StringToEnum<T>(string value)
         {
-            return (T) Enum.Parse(typeof(T), value, true);
+            return (T)Enum.Parse(typeof(T), value, true);
         }
 
         /// <summary>
@@ -263,6 +263,11 @@ namespace FCS.Lib
         /// <returns>List&lt;T&gt;.</returns>
         /// <exception cref="ArgumentNullException">value</exception>
         /// <exception cref="ArgumentNullException">delimiter</exception>
+        /// <exception cref="ArgumentNullException">value</exception>
+        /// <exception cref="ArgumentNullException">delimiter</exception>
+        /// <exception cref="ArgumentNullException">value</exception>
+        /// <exception cref="ArgumentNullException">delimiter</exception>
+        /// <exception cref="ArgumentNullException">value</exception>
         public static List<T> StringToList<T>(string value, string delimiter)
         {
             if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value));
@@ -277,16 +282,16 @@ namespace FCS.Lib
                 var upperInvariant = o.ToUpperInvariant();
                 if (string.CompareOrdinal(upperInvariant, "system.string") == 0)
                 {
-                    ts.Add((T) Convert.ChangeType(str, typeof(T), CultureInfo.InvariantCulture));
+                    ts.Add((T)Convert.ChangeType(str, typeof(T), CultureInfo.InvariantCulture));
                 }
                 else if (string.CompareOrdinal(upperInvariant, "system.int32") == 0)
                 {
-                    ts.Add((T) Convert.ChangeType(str, typeof(T), CultureInfo.InvariantCulture));
+                    ts.Add((T)Convert.ChangeType(str, typeof(T), CultureInfo.InvariantCulture));
                 }
                 else if (string.CompareOrdinal(upperInvariant, "system.guid") == 0)
                 {
                     var guid = new Guid(str);
-                    ts.Add((T) Convert.ChangeType(guid, typeof(T), CultureInfo.InvariantCulture));
+                    ts.Add((T)Convert.ChangeType(guid, typeof(T), CultureInfo.InvariantCulture));
                 }
             }
 
@@ -333,12 +338,12 @@ namespace FCS.Lib
             var dt = DateTime.UtcNow.ToString("yy MM dd HH MM ss");
             var sb = new StringBuilder();
             var dts = dt.Split(' ');
-            sb.Append((char) int.Parse(dts[0]) + 65);
-            sb.Append((char) int.Parse(dts[1]) + 65);
-            sb.Append((char) int.Parse(dts[2]) + 97);
-            sb.Append((char) int.Parse(dts[3]) + 65);
-            sb.Append((char) int.Parse(dts[4]) + 97);
-            sb.Append((char) int.Parse(dts[5]) + 97);
+            sb.Append((char)int.Parse(dts[0]) + 65);
+            sb.Append((char)int.Parse(dts[1]) + 65);
+            sb.Append((char)int.Parse(dts[2]) + 97);
+            sb.Append((char)int.Parse(dts[3]) + 65);
+            sb.Append((char)int.Parse(dts[4]) + 97);
+            sb.Append((char)int.Parse(dts[5]) + 97);
             return sb.ToString();
         }
 
