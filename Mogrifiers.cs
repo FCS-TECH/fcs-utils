@@ -263,11 +263,6 @@ namespace FCS.Lib
         /// <returns>List&lt;T&gt;.</returns>
         /// <exception cref="ArgumentNullException">value</exception>
         /// <exception cref="ArgumentNullException">delimiter</exception>
-        /// <exception cref="ArgumentNullException">value</exception>
-        /// <exception cref="ArgumentNullException">delimiter</exception>
-        /// <exception cref="ArgumentNullException">value</exception>
-        /// <exception cref="ArgumentNullException">delimiter</exception>
-        /// <exception cref="ArgumentNullException">value</exception>
         public static List<T> StringToList<T>(string value, string delimiter)
         {
             if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value));
