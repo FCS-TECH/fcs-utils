@@ -4,9 +4,9 @@
 // Created          : 2020-09-09
 //
 // Last Modified By : FH
-// Last Modified On : 2021-02-24
+// Last Modified On : 01-09-2022
 // ***********************************************************************
-// <copyright file="StringOptions.cs" company="Frede Hundewadt">
+// <copyright file="StringOptions.cs" company="FCS">
 //     Copyright © FCS 2015-2022
 // </copyright>
 // <summary>
@@ -25,13 +25,14 @@
 //
 //        You should have received a copy of the GNU Affero General Public License
 //        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 // </summary>
 // ***********************************************************************
 
 namespace FCS.Lib
 {
     /// <summary>
-    ///     Class StringOptions.
+    /// Class StringOptions.
     /// </summary>
     public class StringOptions
     {

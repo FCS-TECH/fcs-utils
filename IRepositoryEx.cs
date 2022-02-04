@@ -4,12 +4,11 @@
 // Created          : 03-10-2015
 //
 // Last Modified By : FH
-// Last Modified On : 2021-11-13
+// Last Modified On : 12-31-2021
 // ***********************************************************************
 // <copyright file="IRepositoryEx.cs" company="FCS">
 //     Copyright © FCS 2015-2022
 // </copyright>
-// <summary>
 //        Part of FCS.Lib - a set of utilities for C# - pieced together from fragments
 //        Copyright (C) 2021  FCS
 //
@@ -25,7 +24,7 @@
 //
 //        You should have received a copy of the GNU Affero General Public License
 //        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-// </summary>
+
 // ***********************************************************************
 
 using System;
@@ -36,7 +35,7 @@ using System.Threading.Tasks;
 namespace FCS.Lib
 {
     /// <summary>
-    ///     Interface IRepositoryEx
+    /// Interface IRepositoryEx
     /// </summary>
     /// <typeparam name="TEntity">The type of the t entity</typeparam>
     public interface IRepositoryEx<TEntity> where TEntity : class

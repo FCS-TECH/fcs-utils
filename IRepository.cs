@@ -4,12 +4,11 @@
 // Created          : 05-13-2020
 //
 // Last Modified By : FH
-// Last Modified On : 2021-02-24
+// Last Modified On : 12-31-2021
 // ***********************************************************************
 // <copyright file="IRepository.cs" company="FCS">
 //     Copyright © FCS 2015-2022
 // </copyright>
-// <summary>
 //        Part of FCS.Lib - a set of utilities for C# - pieced together from fragments
 //        Copyright (C) 2021  FCS
 //
@@ -25,13 +24,13 @@
 //
 //        You should have received a copy of the GNU Affero General Public License
 //        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-// </summary>
+
 // ***********************************************************************
 
 namespace FCS.Lib
 {
     /// <summary>
-    ///     Interface IRepository
+    /// Interface IRepository
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TKey">The type of the TKey.</typeparam>

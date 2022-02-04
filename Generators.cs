@@ -4,15 +4,15 @@
 // Created          : 2020-07-01
 //
 // Last Modified By : FH
-// Last Modified On : 2021-02-24
+// Last Modified On : 01-09-2022
 // ***********************************************************************
-// <copyright file="Generators.cs" company="Frede Hundewadt">
+// <copyright file="Generators.cs" company="FCS">
 //     Copyright © FCS 2015-2022
 // </copyright>
-// <summary>
-//        derived from https://sourceforge.net/projects/shorturl-dotnet
 //        Part of FCS.Lib - a set of utilities for C# - pieced together from fragments
 //        Copyright (C) 2021  FCS
+//
+//        Partly derived from https://sourceforge.net/projects/shorturl-dotnet/
 //
 //        This program is free software: you can redistribute it and/or modify
 //        it under the terms of the GNU Affero General Public License as
@@ -26,7 +26,7 @@
 //
 //        You should have received a copy of the GNU Affero General Public License
 //        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-// </summary>
+
 // ***********************************************************************
 
 using System;
@@ -37,8 +37,8 @@ using System.Security.Cryptography;
 namespace FCS.Lib
 {
     /// <summary>
-    ///     Class Generators
-    ///     <remarks>generates varioous kinds of random strings. </remarks>
+    /// Class Generators
+    /// <remarks>generates varioous kinds of random strings. </remarks>
     /// </summary>
     public static class Generators
     {
@@ -56,7 +56,7 @@ namespace FCS.Lib
         /// </summary>
         /// <param name="length">The lengt  h.</param>
         /// <returns>System.String.</returns>
-        /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet </remarks>
+        /// <remarks></remarks>
         public static string ShortUrlGenerator(int length)
         {
             const string charsLower = "cdfghjkmnpqrstvwxyz";
@@ -129,8 +129,7 @@ namespace FCS.Lib
                 // If we processed the last character in this group, start over.
                 if (lastCharIdx == 0)
                 {
-                    charsLeftInGroup[nextGroupIdx] =
-                        charGroups[nextGroupIdx].Length;
+                    charsLeftInGroup[nextGroupIdx] = charGroups[nextGroupIdx].Length;
                 }
                 // There are more unprocessed characters left.
                 else
@@ -297,7 +296,7 @@ namespace FCS.Lib
         ///     Randoms the seed.
         /// </summary>
         /// <returns>Random.</returns>
-        /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
+        /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/ </remarks>
         public static Random RandomSeed()
         {
             // As the default randomizer is based on the current time
