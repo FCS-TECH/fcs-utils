@@ -4,7 +4,7 @@
 // Created          : 2020-09-09
 //
 // Last Modified By : FH
-// Last Modified On : 01-09-2022
+// Last Modified On : 02-24-2022
 // ***********************************************************************
 // <copyright file="StringOptions.cs" company="FCS">
 //    Copyright (C) 2022 FCS Frede's Computer Services.
@@ -19,12 +19,12 @@
 //    GNU Affero General Public License for more details.
 //
 //    You should have received a copy of the GNU Affero General Public License
-//    along with this program.  If not, see <https://www.gnu.org/licenses/>
+//    along with this program.  If not, see [https://www.gnu.org/licenses]
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 
-namespace FCS.Lib
+namespace FCS.Lib.Utility
 {
     /// <summary>
     /// Class StringOptions.

@@ -4,7 +4,7 @@
 // Created          : 03-10-2015
 //
 // Last Modified By : FH
-// Last Modified On : 12-31-2021
+// Last Modified On : 02-24-2022
 // ***********************************************************************
 // <copyright file="IAsyncReadonlyRepo.cs" company="FCS">
 //    Copyright (C) 2022 FCS Frede's Computer Services.
@@ -19,7 +19,7 @@
 //    GNU Affero General Public License for more details.
 //
 //    You should have received a copy of the GNU Affero General Public License
-//    along with this program.  If not, see <https://www.gnu.org/licenses/>
+//    along with this program.  If not, see [https://www.gnu.org/licenses]
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
@@ -30,7 +30,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace FCS.Lib
+namespace FCS.Lib.Utility
 {
     /// <summary>
     /// Interface IRepositoryAsync

@@ -4,7 +4,7 @@
 // Created          : 05-13-2020
 //
 // Last Modified By : FH
-// Last Modified On : 12-31-2021
+// Last Modified On : 02-24-2022
 // ***********************************************************************
 // <copyright file="IRepository.cs" company="FCS">
 //    Copyright (C) 2022 FCS Frede's Computer Services.
@@ -19,12 +19,12 @@
 //    GNU Affero General Public License for more details.
 //
 //    You should have received a copy of the GNU Affero General Public License
-//    along with this program.  If not, see <https://www.gnu.org/licenses/>
+//    along with this program.  If not, see [https://www.gnu.org/licenses]
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 
-namespace FCS.Lib
+namespace FCS.Lib.Utility
 {
     /// <summary>
     /// Interface IRepository

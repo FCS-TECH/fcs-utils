@@ -4,9 +4,9 @@
 // Created          : 01-01-2022
 //
 // Last Modified By : FH
-// Last Modified On : 12-31-2021
+// Last Modified On : 02-24-2022
 // ***********************************************************************
-// <copyright file="QueryHelper.cs" company="">
+// <copyright file="QueryHelper.cs" company="Frede Hundewadt">
 //    Copyright (C) 2022 FCS Frede's Computer Services.
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License as
@@ -19,7 +19,7 @@
 //    GNU Affero General Public License for more details.
 //
 //    You should have received a copy of the GNU Affero General Public License
-//    along with this program.  If not, see <https://www.gnu.org/licenses/>
+//    along with this program.  If not, see [https://www.gnu.org/licenses]
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
@@ -29,7 +29,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace FCS.Lib
+namespace FCS.Lib.Utility
 {
     /// <summary>
     /// Class QueryHelper.
