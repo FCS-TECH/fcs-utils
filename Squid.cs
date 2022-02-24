@@ -1,5 +1,5 @@
 ﻿// ***********************************************************************
-// Assembly         : FCS.Lib
+// Assembly         : Inno.Lib
 // Author           : FH
 // Created          : 2020-07-01
 //
@@ -7,28 +7,21 @@
 // Last Modified On : 01-09-2022
 // ***********************************************************************
 // <copyright file="Squid.cs" company="FCS">
-//     Copyright © FCS 2015-2022
+//    Copyright (C) 2022 FCS Frede's Computer Services.
+//    This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU Affero General Public License as
+//    published by the Free Software Foundation, either version 3 of the
+//    License, or (at your option) any later version.
+//
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU Affero General Public License for more details.
+//
+//    You should have received a copy of the GNU Affero General Public License
+//    along with this program.  If not, see <https://www.gnu.org/licenses/>
 // </copyright>
-// <summary>
-//        Derived from https://www.madskristensen.net/blog/A-shorter-and-URL-friendly-GUID
-//        AGPL https://www.gnu.org/licenses/agpl-3.0.en.html
-//        Functional similar to https:github.com/csharpvitamins/CSharpVitamins.ShortGuid
-//
-//        Part of FCS.Lib - a set of utilities for C# - pieced together from fragments
-//        Copyright (C) 2021  FCS
-//
-//        This program is free software: you can redistribute it and/or modify
-//        it under the terms of the GNU Affero General Public License as
-//        published by the Free Software Foundation, either version 3 of the
-//        License, or (at your option) any later version.
-//
-//        This program is distributed in the hope that it will be useful,
-//        but WITHOUT ANY WARRANTY; without even the implied warranty of
-//        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//        GNU Affero General Public License for more details.
-//
-//        You should have received a copy of the GNU Affero General Public License
-//        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+// <summary>Derived from https:github.com/csharpvitamins/CSharpVitamins.ShortGuid</summary>
 // ***********************************************************************
 
 using System;
@@ -37,14 +30,16 @@ using System.Diagnostics;
 namespace FCS.Lib
 {
     /// <summary>
-    /// A wrapper for unique identifiers (GUID).
+    /// A wrapper for handling URL-safe Base64 encoded globally unique identifiers (GUID).
     /// </summary>
-    /// <remarks>Special characters are replaced (/, +) or removed (==).</remarks>
+    /// <remarks>Special characters are replaced (/, +) or removed (==).
+    /// Derived from https:github.com/csharpvitamins/CSharpVitamins.ShortGuid</remarks>
     [DebuggerDisplay("{" + nameof(Value) + "}")]
     public readonly struct Squid : IEquatable<Squid>
     {
         /// <summary>
         ///     A read-only object of the Squid struct.
+        ///     Value is guaranteed to be all zeroes.
         ///     Equivalent to <see cref="Guid.Empty" />.
         /// </summary>
         public static readonly Squid Empty = new(Guid.Empty);
@@ -115,7 +110,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        ///     Returns the hash code for the guid <see cref="System.Guid" />.
+        ///     Returns the hash code for the underlying <see cref="System.Guid" />.
         /// </summary>
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public override int GetHashCode()
@@ -127,7 +122,7 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        ///     Initialises a new Squid using <see cref="Guid.NewGuid()" />.
+        ///     Initialises a new object of the Squid using <see cref="Guid.NewGuid()" />.
         /// </summary>
         /// <returns>New Squid object</returns>
         public static Squid NewGuid()
@@ -136,7 +131,9 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        ///     Encode string as a new Squid string.
+        ///     Encode string as a new Squid encoded string.
+        ///     The encoding is similar to Base64 with
+        ///     non-URL safe characters replaced, and padding removed.
         /// </summary>
         /// <param name="value">A valid <see cref="System.Guid" />.Tostring().</param>
         /// <returns>A 22 character URL-safe Base64 string.</returns>
@@ -148,6 +145,8 @@ namespace FCS.Lib
 
         /// <summary>
         ///     Encode a <see cref="System.Guid" /> object to Squid.
+        ///     The encoding is similar to Base64 with
+        ///     non-URL safe characters replaced, and padding removed.
         /// </summary>
         /// <param name="obj">A valid <see cref="System.Guid" /> object.</param>
         /// <returns>A 22 character URL-safe Base64 string.</returns>
@@ -225,7 +224,8 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        ///     Tries to parse the given string value and output the <see cref="Squid" /> object.
+        ///     Tries to parse the given string value and
+        ///     outputs the <see cref="Squid" /> object.
         /// </summary>
         /// <param name="value">The Squid encoded string or string representation of a Guid.</param>
         /// <param name="obj">A new <see cref="Squid" /> object from the parsed string.</param>
@@ -251,7 +251,8 @@ namespace FCS.Lib
         }
 
         /// <summary>
-        ///     Tries to parse the string value and outputs the underlying <see cref="System.Guid" /> object.
+        ///     Tries to parse the string value and
+        ///     outputs the underlying <see cref="System.Guid" /> object.
         /// </summary>
         /// <param name="value">The Squid encoded string or string representation of a Guid.</param>
         /// <param name="obj">A new <see cref="System.Guid" /> object from the parsed string.</param>
@@ -269,6 +270,8 @@ namespace FCS.Lib
             obj = Guid.Empty;
             return false;
         }
+
+        #region Operators
 
         /// <summary>
         ///     Determines if both Squid objects have the same
@@ -387,5 +390,6 @@ namespace FCS.Lib
             return oGuid == Guid.Empty ? Empty : new Squid(oGuid);
         }
 
+        #endregion
     }
 }

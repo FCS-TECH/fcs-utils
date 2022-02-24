@@ -1,5 +1,5 @@
 ﻿// ***********************************************************************
-// Assembly         : FCS.Lib
+// Assembly         : Inno.Lib
 // Author           : FH
 // Created          : 2020-07-01
 //
@@ -7,26 +7,21 @@
 // Last Modified On : 01-09-2022
 // ***********************************************************************
 // <copyright file="Generators.cs" company="FCS">
-//     Copyright © FCS 2015-2022
+//    Copyright (C) 2022 FCS Frede's Computer Services.
+//    This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU Affero General Public License as
+//    published by the Free Software Foundation, either version 3 of the
+//    License, or (at your option) any later version.
+//
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU Affero General Public License for more details.
+//
+//    You should have received a copy of the GNU Affero General Public License
+//    along with this program.  If not, see <https://www.gnu.org/licenses/>
 // </copyright>
-//        Part of FCS.Lib - a set of utilities for C# - pieced together from fragments
-//        Copyright (C) 2021  FCS
-//
-//        Partly derived from https://sourceforge.net/projects/shorturl-dotnet/
-//
-//        This program is free software: you can redistribute it and/or modify
-//        it under the terms of the GNU Affero General Public License as
-//        published by the Free Software Foundation, either version 3 of the
-//        License, or (at your option) any later version.
-//
-//        This program is distributed in the hope that it will be useful,
-//        but WITHOUT ANY WARRANTY; without even the implied warranty of
-//        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//        GNU Affero General Public License for more details.
-//
-//        You should have received a copy of the GNU Affero General Public License
-//        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+// <summary></summary>
 // ***********************************************************************
 
 using System;
@@ -56,7 +51,7 @@ namespace FCS.Lib
         /// </summary>
         /// <param name="length">The lengt  h.</param>
         /// <returns>System.String.</returns>
-        /// <remarks></remarks>
+        /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
         public static string ShortUrlGenerator(int length)
         {
             const string charsLower = "cdfghjkmnpqrstvwxyz";
@@ -129,7 +124,8 @@ namespace FCS.Lib
                 // If we processed the last character in this group, start over.
                 if (lastCharIdx == 0)
                 {
-                    charsLeftInGroup[nextGroupIdx] = charGroups[nextGroupIdx].Length;
+                    charsLeftInGroup[nextGroupIdx] =
+                        charGroups[nextGroupIdx].Length;
                 }
                 // There are more unprocessed characters left.
                 else
@@ -139,7 +135,10 @@ namespace FCS.Lib
                     // this group.
                     if (lastCharIdx != nextCharIdx)
                     {
-                        (charGroups[nextGroupIdx][lastCharIdx], charGroups[nextGroupIdx][nextCharIdx]) = (charGroups[nextGroupIdx][nextCharIdx], charGroups[nextGroupIdx][lastCharIdx]);
+                        var temp = charGroups[nextGroupIdx][lastCharIdx];
+                        charGroups[nextGroupIdx][lastCharIdx] =
+                            charGroups[nextGroupIdx][nextCharIdx];
+                        charGroups[nextGroupIdx][nextCharIdx] = temp;
                     }
 
                     // Decrement the number of unprocessed characters in
@@ -159,7 +158,10 @@ namespace FCS.Lib
                     // so that we don't pick it until we process all groups.
                     if (lastLeftGroupsOrderIdx != nextLeftGroupsOrderIdx)
                     {
-                        (leftGroupsOrder[lastLeftGroupsOrderIdx], leftGroupsOrder[nextLeftGroupsOrderIdx]) = (leftGroupsOrder[nextLeftGroupsOrderIdx], leftGroupsOrder[lastLeftGroupsOrderIdx]);
+                        var temp = leftGroupsOrder[lastLeftGroupsOrderIdx];
+                        leftGroupsOrder[lastLeftGroupsOrderIdx] =
+                            leftGroupsOrder[nextLeftGroupsOrderIdx];
+                        leftGroupsOrder[nextLeftGroupsOrderIdx] = temp;
                     }
 
                     // Decrement the number of unprocessed groups.
@@ -296,7 +298,7 @@ namespace FCS.Lib
         ///     Randoms the seed.
         /// </summary>
         /// <returns>Random.</returns>
-        /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/ </remarks>
+        /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
         public static Random RandomSeed()
         {
             // As the default randomizer is based on the current time
