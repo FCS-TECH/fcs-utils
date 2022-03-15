@@ -40,6 +40,18 @@ namespace FCS.Lib.Utility
     /// </summary>
     public static class Mogrifiers
     {
+        public static long IsoDateToTimestamp(string isoDateString)
+        {
+            var result = DateTime.TryParse(isoDateString, out var test);
+            if (!result) return 0;
+            return $"{test:yyyy-MM-dd}" == isoDateString ? DateTimeToTimeStamp(test) : 0;
+        }
+
+        public static string TimestampToIsoDate(long timestamp)
+        {
+            return $"{TimeStampToDateTime(timestamp):yyyy-MM-dd}";
+        }
+
         /// <summary>
         ///     Reverse boolean
         /// </summary>
