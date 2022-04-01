@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Linq;
 
 namespace FCS.Lib.Utility
 {
-    public class VatUtils
+    public static class VatUtils
     {
         public static bool CheckVat(string countryCode, string vatNumber)
         {
@@ -19,7 +15,18 @@ namespace FCS.Lib.Utility
             };
         }
 
-        private static bool CheckVatNumberNorway(string vatNumber)
+        public static bool CheckVatNumberDenmark(string vatNumber)
+        {
+            // https://wiki.scn.sap.com/wiki/display/CRM/Denmark
+            // 8 digits 0 to 9
+            // C1..C7
+            // C8 Modulo 11 check digit
+            // C1 > 0
+            // R = (2*C1 + 7*C2 + 6*C3 + 5*C4 + 4*C5 + 3*C6 + 2*C7 + C8)
+            return (int)char.GetNumericValue(vatNumber[0]) == 1 && vatNumber.Length == 8 && ValidateMod11(vatNumber);
+        }
+
+        public static bool CheckVatNumberNorway(string vatNumber)
         {
             // https://wiki.scn.sap.com/wiki/display/CRM/Norway
             // 12 digits
@@ -29,20 +36,7 @@ namespace FCS.Lib.Utility
             return vatNumber.Length >= 9 && ValidateMod11(vatNumber.Substring(0, 8));
         }
 
-        private static bool CheckVatNumberDenmark(string vatNumber)
-        {
-            // https://wiki.scn.sap.com/wiki/display/CRM/Denmark
-            // 8 digits 0 to 9
-            // C1..C7
-            // C8 Modulo 11 check digit
-            // C1 > 0
-            // R = (2*C1 + 7*C2 + 6*C3 + 5*C4 + 4*C5 + 3*C6 + 2*C7 + C8)
-            if ((int)char.GetNumericValue(vatNumber[0]) < 1 || vatNumber.Length > 8)
-                return false;
-            return ValidateMod11(vatNumber);
-        }
-
-        private static bool CheckVatNumberSweden(string vatNumber)
+        public static bool CheckVatNumberSweden(string vatNumber)
         {
             // https://wiki.scn.sap.com/wiki/display/CRM/Sweden
             // 12 digits 0 to 9
@@ -53,31 +47,29 @@ namespace FCS.Lib.Utility
             //
             // Validate full string using Luhn algoritm
             // 12 chars
-            if (vatNumber.Length != 12)
+            if (vatNumber.Length != 12 || vatNumber.Substring(10) != "01" || long.Parse(vatNumber) == 0)
                 return false;
-            // validate if number
-            if (!int.TryParse(vatNumber, out var result))
-                return false;
-            //validate char 11 and 12
-            var valid = int.TryParse(vatNumber.Substring(10, 2), out var v2);
-            if(valid && v2 is < 1 or > 94 )
-                return false;
-            // check vatnumber
-            return CheckLuhn(vatNumber);
+
+            var r = new[] { 0, 2, 4, 5, 8 }
+                .Sum(m => (int)char.GetNumericValue(vatNumber[m]) / 5 +
+                          (int)char.GetNumericValue(vatNumber[m]) * 2 % 10);
+            var c1 = new[] { 1, 3, 5, 7 }.Sum(m => (int)char.GetNumericValue(vatNumber[m]));
+            var c10 = (10 - (r + c1) % 10) % 10;
+            return $"{vatNumber.Substring(0,9)}{c10}{vatNumber.Substring(9,1)}" == vatNumber;
         }
 
         public static bool ValidateMod11(string number)
         {
             if (long.Parse(number) == 0)
                 return false;
-
             var sum = 0;
             for (int i = number.Length - 1, multiplier = 1; i >= 0; i--)
             {
-                Console.WriteLine($"char: {number[i]} multiplier: {multiplier}");
+                // Console.WriteLine($"char: {number[i]} multiplier: {multiplier}");
                 sum += (int)char.GetNumericValue(number[i]) * multiplier;
                 if (++multiplier > 7) multiplier = 2;
             }
+
             return sum % 11 == 0;
         }
 
@@ -98,13 +90,52 @@ namespace FCS.Lib.Utility
                 nSum += d % 10;
                 isSecond = !isSecond;
             }
-            return (nSum % 10 == 0);
+            return nSum % 10 == 0;
         }
 
-        public static bool CheckLuhn(string vatNumber)
+        public static string GetMod10CheckDigit(string number)
+        {
+            var sum = 0;
+            var alt = true;
+            var digits = number.ToCharArray();
+            for (var i = digits.Length - 1; i >= 0; i--)
+            {
+                var curDigit = digits[i] - 48;
+                if (alt)
+                {
+                    curDigit *= 2;
+                    if (curDigit > 9)
+                        curDigit -= 9;
+                }
+
+                sum += curDigit;
+                alt = !alt;
+            }
+            return sum % 10 == 0 ? "0" : (10 - sum % 10).ToString();
+        }
+
+        public static string AddMod11CheckDigit(string number)
+        {
+            return number + GetMod11CheckDigit(number);
+        }
+
+        public static string GetMod11CheckDigit(string number)
+        {
+            var sum = 0;
+            for (int i = number.Length - 1, multiplier = 2; i >= 0; i--)
+            {
+                sum += (int)char.GetNumericValue(number[i]) * multiplier;
+                if (++multiplier > 7) multiplier = 2;
+            }
+
+            var modulo = sum % 11;
+            return modulo is 0 or 1 ? "0" : (11 - modulo).ToString();
+        }
+
+        private static bool CheckLuhn(string vatNumber)
         {
             // https://www.geeksforgeeks.org/luhn-algorithm/
-            
+
             var nDigits = vatNumber.Length;
             var nSum = 0;
             var isSecond = false;
@@ -118,47 +149,12 @@ namespace FCS.Lib.Utility
                 // after doubling
                 nSum += d / 10;
                 nSum += d % 10;
- 
+
                 isSecond = !isSecond;
             }
-            return (nSum % 10 == 0);
+
+            return nSum % 10 == 0;
         }
 
-        public static string GetMod10CheckDigit(string number)
-        {
-            var sum = 0;
-            var alt = true;
-            var digits = number.ToCharArray();
-            for (int i = digits.Length - 1; i >= 0; i--)
-            {
-                var curDigit = digits[i] - 48;
-                if (alt)
-                {
-                    curDigit *= 2;
-                    if (curDigit > 9)
-                        curDigit -= 9;
-                }
-                sum += curDigit;
-                alt = !alt;
-            }
-            return sum % 10 == 0 ? "0" : (10 - sum % 10).ToString();
-        }
-
-        public static string AddSelfCheckDigit(string number)
-        {
-            return number + GetMod11CheckDigit(number);
-        }
-
-        public static string GetMod11CheckDigit(string number)
-        {
-            var sum = 0;
-            for (int i = number.Length - 1, multiplier = 2; i >= 0; i--)
-            {
-                sum += (int)char.GetNumericValue(number[i]) * multiplier;
-                if (++multiplier > 7) multiplier = 2;
-            }
-            var modulo = (sum % 11);
-            return modulo is 0 or 1 ? "0" : (11 - modulo).ToString();
-        }
     }
 }
