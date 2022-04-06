@@ -56,7 +56,7 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="IAsyncReadonlyRepo.cs" />
     <Compile Include="IRepositoryEx.cs" />
-    <Compile Include="VatUtils.cs" />
+    <Compile Include="VatFormatValidator.cs" />
     <Compile Include="Mogrifiers.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="StringOptions.cs" />
