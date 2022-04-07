@@ -26,7 +26,9 @@ namespace FCS.Lib.Utility
             // C8 check-digit MOD11
             // C1 > 0
             // R = (2*C1 + 7*C2 + 6*C3 + 5*C4 + 4*C5 + 3*C6 + 2*C7 + C8)
-            return (int)char.GetNumericValue(vatNumber[0]) == 1 && vatNumber.Length == 8 && ValidateMod11(vatNumber);
+            if(vatNumber.Length == 8 && long.Parse(vatNumber) != 0)
+                return  ValidateMod11(vatNumber);
+            return false;
         }
 
         private static bool ValidateFormatNo(string vatNumber)
@@ -36,7 +38,9 @@ namespace FCS.Lib.Utility
             // C1..C8 random 0 to 9
             // C9 check-digit MOD11
             // C10 C11 C12 chars == MVA
-            return vatNumber.Length >= 9 && ValidateMod11(vatNumber.Substring(0, 8));
+            if (vatNumber.Length == 9 && long.Parse(vatNumber) != 0)
+                return  ValidateMod11(vatNumber);
+            return false;
         }
 
         private static bool ValidateFormatSe(string vatNumber)
