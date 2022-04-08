@@ -27,7 +27,7 @@ namespace FCS.Lib.Utility
             // C8 check-digit MOD11
             // C1 > 0
             // R = (2*C1 + 7*C2 + 6*C3 + 5*C4 + 4*C5 + 3*C6 + 2*C7 + C8)
-            if(vatNumber.Length == 8 && long.Parse(vatNumber) != 0)
+            if(vatNumber.Length == 8 && long.TryParse(vatNumber, out _))
                 return  ValidateMod11(vatNumber);
             return false;
         }
@@ -39,9 +39,16 @@ namespace FCS.Lib.Utility
             // C1..C8 random 0 to 9
             // C9 check-digit MOD11
             // C10 C11 C12 chars == MVA
-            if (vatNumber.Length == 9 && long.Parse(vatNumber) != 0)
-                return  ValidateMod11(vatNumber);
-            return false;
+            try
+            {
+                if (vatNumber.Length == 9 && long.TryParse(vatNumber, out _))
+                    return ValidateMod11(vatNumber);
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private static bool ValidateFormatSe(string vatNumber)
@@ -54,7 +61,7 @@ namespace FCS.Lib.Utility
             // https://www.skatteverket.se/skatter/mervardesskattmoms/momsregistreringsnummer.4.18e1b10334ebe8bc80002649.html
             // C11 C12 == 01 (De två sista siffrorna är alltid 01)
             
-            if (vatNumber.Length != 12 || vatNumber.Substring(10) != "01" || long.Parse(vatNumber) == 0)
+            if (vatNumber.Length != 12 || vatNumber.Substring(10) != "01" || !long.TryParse(vatNumber, out _))
                 return false;
 
             var r = new[] { 0, 2, 4, 6, 8 }
@@ -67,20 +74,28 @@ namespace FCS.Lib.Utility
 
         private static bool ValidateMod11(string number)
         {
-            if (long.Parse(number) == 0)
-                return false;
-            var sum = 0;
-            for (int i = number.Length - 1, multiplier = 1; i >= 0; i--)
+            try
             {
-                // Console.WriteLine($"char: {number[i]} multiplier: {multiplier}");
-                sum += (int)char.GetNumericValue(number[i]) * multiplier;
-                if (++multiplier > 7) multiplier = 2;
+                if (long.Parse(number) == 0)
+                    return false;
+                var sum = 0;
+                for (int i = number.Length - 1, multiplier = 1; i >= 0; i--)
+                {
+                    // Console.WriteLine($"char: {number[i]} multiplier: {multiplier}");
+                    sum += (int)char.GetNumericValue(number[i]) * multiplier;
+                    if (++multiplier > 7) multiplier = 2;
+                }
+
+                return sum % 11 == 0;
+            }
+            catch
+            {
+                return false;
             }
 
-            return sum % 11 == 0;
         }
 
-        private static string SanitizeVatNumber(string vatNumber)
+        public static string SanitizeVatNumber(string vatNumber)
         {
             vatNumber = vatNumber.ToUpperInvariant();
             return vatNumber
