@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace FCS.Lib.Utility
 {
@@ -52,15 +53,16 @@ namespace FCS.Lib.Utility
             // Si = int(Ci/5) + (Ci*2)MOD10)
             // https://www.skatteverket.se/skatter/mervardesskattmoms/momsregistreringsnummer.4.18e1b10334ebe8bc80002649.html
             // C11 C12 == 01 (De två sista siffrorna är alltid 01)
+            
             if (vatNumber.Length != 12 || vatNumber.Substring(10) != "01" || long.Parse(vatNumber) == 0)
                 return false;
 
-            var r = new[] { 0, 2, 4, 5, 8 }
+            var r = new[] { 0, 2, 4, 6, 8 }
                 .Sum(m => (int)char.GetNumericValue(vatNumber[m]) / 5 +
                           (int)char.GetNumericValue(vatNumber[m]) * 2 % 10);
             var c1 = new[] { 1, 3, 5, 7 }.Sum(m => (int)char.GetNumericValue(vatNumber[m]));
             var c10 = (10 - (r + c1) % 10) % 10;
-            return $"{vatNumber.Substring(0,9)}{c10}{vatNumber.Substring(9,1)}" == vatNumber;
+            return $"{vatNumber.Substring(0, 9)}{c10}01"  == vatNumber;
         }
 
         private static bool ValidateMod11(string number)
@@ -78,18 +80,18 @@ namespace FCS.Lib.Utility
             return sum % 11 == 0;
         }
 
-        //private static string SanitizeVatNumber(string vatNumber)
-        //{
-        //    var washing = vatNumber.Replace(" ", "").Replace("-", "").ToUpperInvariant(); 
-        //    var result = washing.Replace("DK", "").Replace("NO", "").Replace("SE","") ;
-        //    if (result.Contains("MVA"))
-        //        result = result.Replace("MVA", "");
-        //    return result.Length switch
-        //    {
-        //        >= 10 => vatNumber[..10],
-        //        < 10 => result
-        //    };
-        //}
+        private static string SanitizeVatNumber(string vatNumber)
+        {
+            vatNumber = vatNumber.ToUpperInvariant();
+            return vatNumber
+                .Replace(" ", "")
+                .Replace("-", "")
+                .Replace("DK", "")
+                .Replace("NO", "")
+                .Replace("SE","")
+                .Replace("MVA", "");
+        }
+
         //private static bool ValidateMod10(string number)
         //{
         //    if (long.Parse(number) == 0)
