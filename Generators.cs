@@ -31,16 +31,8 @@ using System.Security.Cryptography;
 
 namespace FCS.Lib.Utility
 {
-    /// <summary>
-    /// Class Generators
-    /// <remarks>generates varioous kinds of random strings. </remarks>
-    /// </summary>
     public static class Generators
     {
-        /// <summary>
-        ///     Shorts the URL generator.
-        /// </summary>
-        /// <returns>System.String.</returns>
         public static string ShortUrlGenerator()
         {
             return ShortUrlGenerator(6);
@@ -54,9 +46,9 @@ namespace FCS.Lib.Utility
         /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
         public static string ShortUrlGenerator(int length)
         {
-            const string charsLower = "cdfghjkmnpqrstvwxyz";
-            const string charsUpper = "BCDFGHJKLMNPQRSTVWXYZ-_";
-            const string charsNumeric = "23456789";
+            const string charsLower = "abcdefghijkmnopqrstuvwxyz";
+            const string charsUpper = "ABCDFEGHJKLMNPQRSTUVWXYZ-";
+            const string charsNumeric = "1234567890";
 
             // Create a local array containing supported short-url characters
             // grouped by types.
@@ -135,10 +127,7 @@ namespace FCS.Lib.Utility
                     // this group.
                     if (lastCharIdx != nextCharIdx)
                     {
-                        var temp = charGroups[nextGroupIdx][lastCharIdx];
-                        charGroups[nextGroupIdx][lastCharIdx] =
-                            charGroups[nextGroupIdx][nextCharIdx];
-                        charGroups[nextGroupIdx][nextCharIdx] = temp;
+                        (charGroups[nextGroupIdx][lastCharIdx], charGroups[nextGroupIdx][nextCharIdx]) = (charGroups[nextGroupIdx][nextCharIdx], charGroups[nextGroupIdx][lastCharIdx]);
                     }
 
                     // Decrement the number of unprocessed characters in
@@ -158,10 +147,7 @@ namespace FCS.Lib.Utility
                     // so that we don't pick it until we process all groups.
                     if (lastLeftGroupsOrderIdx != nextLeftGroupsOrderIdx)
                     {
-                        var temp = leftGroupsOrder[lastLeftGroupsOrderIdx];
-                        leftGroupsOrder[lastLeftGroupsOrderIdx] =
-                            leftGroupsOrder[nextLeftGroupsOrderIdx];
-                        leftGroupsOrder[nextLeftGroupsOrderIdx] = temp;
+                        (leftGroupsOrder[lastLeftGroupsOrderIdx], leftGroupsOrder[nextLeftGroupsOrderIdx]) = (leftGroupsOrder[nextLeftGroupsOrderIdx], leftGroupsOrder[lastLeftGroupsOrderIdx]);
                     }
 
                     // Decrement the number of unprocessed groups.
@@ -220,8 +206,8 @@ namespace FCS.Lib.Utility
         /// <returns>System.String.</returns>
         public static string GenerateRandomText(int length)
         {
-            const string consonants = "bdfghjklmnprstvyBDFGHJKLMNPRSTVY";
-            const string vowels = "aeiouAEIOU";
+            const string consonants = "bcdfghjklmnprstvxzBDFGHJKLMNPRSTVXZ";
+            const string vowels = "aeiouyAEIOUY";
 
             var rndString = "";
             var randomNum = RandomSeed();
