@@ -53,12 +53,14 @@
   <ItemGroup>
     <Compile Include="ExtensionsEx.cs" />
     <Compile Include="Generators.cs" />
+    <Compile Include="GuidGenerator.cs" />
+    <Compile Include="GuidVersion.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IAsyncReadonlyRepo.cs" />
     <Compile Include="IRepositoryEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VatFormatValidator.cs" />
-    <Compile Include="Mogrifiers.cs" />
+    <Compile Include="Mogrify.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="StringOptions.cs" />
     <Compile Include="Squid.cs" />

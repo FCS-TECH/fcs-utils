@@ -6,7 +6,7 @@
 // Last Modified By : Frede H.
 // Last Modified On : 02-24-2022
 // ***********************************************************************
-// <copyright file="Mogrifiers.cs" company="FCS">
+// <copyright file="Mogrify.cs" company="FCS">
 //    Copyright (C) 2022 FCS Frede's Computer Services.
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the Affero GNU General Public License as
@@ -35,11 +35,21 @@ using System.Text.RegularExpressions;
 
 namespace FCS.Lib.Utility
 {
-    public static class Mogrifiers
+    public static class Mogrify
     {
+        public static int MonthFromTimestamp(long timeStamp)
+        {
+            return TimeStampToDateTime(timeStamp).Month;
+        }
+
+        public static bool TimestampInMonth(long timestamp, int month)
+        {
+            return TimeStampToDateTime(timestamp).Month == month;
+        }
+
         public static Dictionary<string,long> DateToTimestampRange(DateTime dateTime)
         {
-            var dt1 = new DateTime(dateTime.Year,dateTime.Month,dateTime.Day,0,0,0);
+            var dt1 = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day,0,0,0);
             var dt2 = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59);
             return new Dictionary<string, long>{
                 { "lower", DateTimeToTimeStamp(dt1) },
