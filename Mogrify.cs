@@ -185,14 +185,17 @@ namespace FCS.Lib.Utility
                     ? (decimal?) null
                     : decimal.Divide(num, new decimal((long) 100));
         }
+        
         public static T StringToEnum<T>(string value)
         {
-            return (T) Enum.Parse(typeof(T), value, true);
+            return (T)Enum.Parse(typeof(T), value, true);
         }
+        
         public static List<T> StringToList<T>(string value)
         {
             return StringToList<T>(value, ";");
         }
+        
         public static List<T> StringToList<T>(string value, string delimiter)
         {
             if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value));
