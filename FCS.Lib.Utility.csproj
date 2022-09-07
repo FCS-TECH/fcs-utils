@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -58,13 +58,16 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="IAsyncReadonlyRepo.cs" />
     <Compile Include="IRepositoryEx.cs" />
+    <Compile Include="MogrifyBool.cs" />
+    <Compile Include="MogrifyDateTime.cs" />
+    <Compile Include="MogrifyEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AssemblyInfo.tt</DependentUpon>
     </Compile>
     <Compile Include="VatFormatValidator.cs" />
-    <Compile Include="Mogrify.cs" />
+    <Compile Include="MogrifyString.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="StringOptions.cs" />
     <Compile Include="Squid.cs" />
