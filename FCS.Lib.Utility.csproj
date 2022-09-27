@@ -58,16 +58,13 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="IAsyncReadonlyRepo.cs" />
     <Compile Include="IRepositoryEx.cs" />
-    <Compile Include="MogrifyBool.cs" />
-    <Compile Include="MogrifyDateTime.cs" />
-    <Compile Include="MogrifyEnum.cs" />
+    <Compile Include="Mogrify.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AssemblyInfo.tt</DependentUpon>
     </Compile>
     <Compile Include="VatFormatValidator.cs" />
-    <Compile Include="MogrifyString.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="StringOptions.cs" />
     <Compile Include="Squid.cs" />
