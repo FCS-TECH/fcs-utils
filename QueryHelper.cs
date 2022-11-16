@@ -38,37 +38,60 @@ namespace FCS.Lib.Utility
     {
         // https://stackoverflow.com/a/45761590
 
-        public static IQueryable<TModel> OrderBy<TModel>
-            (this IQueryable<TModel> q, string name, bool desc)
+        /// <summary>
+        /// OrderBy
+        /// </summary>
+        /// <param name="q"></param>
+        /// <param name="name"></param>
+        /// <param name="desc"></param>
+        /// <typeparam name="TModel"></typeparam>
+        /// <returns></returns>
+        public static IQueryable<TModel> OrderBy<TModel> (this IQueryable<TModel> q, string name, bool desc)
         {
             var entityType = typeof(TModel);
             var p = entityType.GetProperty(name);
             var m = typeof(QueryHelper)
                 .GetMethod("OrderByProperty")
                 ?.MakeGenericMethod(entityType, p.PropertyType);
-            return(IQueryable<TModel>) m.Invoke(null, new object[] { 
-                q, p , desc });
+
+            return(IQueryable<TModel>) m.Invoke(null, new object[] { q, p , desc });
         }
 
-        public static IQueryable<TModel> ThenBy<TModel>
-            (this IQueryable<TModel> q, string name, bool desc)
+        /// <summary>
+        /// ThenBy
+        /// </summary>
+        /// <param name="q"></param>
+        /// <param name="name"></param>
+        /// <param name="desc"></param>
+        /// <typeparam name="TModel"></typeparam>
+        /// <returns></returns>
+        public static IQueryable<TModel> ThenBy<TModel> (this IQueryable<TModel> q, string name, bool desc)
         {
             var entityType = typeof(TModel);
             var p = entityType.GetProperty(name);
             var m = typeof(QueryHelper)
                 .GetMethod("OrderByProperty")
                 ?.MakeGenericMethod(entityType, p.PropertyType);
-            return(IQueryable<TModel>) m.Invoke(null, new object[] { 
-                q, p , desc });
+            
+            return(IQueryable<TModel>) m.Invoke(null, new object[] { q, p , desc });
         }
 
 
-        public static IQueryable<TModel> OrderByProperty<TModel, TRet>
-            (IQueryable<TModel> q, PropertyInfo p, bool desc)
+        /// <summary>
+        /// OrderByProperty
+        /// </summary>
+        /// <param name="q"></param>
+        /// <param name="p"></param>
+        /// <param name="desc"></param>
+        /// <typeparam name="TModel"></typeparam>
+        /// <typeparam name="TRet"></typeparam>
+        /// <returns></returns>
+        public static IQueryable<TModel> OrderByProperty<TModel, TRet>(IQueryable<TModel> q, PropertyInfo p, bool desc)
         {
             var pe = Expression.Parameter(typeof(TModel));
             Expression se = Expression.Convert(Expression.Property(pe, p), typeof(object));
             var exp = Expression.Lambda<Func<TModel, TRet>>(se, pe);
+            
             return desc ? q.OrderByDescending(exp) : q.OrderBy(exp);
         }
 

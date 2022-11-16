@@ -27,11 +27,20 @@ using System.Linq;
 
 namespace FCS.Lib.Utility
 {
+    /// <summary>
+    /// Vat format validator
+    /// </summary>
     public static class VatFormatValidator
     {
         // https://ec.europa.eu/taxation_customs/vies/faqvies.do#item_11
         // https://ec.europa.eu/taxation_customs/vies/
 
+        /// <summary>
+        /// Check vat number format
+        /// </summary>
+        /// <param name="countryCode"></param>
+        /// <param name="vatNumber"></param>
+        /// <returns>bool indicating if the vat number conform to country specification</returns>
         public static bool CheckVat(string countryCode, string vatNumber)
         {
             return countryCode.ToUpperInvariant() switch
@@ -41,6 +50,24 @@ namespace FCS.Lib.Utility
                 "SE" => ValidateFormatSe(vatNumber),
                 _ => false
             };
+        }
+
+        /// <summary>
+        /// sanitize vat number
+        /// </summary>
+        /// <param name="vatNumber"></param>
+        /// <returns>sanitized string</returns>
+        public static string SanitizeVatNumber(string vatNumber)
+        {
+            vatNumber = vatNumber.ToUpperInvariant();
+            return vatNumber
+                .Replace(" ", "")
+                .Replace("-", "")
+                .Replace("_", "")
+                .Replace("DK", "")
+                .Replace("NO", "")
+                .Replace("SE","")
+                .Replace("MVA", "");
         }
 
         private static bool ValidateFormatDk(string vatNumber)
@@ -117,18 +144,6 @@ namespace FCS.Lib.Utility
                 return false;
             }
 
-        }
-
-        public static string SanitizeVatNumber(string vatNumber)
-        {
-            vatNumber = vatNumber.ToUpperInvariant();
-            return vatNumber
-                .Replace(" ", "")
-                .Replace("-", "")
-                .Replace("DK", "")
-                .Replace("NO", "")
-                .Replace("SE","")
-                .Replace("MVA", "");
         }
 
         //private static bool ValidateMod10(string number)

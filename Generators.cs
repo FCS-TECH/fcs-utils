@@ -31,18 +31,25 @@ using System.Security.Cryptography;
 
 namespace FCS.Lib.Utility
 {
+    /// <summary>
+    /// Generators
+    /// </summary>
     public static class Generators
     {
+        /// <summary>
+        /// Generate 6 character shortUrl
+        /// </summary>
+        /// <returns><see cref="string"/> of 6 characters</returns>
         public static string ShortUrlGenerator()
         {
             return ShortUrlGenerator(6);
         }
 
         /// <summary>
-        ///     Randoms the string.
+        /// Generate shortUrl with length
         /// </summary>
-        /// <param name="length">The lengt  h.</param>
-        /// <returns>System.String.</returns>
+        /// <param name="length">The length.</param>
+        /// <returns><see cref="string"/></returns>
         /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
         public static string ShortUrlGenerator(int length)
         {
@@ -160,10 +167,11 @@ namespace FCS.Lib.Utility
         }
 
         /// <summary>
-        ///     Generates the username.
+        /// Username generator
         /// </summary>
         /// <param name="options">The options.</param>
-        /// <returns>System.String.</returns>
+        /// <returns><see cref="string"/></returns>
+        /// <seealso cref="StringOptions"/>
         public static string GenerateUsername(StringOptions options = null)
         {
             options ??= new StringOptions
@@ -180,10 +188,11 @@ namespace FCS.Lib.Utility
         }
 
         /// <summary>
-        ///     Generates the password.
+        /// Password generator
         /// </summary>
         /// <param name="options">The options.</param>
-        /// <returns>System.String.</returns>
+        /// <returns><see cref="string"/></returns>
+        /// <seealso cref="StringOptions"/>
         public static string GeneratePassword(StringOptions options = null)
         {
             options ??= new StringOptions
@@ -200,10 +209,10 @@ namespace FCS.Lib.Utility
         }
 
         /// <summary>
-        ///     Generates the random text.
+        /// Random string generator with length
         /// </summary>
         /// <param name="length">The length.</param>
-        /// <returns>System.String.</returns>
+        /// <returns><see cref="string"/></returns>
         public static string GenerateRandomText(int length)
         {
             const string consonants = "bcdfghjklmnprstvxzBDFGHJKLMNPRSTVXZ";
@@ -223,10 +232,10 @@ namespace FCS.Lib.Utility
         }
 
         /// <summary>
-        ///     Generates the random password.
+        /// Random string generator - string options
         /// </summary>
         /// <param name="options">The options.</param>
-        /// <returns>System.String.</returns>
+        /// <returns><see cref="string"/></returns>
         public static string GenerateRandomString(StringOptions options = null)
         {
             options ??= new StringOptions
@@ -281,15 +290,16 @@ namespace FCS.Lib.Utility
         }
 
         /// <summary>
-        ///     Randoms the seed.
+        /// Randomize random using RNGCrypto
         /// </summary>
-        /// <returns>Random.</returns>
+        /// <returns><see cref="Random"/></returns>
         /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
+        /// <seealso cref="RNGCryptoServiceProvider"/>
         public static Random RandomSeed()
         {
-            // As the default randomizer is based on the current time
+            // As the default Random is based on the current time
             // so it produces the same "random" number within a second
-            // Use a crypto randomizer to create the seed value
+            // Use a crypto service to create the seed value
 
             // 4-byte array to fill with random bytes
             var randomBytes = new byte[4];

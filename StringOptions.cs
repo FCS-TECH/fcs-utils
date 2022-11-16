@@ -32,43 +32,43 @@ namespace FCS.Lib.Utility
     public class StringOptions
     {
         /// <summary>
-        ///     Gets or sets the length of the required.
+        /// Gets or sets the required length of a string
         /// </summary>
         /// <value>The length of the required.</value>
         public int RequiredLength { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether [require non letter or digit].
+        /// Gets or sets a value indicating whether to [require non letter or digit].
         /// </summary>
         /// <value><c>true</c> if [require non letter or digit]; otherwise, <c>false</c>.</value>
         public bool RequireNonLetterOrDigit { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether [require digit].
+        /// Gets or sets a value indicating whether to [require digit].
         /// </summary>
         /// <value><c>true</c> if [require digit]; otherwise, <c>false</c>.</value>
         public bool RequireDigit { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether [require lowercase].
+        /// Gets or sets a value indicating whether to [require lowercase].
         /// </summary>
         /// <value><c>true</c> if [require lowercase]; otherwise, <c>false</c>.</value>
         public bool RequireLowercase { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether [require uppercase].
+        /// Gets or sets a value indicating whether to [require uppercase].
         /// </summary>
         /// <value><c>true</c> if [require uppercase]; otherwise, <c>false</c>.</value>
         public bool RequireUppercase { get; set; }
 
         /// <summary>
-        ///     Gets or sets the required unique chars.
+        /// Gets or sets the required unique chars.
         /// </summary>
         /// <value>The required unique chars.</value>
         public int RequiredUniqueChars { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether [require non alphanumeric].
+        /// Gets or sets a value indicating whether to [require non alphanumeric].
         /// </summary>
         /// <value><c>true</c> if [require non alphanumeric]; otherwise, <c>false</c>.</value>
         public bool RequireNonAlphanumeric { get; set; }
