@@ -62,6 +62,25 @@ namespace FCS.Lib.Utility
         }
 
         /// <summary>
+        /// return iso8601 string from timestamp
+        /// </summary>
+        /// <param name="timestamp"></param>
+        /// <returns></returns>
+        public static string TimestampToIso8601(long timestamp)
+        {
+            return DateTimeIso8601(TimeStampToDateTime(timestamp));
+        }
+        /// <summary>
+        /// return date as ISO
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static string DateTimeIso8601(DateTime date)
+        {
+            return date.ToString("o",CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
         /// Get timestamp range for given datetime
         /// </summary>
         /// <param name="dateTime"></param>
@@ -97,6 +116,73 @@ namespace FCS.Lib.Utility
         public static string TimestampToIsoDate(long timestamp)
         {
             return $"{TimeStampToDateTime(timestamp):yyyy-MM-dd}";
+        }
+
+        /// <summary>
+        /// get timestamp from current date time
+        /// </summary>
+        /// <returns><see cref="long"/></returns>
+        public static long CurrentDateTimeToTimeStamp()
+        {
+            return Convert.ToUInt32(DateTimeToTimeStamp(DateTime.Now));
+        }
+
+        /// <summary>
+        /// get timestamp from date time
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns><see cref="long"/></returns>
+        public static long DateTimeToTimeStamp(DateTime dateTime)
+        {
+            var bigDate = new DateTime(2038, 1, 19, 0, 0, 0, 0);
+            var nixDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+
+            if (dateTime >= bigDate)
+                return Convert.ToInt64((bigDate - nixDate).TotalSeconds) +
+                       Convert.ToInt64((dateTime - bigDate).TotalSeconds);
+
+            return Convert.ToInt64((dateTime - nixDate).TotalSeconds);
+        }
+        
+        /// <summary>
+        /// get date time from timestamp
+        /// </summary>
+        /// <param name="timeStamp"></param>
+        /// <returns><see cref="DateTime"/></returns>
+        public static DateTime TimeStampToDateTime(long timeStamp)
+        {
+            var nixDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return nixDate.AddSeconds(timeStamp);
+        }
+        
+        /// <summary>
+        /// get seconds from timespan
+        /// </summary>
+        /// <param name="timespan"></param>
+        /// <returns><see cref="long"/></returns>
+        public static long TimeSpanToSeconds(TimeSpan timespan)
+        {
+            return Convert.ToUInt32(timespan.Ticks / 10000000L);
+        }
+        
+        /// <summary>
+        /// get timespan from seconds
+        /// </summary>
+        /// <param name="seconds"></param>
+        /// <returns><see cref="TimeSpan"/></returns>
+        public static TimeSpan SecondsToTimeSpan(long seconds)
+        {
+            return TimeSpan.FromTicks(10000000L * seconds);
+        }
+        
+        /// <summary>
+        /// get minutes from timespan
+        /// </summary>
+        /// <param name="timespan"></param>
+        /// <returns><see cref="long"/></returns>
+        public static long TimespanToMinutes(TimeSpan timespan)
+        {
+            return Convert.ToUInt32(timespan.Ticks / 10000000L) / 60;
         }
 
         /// <summary>
@@ -344,72 +430,6 @@ namespace FCS.Lib.Utility
             return encoding == null ? null : new MemoryStream(encoding.GetBytes(value ?? ""));
         }
 
-        /// <summary>
-        /// get timestamp from current date time
-        /// </summary>
-        /// <returns><see cref="long"/></returns>
-        public static long CurrentDateTimeToTimeStamp()
-        {
-            return Convert.ToUInt32(DateTimeToTimeStamp(DateTime.Now));
-        }
-
-        /// <summary>
-        /// get timestamp from date time
-        /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns><see cref="long"/></returns>
-        public static long DateTimeToTimeStamp(DateTime dateTime)
-        {
-            var bigDate = new DateTime(2038, 1, 19, 0, 0, 0, 0);
-            var nixDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-
-            if (dateTime >= bigDate)
-                return Convert.ToInt64((bigDate - nixDate).TotalSeconds) +
-                       Convert.ToInt64((dateTime - bigDate).TotalSeconds);
-
-            return Convert.ToInt64((dateTime - nixDate).TotalSeconds);
-        }
-        
-        /// <summary>
-        /// get date time from timestamp
-        /// </summary>
-        /// <param name="timeStamp"></param>
-        /// <returns><see cref="DateTime"/></returns>
-        public static DateTime TimeStampToDateTime(long timeStamp)
-        {
-            var nixDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            return nixDate.AddSeconds(timeStamp);
-        }
-        
-        /// <summary>
-        /// get seconds from timespan
-        /// </summary>
-        /// <param name="timespan"></param>
-        /// <returns><see cref="long"/></returns>
-        public static long TimeSpanToSeconds(TimeSpan timespan)
-        {
-            return Convert.ToUInt32(timespan.Ticks / 10000000L);
-        }
-        
-        /// <summary>
-        /// get timespan from seconds
-        /// </summary>
-        /// <param name="seconds"></param>
-        /// <returns><see cref="TimeSpan"/></returns>
-        public static TimeSpan SecondsToTimeSpan(long seconds)
-        {
-            return TimeSpan.FromTicks(10000000L * seconds);
-        }
-        
-        /// <summary>
-        /// get minutes from timespan
-        /// </summary>
-        /// <param name="timespan"></param>
-        /// <returns><see cref="long"/></returns>
-        public static long TimespanToMinutes(TimeSpan timespan)
-        {
-            return Convert.ToUInt32(timespan.Ticks / 10000000L) / 60;
-        }
 
         ///// <summary>
         ///// get string from date time
