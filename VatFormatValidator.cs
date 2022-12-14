@@ -6,7 +6,7 @@
 // Last Modified By : FH
 // Last Modified On : 04-19-2022
 // ***********************************************************************
-// <copyright file="VatFormatValidator.cs" company="FCS">
+// <copyright file="VatFormatValidator.cs" company="FCS-TECH">
 //    Copyright (C) 2022 FCS Frede's Computer Services.
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License as

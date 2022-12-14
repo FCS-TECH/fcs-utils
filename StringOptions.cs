@@ -6,7 +6,7 @@
 // Last Modified By : FH
 // Last Modified On : 03-14-2022
 // ***********************************************************************
-// <copyright file="StringOptions.cs" company="FCS">
+// <copyright file="StringOptions.cs" company="FCS-TECH">
 //    Copyright (C) 2022 FCS Frede's Computer Services.
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU Affero General Public License as

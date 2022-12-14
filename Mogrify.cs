@@ -6,7 +6,7 @@
 // Last Modified By : Frede H.
 // Last Modified On : 02-24-2022
 // ***********************************************************************
-// <copyright file="Mogrify.cs" company="FCS">
+// <copyright file="Mogrify.cs" company="FCS-TECH">
 //    Copyright (C) 2022 FCS Frede's Computer Services.
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the Affero GNU General Public License as
