@@ -23,7 +23,10 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace FCS.Lib.Utility
 {
@@ -35,6 +38,9 @@ namespace FCS.Lib.Utility
         // https://ec.europa.eu/taxation_customs/vies/faqvies.do#item_11
         // https://ec.europa.eu/taxation_customs/vies/
 
+
+        //https://www.bolagsverket.se/apierochoppnadata.2531.html
+
         /// <summary>
         /// Check vat number format
         /// </summary>
@@ -43,11 +49,12 @@ namespace FCS.Lib.Utility
         /// <returns>bool indicating if the vat number conform to country specification</returns>
         public static bool CheckVat(string countryCode, string vatNumber)
         {
+            var sanitizedVat = SanitizeVatNumber(vatNumber);
             return countryCode.ToUpperInvariant() switch
             {
-                "DK" => ValidateFormatDk(vatNumber),
-                "NO" => ValidateFormatNo(vatNumber),
-                "SE" => ValidateFormatSe(vatNumber),
+                "DK" => ValidateDkVat(sanitizedVat),
+                "NO" => ValidateNoOrg(sanitizedVat),
+                "SE" => ValidateSeOrg(sanitizedVat),
                 _ => false
             };
         }
@@ -59,18 +66,14 @@ namespace FCS.Lib.Utility
         /// <returns>sanitized string</returns>
         public static string SanitizeVatNumber(string vatNumber)
         {
-            vatNumber = vatNumber.ToUpperInvariant();
-            return vatNumber
-                .Replace(" ", "")
-                .Replace("-", "")
-                .Replace("_", "")
-                .Replace("DK", "")
-                .Replace("NO", "")
-                .Replace("SE","")
-                .Replace("MVA", "");
+            if (string.IsNullOrWhiteSpace(vatNumber))
+                return "";
+            // remove anything but digits
+            var regexObj = new Regex(@"[^\d]");
+            return regexObj.Replace(vatNumber, "");
         }
 
-        private static bool ValidateFormatDk(string vatNumber)
+        private static bool ValidateDkVat(string vatNumber)
         {
             // https://wiki.scn.sap.com/wiki/display/CRM/Denmark
             // 8 digits 0 to 9
@@ -83,7 +86,7 @@ namespace FCS.Lib.Utility
             return false;
         }
 
-        private static bool ValidateFormatNo(string vatNumber)
+        private static bool ValidateNoOrg(string vatNumber)
         {
             // https://wiki.scn.sap.com/wiki/display/CRM/Norway
             // 12 digits
@@ -102,7 +105,7 @@ namespace FCS.Lib.Utility
             }
         }
 
-        private static bool ValidateFormatSe(string vatNumber)
+        private static bool ValidateSeOrg(string orgNumber)
         {
             // https://wiki.scn.sap.com/wiki/display/CRM/Sweden
             // 12 digits 0 to 9
@@ -110,17 +113,84 @@ namespace FCS.Lib.Utility
             // R = S1 + S3 + S5 + S7 + S9
             // Si = int(Ci/5) + (Ci*2)MOD10)
             // https://www.skatteverket.se/skatter/mervardesskattmoms/momsregistreringsnummer.4.18e1b10334ebe8bc80002649.html
-            // C11 C12 == 01 (De två sista siffrorna är alltid 01)
-            
-            if (vatNumber.Length != 12 || vatNumber.Substring(10) != "01" || !long.TryParse(vatNumber, out _))
+            // EU MOMS => C11 C12 == 01 (De två sista siffrorna är alltid 01)
+            // C11 C12 is not used inside Sweden
+            // C1 is type of org and C2 to C9 is org number
+            // C10 is check digit
+
+            var orgToCheck = orgNumber;
+            if (long.Parse(orgToCheck) == 0)
                 return false;
 
+            switch (orgToCheck.Length)
+            {
+                // personal vat se
+                case 6:
+                    return ValidateFormatSeExt(orgToCheck);
+                
+                case < 10:
+                    return false;
+
+                // strip EU extension `01`
+                case 12:
+                    orgNumber = orgNumber.Substring(0, 10);
+                    break;
+            }
+
+            var c10 = C10(orgToCheck);
+
+            // compare calculated org number with incoming org number
+            return $"{orgToCheck.Substring(0, 9)}{c10}"  == orgNumber;
+        }
+
+        private static int C10(string vatToCheck)
+        {
+            // check digit calculation
             var r = new[] { 0, 2, 4, 6, 8 }
-                .Sum(m => (int)char.GetNumericValue(vatNumber[m]) / 5 +
-                          (int)char.GetNumericValue(vatNumber[m]) * 2 % 10);
-            var c1 = new[] { 1, 3, 5, 7 }.Sum(m => (int)char.GetNumericValue(vatNumber[m]));
+                .Sum(m => (int)char.GetNumericValue(vatToCheck[m]) / 5 +
+                          (int)char.GetNumericValue(vatToCheck[m]) * 2 % 10);
+            var c1 = new[] { 1, 3, 5, 7 }.Sum(m => (int)char.GetNumericValue(vatToCheck[m]));
             var c10 = (10 - (r + c1) % 10) % 10;
-            return $"{vatNumber.Substring(0, 9)}{c10}01"  == vatNumber;
+            return c10;
+        }
+
+        private static bool ValidateFormatSeExt(string ssn)
+        {
+            // Swedish personally held companies uses SSN number
+            // a relaxed validation is required as only first 6 digits is supplied
+            // birthday format e.g. 991231
+
+            if (ssn.Length is not 6 or 10 || int.Parse(ssn) == 0)
+                return false;
+        
+            var y = int.Parse(ssn.Substring(0,2));
+            var m = int.Parse(ssn.Substring(2,2));
+            var d = int.Parse(ssn.Substring(4,2));
+            // this calculation is only valid within 21st century
+            var leap = y % 4 == 0; // 2000 was a leap year;    
+            // day
+            if(d is < 1 or > 31) 
+                return false;
+            // month
+            switch (m)
+            {
+                // feb
+                case 2:
+                {
+                    if (leap)
+                        return d <= 29;
+                    return d <= 28;
+                }
+                // apr, jun, sep, nov
+                case 4 or 6 or 9 or 11:
+                    return d <= 30;
+                // jan, mar, may, july, aug, oct, dec
+                case 1 or 3 or 5 or 7 or 8 or 10 or 12:
+                    return true;
+                // does not exist
+                default:
+                    return false;
+            }
         }
 
         private static bool ValidateMod11(string number)
@@ -145,6 +215,61 @@ namespace FCS.Lib.Utility
             }
 
         }
+
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="ssn"></param>
+        ///// <returns></returns>
+        //public static string FakeVatSsnSe(string ssn)
+        //{
+        //    var fake = ssn.PadRight(9, '8');
+        //    var c10 = SeGenerateCheckDigit(fake);
+        //    return $"{fake}{c10}";
+        //}
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="org"></param>
+        ///// <returns></returns>
+        //public static bool OrgIsPrivate(string org)
+        //{
+        //    var orgType = new List<string>() { };
+
+        //    return ValidateFormatSeExt(org.Substring(0, 5));
+        //}
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="vatNumber"></param>
+        ///// <returns></returns>
+        //public static bool CheckLuhn(string vatNumber)
+        //{
+        //    // https://www.geeksforgeeks.org/luhn-algorithm/
+
+        //    var nDigits = vatNumber.Length;
+        //    var nSum = 0;
+        //    var isSecond = false;
+        //    for (var i = nDigits - 1; i >= 0; i--)
+        //    {
+        //        var d = (int)char.GetNumericValue(vatNumber[i]) - '0';
+        //        if (isSecond)
+        //            d *= 2;
+        //        // We add two digits to handle
+        //        // cases that make two digits
+        //        // after doubling
+        //        nSum += d / 10;
+        //        nSum += d % 10;
+
+        //        isSecond = !isSecond;
+        //    }
+
+        //    return nSum % 10 == 0;
+        //}
+
 
         //private static bool ValidateMod10(string number)
         //{
