@@ -39,20 +39,20 @@ namespace FCS.Lib.Utility
     public interface IAsyncReadonlyRepo<TEntity> where TEntity : class
     {
         /// <summary>
-        ///     Alls this instance.
+        ///     Queryable 
         /// </summary>
         /// <returns>IQueryable&lt;TEntity&gt;.</returns>
         IQueryable<TEntity> All();
 
         /// <summary>
-        ///     Alls the asynchronous.
+        ///     All items asynchronous.
         /// </summary>
         /// <param name="predicate">The predicate.</param>
         /// <returns>Task&lt;IList&lt;TEntity&gt;&gt;.</returns>
         Task<IList<TEntity>> AllAsync(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
-        ///     Anies the asynchronous.
+        ///   Any item asynchronous.
         /// </summary>
         /// <param name="predicate">The predicate.</param>
         /// <returns>Task&lt;System.Boolean&gt;.</returns>
