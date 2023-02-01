@@ -49,7 +49,11 @@ namespace FCS.Lib.Utility
         /// <returns>bool indicating if the vat number conform to country specification</returns>
         public static bool CheckVat(string countryCode, string vatNumber)
         {
+            if (string.IsNullOrWhiteSpace(vatNumber))
+                return false;
+
             var sanitizedVat = SanitizeVatNumber(vatNumber);
+
             return countryCode.ToUpperInvariant() switch
             {
                 "DK" => ValidateDkVat(sanitizedVat),
