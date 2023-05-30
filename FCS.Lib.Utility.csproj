@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ean13Validator.cs" />
     <Compile Include="ExtensionsEx.cs" />
     <Compile Include="Generators.cs" />
     <Compile Include="GuidGenerator.cs" />

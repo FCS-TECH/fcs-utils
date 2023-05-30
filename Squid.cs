@@ -40,14 +40,13 @@ public readonly struct Squid : IEquatable<Squid>
     /// <summary>
     ///     A read-only object of the Squid struct.
     ///     Value is guaranteed to be all zeroes.
-    ///     Equivalent to <see cref="Guid.Empty" />.
     /// </summary>
     public static readonly Squid Empty = new(Guid.Empty);
 
     /// <summary>
     ///     Creates a new Squid from a Squid encoded string.
     /// </summary>
-    /// <param name="value">A valid Squid encodd string.</param>
+    /// <param name="value">A valid Squid encoded string.</param>
     public Squid(string value)
     {
         Value = value;
@@ -68,9 +67,7 @@ public readonly struct Squid : IEquatable<Squid>
     ///     Gets the underlying <see cref="System.Guid" /> for the encoded Squid.
     /// </summary>
     /// <value>The unique identifier.</value>
-#pragma warning disable CA1720 // Identifier contains type name
     public Guid Guid { get; }
-#pragma warning restore CA1720 // Identifier contains type name
 
     /// <summary>
     ///     The encoded string value of the <see cref="Guid" />
@@ -92,7 +89,7 @@ public readonly struct Squid : IEquatable<Squid>
     ///     Returns a value indicating whether this object and a specified object represent the same type and value.
     ///     Compares for equality against other string, Guid and Squid types.
     /// </summary>
-    /// <param name="obj">A Systerm.String, System.Guid or Squid object</param>
+    /// <param name="obj">A System.String, System.Guid or Squid object</param>
     /// <returns><c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
     public override bool Equals(object obj)
     {
@@ -213,9 +210,7 @@ public readonly struct Squid : IEquatable<Squid>
             obj = DecodeSquid(value);
             return true;
         }
-#pragma warning disable CA1031 // Do not catch general exception types
         catch (Exception)
-#pragma warning restore CA1031 // Do not catch general exception types
         {
             // Return empty Guid
             obj = Guid.Empty;
