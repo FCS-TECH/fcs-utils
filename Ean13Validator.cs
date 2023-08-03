@@ -39,7 +39,7 @@ public class Ean13Validator
         return number == ParsedNumber(number.Substring(0, 12));
     }
     
-    private static string Ean13(int[]? firstDigits)
+    private static string Ean13(int[] firstDigits)
     {
         var summedProduct = 0;
         var randomDigits = new Random();
