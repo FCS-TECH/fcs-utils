@@ -41,7 +41,7 @@ namespace FCS.Lib.Utility;
 public static class Mogrify
 {
     /// <summary>
-    /// Remove everything but digits and country code
+    /// Sanitize phone number string - remove countrycode and alpha characters
     /// </summary>
     /// <param name="phone"></param>
     /// <returns></returns>
@@ -52,6 +52,19 @@ public static class Mogrify
         phone = phone.Replace("+45", "").Replace("+46", "").Replace("+47", "");
         var regexObj = new Regex(@"[^\d]");
         return regexObj.Replace(phone, "");
+    }
+
+    /// <summary>
+    /// Sanitize zipcode string - alpha characters
+    /// </summary>
+    /// <param name="zipCode"></param>
+    /// <returns></returns>
+    public static string SanitizeZipCode(string zipCode)
+    {
+        if (string.IsNullOrWhiteSpace(zipCode))
+            return "";
+        var regexObj = new Regex(@"[^\d]");
+        return regexObj.Replace(zipCode, "");
     }
 
     /// <summary>
