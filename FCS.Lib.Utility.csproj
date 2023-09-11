@@ -57,8 +57,8 @@
     <Compile Include="Generators.cs" />
     <Compile Include="GuidGenerator.cs" />
     <Compile Include="GuidVersion.cs" />
-    <Compile Include="IRepository.cs" />
     <Compile Include="IAsyncReadonlyRepo.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="IRepositoryEx.cs" />
     <Compile Include="Mogrify.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -66,7 +66,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AssemblyInfo.tt</DependentUpon>
     </Compile>
-    <Compile Include="VatFormatValidator.cs" />
+    <Compile Include="TaxIdFormatValidator.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="StringOptions.cs" />
     <Compile Include="Squid.cs" />
