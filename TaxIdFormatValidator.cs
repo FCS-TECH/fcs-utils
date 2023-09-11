@@ -32,51 +32,50 @@ namespace FCS.Lib.Utility;
 /// <summary>
 /// Vat format validator
 /// </summary>
-public static class VatFormatValidator
+public static class TaxIdFormatValidator
 {
     // https://ec.europa.eu/taxation_customs/vies/faqvies.do#item_11
     // https://ec.europa.eu/taxation_customs/vies/
-
-
     //https://www.bolagsverket.se/apierochoppnadata.2531.html
+
+    private static readonly Regex DigitsOnly = new(@"[^\d]");
+
 
     /// <summary>
     /// Check vat number format
     /// </summary>
     /// <param name="countryCode"></param>
-    /// <param name="vatNumber"></param>
+    /// <param name="taxId"></param>
     /// <returns>bool indicating if the vat number conform to country specification</returns>
-    public static bool CheckVat(string countryCode, string vatNumber)
+    public static bool CheckTaxId(string countryCode, string taxId)
     {
-        if (string.IsNullOrWhiteSpace(vatNumber))
+        if (string.IsNullOrWhiteSpace(taxId))
             return false;
 
-        var sanitizedVat = SanitizeVatNumber(vatNumber);
+        var sanitizeTaxId = SanitizeTaxId(taxId);
 
         return countryCode.ToUpperInvariant() switch
         {
-            "DK" => ValidateDkVat(sanitizedVat),
-            "NO" => ValidateNoOrg(sanitizedVat),
-            "SE" => ValidateSeOrg(sanitizedVat),
+            "DK" => ValidateTaxIdDenmark(sanitizeTaxId),
+            "NO" => ValidateTaxIdNorway(sanitizeTaxId),
+            "SE" => ValidateTaxIdSweden(sanitizeTaxId),
             _ => false
         };
     }
 
+
     /// <summary>
     /// sanitize vat number
     /// </summary>
-    /// <param name="vatNumber"></param>
+    /// <param name="taxId"></param>
     /// <returns>sanitized string</returns>
-    public static string SanitizeVatNumber(string vatNumber)
+    public static string SanitizeTaxId(string taxId)
     {
-        if (string.IsNullOrWhiteSpace(vatNumber))
-            return "";
-        // remove anything but digits
-        var regexObj = new Regex(@"[^\d]");
-        return regexObj.Replace(vatNumber, "");
+        return string.IsNullOrWhiteSpace(taxId) ? "" : DigitsOnly.Replace(taxId, "");
     }
 
-    private static bool ValidateDkVat(string vatNumber)
+
+    private static bool ValidateTaxIdDenmark(string taxId)
     {
         // https://wiki.scn.sap.com/wiki/display/CRM/Denmark
         // 8 digits 0 to 9
@@ -84,12 +83,13 @@ public static class VatFormatValidator
         // C8 check-digit MOD11
         // C1 > 0
         // R = (2*C1 + 7*C2 + 6*C3 + 5*C4 + 4*C5 + 3*C6 + 2*C7 + C8)
-        if (vatNumber.Length == 8 && long.TryParse(vatNumber, out _))
-            return ValidateMod11(vatNumber);
+        if (taxId.Length == 8 && long.TryParse(taxId, out _))
+            return ValidateModulus11(taxId);
         return false;
     }
 
-    private static bool ValidateNoOrg(string vatNumber)
+
+    private static bool ValidateTaxIdNorway(string taxId)
     {
         // https://wiki.scn.sap.com/wiki/display/CRM/Norway
         // 12 digits
@@ -98,8 +98,8 @@ public static class VatFormatValidator
         // C10 C11 C12 chars == MVA
         try
         {
-            if (vatNumber.Length == 9 && long.TryParse(vatNumber, out _))
-                return ValidateMod11(vatNumber);
+            if (taxId.Length == 9 && long.TryParse(taxId, out _))
+                return ValidateModulus11(taxId);
             return false;
         }
         catch
@@ -108,7 +108,8 @@ public static class VatFormatValidator
         }
     }
 
-    private static bool ValidateSeOrg(string orgNumber)
+
+    private static bool ValidateTaxIdSweden(string taxId)
     {
         // https://wiki.scn.sap.com/wiki/display/CRM/Sweden
         // 12 digits 0 to 9
@@ -121,43 +122,45 @@ public static class VatFormatValidator
         // C1 is type of org and C2 to C9 is org number
         // C10 is check digit
 
-        var orgToCheck = orgNumber;
-        if (!long.TryParse(orgToCheck, out _))
+        var toCheck = taxId;
+        if (!long.TryParse(toCheck, out _))
             return false;
 
-        switch (orgToCheck.Length)
+        switch (toCheck.Length)
         {
             // personal vat se
             case 6:
-                return ValidateFormatSeExt(orgToCheck);
+                return ValidateTaxIdSwedenExt(toCheck);
 
             case < 10:
                 return false;
 
             // strip EU extension `01`
             case 12:
-                orgNumber = orgNumber.Substring(0, 10);
+                taxId = taxId.Substring(0, 10);
                 break;
         }
 
-        var c10 = C10(orgToCheck);
+        var c10 = GetDigit10(toCheck);
 
         // compare calculated org number with incoming org number
-        return $"{orgToCheck.Substring(0, 9)}{c10}" == orgNumber;
+        return $"{toCheck.Substring(0, 9)}{c10}" == taxId;
     }
 
-    private static int C10(string vatToCheck)
+
+    private static int GetDigit10(string taxIdToCheck)
     {
         // check digit calculation
         var r = new[] { 0, 2, 4, 6, 8 }
-            .Sum(m => (int)char.GetNumericValue(vatToCheck[m]) / 5 +
-                      (int)char.GetNumericValue(vatToCheck[m]) * 2 % 10);
-        var c1 = new[] { 1, 3, 5, 7 }.Sum(m => (int)char.GetNumericValue(vatToCheck[m]));
+            .Sum(m => (int)char.GetNumericValue(taxIdToCheck[m]) / 5 +
+                      (int)char.GetNumericValue(taxIdToCheck[m]) * 2 % 10);
+        var c1 = new[] { 1, 3, 5, 7 }.Sum(m => (int)char.GetNumericValue(taxIdToCheck[m]));
         var c10 = (10 - (r + c1) % 10) % 10;
         return c10;
     }
 
-    private static bool ValidateFormatSeExt(string ssn)
+
+    private static bool ValidateTaxIdSwedenExt(string ssn)
     {
         // Swedish personally held companies uses SSN number
         // a relaxed validation is required as only first 6 digits is supplied
@@ -196,7 +199,8 @@ public static class VatFormatValidator
         }
     }
 
-    private static bool ValidateMod11(string number)
+
+    private static bool ValidateModulus11(string number)
     {
         try
         {
