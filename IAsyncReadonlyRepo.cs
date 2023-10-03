@@ -1,10 +1,10 @@
 ﻿// ***********************************************************************
 // Assembly         : FCS.Lib.Utility
-// Author          : fhdk
-// Created          : 2023 01 23 07:31
+// Author           : 
+// Created          : 2023 10 01 11:03
 // 
-// Last Modified By: fhdk
-// Last Modified On : 2023 03 14 09:16
+// Last Modified By : root
+// Last Modified On : 2023 10 02 15:23
 // ***********************************************************************
 // <copyright file="IAsyncReadonlyRepo.cs" company="FCS">
 //     Copyright (C) 2023-2023 FCS Frede's Computer Services.
@@ -33,13 +33,13 @@ using System.Threading.Tasks;
 namespace FCS.Lib.Utility;
 
 /// <summary>
-/// Interface IRepositoryAsync
+///     Interface IRepositoryAsync
 /// </summary>
 /// <typeparam name="TEntity">The type of the t entity.</typeparam>
 public interface IAsyncReadonlyRepo<TEntity> where TEntity : class
 {
     /// <summary>
-    ///     Queryable 
+    ///     Queryable
     /// </summary>
     /// <returns>IQueryable&lt;TEntity&gt;.</returns>
     IQueryable<TEntity> All();
@@ -52,7 +52,7 @@ public interface IAsyncReadonlyRepo<TEntity> where TEntity : class
     Task<IList<TEntity>> AllAsync(Expression<Func<TEntity, bool>> predicate);
 
     /// <summary>
-    ///   Any item asynchronous.
+    ///     Any item asynchronous.
     /// </summary>
     /// <param name="predicate">The predicate.</param>
     /// <returns>Task&lt;System.Boolean&gt;.</returns>

@@ -1,13 +1,13 @@
 ﻿// ***********************************************************************
 // Assembly         : FCS.Lib.Utility
-// Author          : fhdk
-// Created          : 2022 12 17 13:33
+// Author           : 
+// Created          : 2023 10 01 11:03
 // 
-// Last Modified By: fhdk
-// Last Modified On : 2023 03 14 09:16
+// Last Modified By : root
+// Last Modified On : 2023 10 02 15:23
 // ***********************************************************************
 // <copyright file="GuidVersion.cs" company="FCS">
-//     Copyright (C) 2022-2023 FCS Frede's Computer Services.
+//     Copyright (C) 2023-2023 FCS Frede's Computer Services.
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU Affero General Public License as
 //     published by the Free Software Foundation, either version 3 of the
@@ -27,27 +27,27 @@
 namespace FCS.Lib.Utility;
 
 /// <summary>
-/// Guid Version Enum
+///     Guid Version Enum
 /// </summary>
 public enum GuidVersion
 {
     /// <summary>
-    /// Time
+    ///     Time
     /// </summary>
     TimeBased = 0x01,
 
     /// <summary>
-    /// Reserved
+    ///     Reserved
     /// </summary>
     Reserved = 0x02,
 
     /// <summary>
-    /// Name
+    ///     Name
     /// </summary>
     NameBased = 0x03,
 
     /// <summary>
-    /// Random
+    ///     Random
     /// </summary>
     Random = 0x04
 }

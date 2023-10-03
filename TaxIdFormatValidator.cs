@@ -1,12 +1,12 @@
 ﻿// ***********************************************************************
 // Assembly         : FCS.Lib.Utility
-// Author          : fhdk
-// Created          : 2023 03 09 17:42
+// Author           : 
+// Created          : 2023 10 01 11:03
 // 
-// Last Modified By: fhdk
-// Last Modified On : 2023 03 14 09:16
+// Last Modified By : root
+// Last Modified On : 2023 10 02 15:23
 // ***********************************************************************
-// <copyright file="VatFormatValidator.cs" company="FCS">
+// <copyright file="TaxIdFormatValidator.cs" company="FCS">
 //     Copyright (C) 2023-2023 FCS Frede's Computer Services.
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU Affero General Public License as
@@ -30,7 +30,7 @@ using System.Text.RegularExpressions;
 namespace FCS.Lib.Utility;
 
 /// <summary>
-/// Vat format validator
+///     Vat format validator
 /// </summary>
 public static class TaxIdFormatValidator
 {
@@ -42,7 +42,7 @@ public static class TaxIdFormatValidator
 
 
     /// <summary>
-    /// Check vat number format
+    ///     Check vat number format
     /// </summary>
     /// <param name="countryCode"></param>
     /// <param name="taxId"></param>
@@ -65,7 +65,7 @@ public static class TaxIdFormatValidator
 
 
     /// <summary>
-    /// sanitize vat number
+    ///     sanitize vat number
     /// </summary>
     /// <param name="taxId"></param>
     /// <returns>sanitized string</returns>

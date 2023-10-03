@@ -1,13 +1,13 @@
 ﻿// ***********************************************************************
 // Assembly         : FCS.Lib.Utility
-// Author          : fhdk
-// Created          : 2022 12 17 13:33
+// Author           : 
+// Created          : 2023 10 01 11:03
 // 
-// Last Modified By: fhdk
-// Last Modified On : 2023 03 14 09:16
+// Last Modified By : root
+// Last Modified On : 2023 10 02 15:23
 // ***********************************************************************
 // <copyright file="GuidGenerator.cs" company="FCS">
-//     Copyright (C) 2022-2023 FCS Frede's Computer Services.
+//     Copyright (C) 2023-2023 FCS Frede's Computer Services.
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU Affero General Public License as
 //     published by the Free Software Foundation, either version 3 of the
@@ -30,43 +30,43 @@ using System.Text;
 namespace FCS.Lib.Utility;
 
 /// <summary>
-/// Used for generating UUID based on RFC 4122.
+///     Used for generating UUID based on RFC 4122.
 /// </summary>
 /// <seealso href="http://www.ietf.org/rfc/rfc4122.txt">RFC 4122 - A Universally Unique IDentifier (UUID) URN Namespace</seealso>
 public static class GuidGenerator
 {
     /// <summary>
-    /// number of bytes in guid
+    ///     number of bytes in guid
     /// </summary>
     public const int ByteArraySize = 16;
 
     /// <summary>
-    /// multiplex variant info - variant byte
+    ///     multiplex variant info - variant byte
     /// </summary>
     public const int VariantByte = 8;
 
     /// <summary>
-    /// multiplex variant info - variant byte mask
+    ///     multiplex variant info - variant byte mask
     /// </summary>
     public const int VariantByteMask = 0x3f;
 
     /// <summary>
-    /// multiplex variant info - variant byte shift
+    ///     multiplex variant info - variant byte shift
     /// </summary>
     public const int VariantByteShift = 0x80;
 
     /// <summary>
-    /// multiplex version info - version byte
+    ///     multiplex version info - version byte
     /// </summary>
     public const int VersionByte = 7;
 
     /// <summary>
-    /// multiplex version info - version byte mask
+    ///     multiplex version info - version byte mask
     /// </summary>
     public const int VersionByteMask = 0x0f;
 
     /// <summary>
-    /// multiplex version info version byte shift
+    ///     multiplex version info version byte shift
     /// </summary>
     public const int VersionByteShift = 4;
 
@@ -90,17 +90,17 @@ public static class GuidGenerator
 
 
     /// <summary>
-    /// Default clock sequence
+    ///     Default clock sequence
     /// </summary>
     public static byte[] DefaultClockSequence { get; set; }
 
     /// <summary>
-    /// Default node
+    ///     Default node
     /// </summary>
     public static byte[] DefaultNode { get; set; }
 
     /// <summary>
-    /// Set default node
+    ///     Set default node
     /// </summary>
     /// <param name="nodeName"></param>
     public static void SetDefaultNode(string nodeName)
@@ -111,10 +111,12 @@ public static class GuidGenerator
     }
 
     /// <summary>
-    /// Get version
+    ///     Get version
     /// </summary>
     /// <param name="guid"></param>
-    /// <returns><see cref="GuidVersion"/></returns>
+    /// <returns>
+    ///     <see cref="GuidVersion" />
+    /// </returns>
     public static GuidVersion GetVersion(this Guid guid)
     {
         var bytes = guid.ToByteArray();
@@ -122,10 +124,12 @@ public static class GuidGenerator
     }
 
     /// <summary>
-    /// Get date time offset from guid
+    ///     Get date time offset from guid
     /// </summary>
     /// <param name="guid"></param>
-    /// <returns><see cref="DateTimeOffset"/></returns>
+    /// <returns>
+    ///     <see cref="DateTimeOffset" />
+    /// </returns>
     public static DateTimeOffset GetDateTimeOffset(Guid guid)
     {
         var bytes = guid.ToByteArray();
@@ -144,49 +148,59 @@ public static class GuidGenerator
     }
 
     /// <summary>
-    /// get date time from guid
+    ///     get date time from guid
     /// </summary>
     /// <param name="guid"></param>
-    /// <returns><see cref="DateTime"/></returns>
+    /// <returns>
+    ///     <see cref="DateTime" />
+    /// </returns>
     public static DateTime GetDateTime(Guid guid)
     {
         return GetDateTimeOffset(guid).DateTime;
     }
 
     /// <summary>
-    /// get local date time from guid
+    ///     get local date time from guid
     /// </summary>
     /// <param name="guid"></param>
-    /// <returns><see cref="DateTime"/></returns>
+    /// <returns>
+    ///     <see cref="DateTime" />
+    /// </returns>
     public static DateTime GetLocalDateTime(Guid guid)
     {
         return GetDateTimeOffset(guid).LocalDateTime;
     }
 
     /// <summary>
-    /// get utc date time from guid
+    ///     get utc date time from guid
     /// </summary>
     /// <param name="guid"></param>
-    /// <returns><see cref="DateTime"/></returns>
+    /// <returns>
+    ///     <see cref="DateTime" />
+    /// </returns>
     public static DateTime GetUtcDateTime(Guid guid)
     {
         return GetDateTimeOffset(guid).UtcDateTime;
     }
 
     /// <summary>
-    /// Generate time based guid
+    ///     Generate time based guid
     /// </summary>
-    /// <returns><see cref="Guid"/></returns>
+    /// <returns>
+    ///     <see cref="Guid" />
+    /// </returns>
     public static Guid GenerateTimeBasedGuid()
     {
         return GenerateTimeBasedGuid(DateTimeOffset.UtcNow, DefaultClockSequence, DefaultNode);
     }
 
     /// <summary>
-    /// Generate time based guid providing a NodeName string
+    ///     Generate time based guid providing a NodeName string
     /// </summary>
     /// <param name="nodeName"></param>
-    /// <returns><see cref="Guid"/></returns>
+    /// <returns>
+    ///     <see cref="Guid" />
+    /// </returns>
     public static Guid GenerateTimeBasedGuid(string nodeName)
     {
         var x = nodeName.GetHashCode();
@@ -196,44 +210,52 @@ public static class GuidGenerator
     }
 
     /// <summary>
-    /// Generate time based guid providing a valid DateTime object
+    ///     Generate time based guid providing a valid DateTime object
     /// </summary>
     /// <param name="dateTime"></param>
-    /// <returns><see cref="Guid"/></returns>
+    /// <returns>
+    ///     <see cref="Guid" />
+    /// </returns>
     public static Guid GenerateTimeBasedGuid(DateTime dateTime)
     {
         return GenerateTimeBasedGuid(dateTime, DefaultClockSequence, DefaultNode);
     }
 
     /// <summary>
-    /// Generate time base guid providing a valid DateTimeOffset object
+    ///     Generate time base guid providing a valid DateTimeOffset object
     /// </summary>
     /// <param name="dateTime"></param>
-    /// <returns><see cref="Guid"/></returns>
+    /// <returns>
+    ///     <see cref="Guid" />
+    /// </returns>
     public static Guid GenerateTimeBasedGuid(DateTimeOffset dateTime)
     {
         return GenerateTimeBasedGuid(dateTime, DefaultClockSequence, DefaultNode);
     }
 
     /// <summary>
-    /// Generate time based guid providing a date time, byte array for clock sequence and node
+    ///     Generate time based guid providing a date time, byte array for clock sequence and node
     /// </summary>
     /// <param name="dateTime"></param>
     /// <param name="clockSequence"></param>
     /// <param name="node"></param>
-    /// <returns><see cref="Guid"/></returns>
+    /// <returns>
+    ///     <see cref="Guid" />
+    /// </returns>
     public static Guid GenerateTimeBasedGuid(DateTime dateTime, byte[] clockSequence, byte[] node)
     {
         return GenerateTimeBasedGuid(new DateTimeOffset(dateTime), clockSequence, node);
     }
 
     /// <summary>
-    /// Generate time based guid providing a valid DateTimeOffset Object and byte arrays for clock sequence and node
+    ///     Generate time based guid providing a valid DateTimeOffset Object and byte arrays for clock sequence and node
     /// </summary>
     /// <param name="dateTime"></param>
     /// <param name="clockSequence"></param>
     /// <param name="node"></param>
-    /// <returns><see cref="Guid"/></returns>
+    /// <returns>
+    ///     <see cref="Guid" />
+    /// </returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static Guid GenerateTimeBasedGuid(DateTimeOffset dateTime, byte[] clockSequence, byte[] node)

@@ -1,10 +1,10 @@
 ﻿// ***********************************************************************
 // Assembly         : FCS.Lib.Utility
-// Author           : inno
-// Created          : 2023 05 24 12:23
+// Author           : 
+// Created          : 2023 10 01 11:03
 // 
-// Last Modified By : inno
-// Last Modified On : 2023 05 24 12:23
+// Last Modified By : root
+// Last Modified On : 2023 10 02 15:23
 // ***********************************************************************
 // <copyright file="Ean13Validator.cs" company="FCS">
 //     Copyright (C) 2023-2023 FCS Frede's Computer Services.
@@ -38,7 +38,7 @@ public class Ean13Validator
             return false;
         return number == ParsedNumber(number.Substring(0, 12));
     }
-    
+
     private static string Ean13(int[] firstDigits)
     {
         var summedProduct = 0;
@@ -50,7 +50,10 @@ public class Ean13Validator
             isNull = true;
         }
         else
+        {
             isNull = false;
+        }
+
         for (var idx = 0; idx < Size; idx++)
         {
             var alt = idx % 2 == 0 ? 1 : 3;
@@ -61,9 +64,13 @@ public class Ean13Validator
                 firstDigits[idx] = digit;
             }
             else
+            {
                 digit = firstDigits[idx];
+            }
+
             summedProduct += digit * alt;
         }
+
         var checkDigit = 10 - summedProduct % 10;
         if (checkDigit == 10)
             checkDigit = 0;
@@ -73,13 +80,14 @@ public class Ean13Validator
     private static string ParsedNumber(string number)
     {
         var firstDigits = new int[Size];
-        if (number.Length != Size | !long.TryParse(number, out _))
+        if ((number.Length != Size) | !long.TryParse(number, out _))
             return null;
         for (var idx = 0; idx < Size; idx++)
         {
             var digit = int.Parse(number[idx].ToString());
             firstDigits[idx] = digit;
         }
+
         return Ean13(firstDigits);
-    }    
+    }
 }

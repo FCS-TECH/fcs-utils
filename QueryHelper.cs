@@ -1,13 +1,13 @@
 ﻿// ***********************************************************************
 // Assembly         : FCS.Lib.Utility
-// Author          : fhdk
-// Created          : 2022 12 17 13:33
+// Author           : 
+// Created          : 2023 10 01 11:03
 // 
-// Last Modified By: fhdk
-// Last Modified On : 2023 03 14 09:16
+// Last Modified By : root
+// Last Modified On : 2023 10 02 15:23
 // ***********************************************************************
 // <copyright file="QueryHelper.cs" company="FCS">
-//     Copyright (C) 2022-2023 FCS Frede's Computer Services.
+//     Copyright (C) 2023-2023 FCS Frede's Computer Services.
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU Affero General Public License as
 //     published by the Free Software Foundation, either version 3 of the
@@ -32,14 +32,14 @@ using System.Reflection;
 namespace FCS.Lib.Utility;
 
 /// <summary>
-/// Class QueryHelper.
+///     Class QueryHelper.
 /// </summary>
 public static class QueryHelper
 {
     // https://stackoverflow.com/a/45761590
 
     /// <summary>
-    /// OrderBy
+    ///     OrderBy
     /// </summary>
     /// <param name="q"></param>
     /// <param name="name"></param>
@@ -58,7 +58,7 @@ public static class QueryHelper
     }
 
     /// <summary>
-    /// ThenBy
+    ///     ThenBy
     /// </summary>
     /// <param name="q"></param>
     /// <param name="name"></param>
@@ -78,7 +78,7 @@ public static class QueryHelper
 
 
     /// <summary>
-    /// OrderByProperty
+    ///     OrderByProperty
     /// </summary>
     /// <param name="q"></param>
     /// <param name="p"></param>

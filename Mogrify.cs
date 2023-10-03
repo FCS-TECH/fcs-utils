@@ -1,10 +1,10 @@
 // ***********************************************************************
 // Assembly         : FCS.Lib.Utility
-// Author          : fhdk
-// Created          : 2023 03 02 09:52
+// Author           : 
+// Created          : 2023 10 01 11:03
 // 
-// Last Modified By: fhdk
-// Last Modified On : 2023 03 14 09:16
+// Last Modified By : root
+// Last Modified On : 2023 10 02 15:23
 // ***********************************************************************
 // <copyright file="Mogrify.cs" company="FCS">
 //     Copyright (C) 2023-2023 FCS Frede's Computer Services.
@@ -36,12 +36,12 @@ using System.Text.RegularExpressions;
 namespace FCS.Lib.Utility;
 
 /// <summary>
-/// Mogrify between units
+///     Mogrify between units
 /// </summary>
 public static class Mogrify
 {
     /// <summary>
-    /// Sanitize phone number string - remove countrycode and alpha characters
+    ///     Sanitize phone number string - remove countrycode and alpha characters
     /// </summary>
     /// <param name="phone"></param>
     /// <returns></returns>
@@ -55,7 +55,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// Sanitize zipcode string - alpha characters
+    ///     Sanitize zipcode string - alpha characters
     /// </summary>
     /// <param name="zipCode"></param>
     /// <returns></returns>
@@ -68,7 +68,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// Get month from timestamp
+    ///     Get month from timestamp
     /// </summary>
     /// <param name="timeStamp"></param>
     /// <returns>integer</returns>
@@ -78,7 +78,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// validate if timestamp occurs in month
+    ///     validate if timestamp occurs in month
     /// </summary>
     /// <param name="timestamp"></param>
     /// <param name="month"></param>
@@ -89,7 +89,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// return iso8601 string from timestamp
+    ///     return iso8601 string from timestamp
     /// </summary>
     /// <param name="timestamp"></param>
     /// <returns></returns>
@@ -99,7 +99,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// return date as ISO
+    ///     return date as ISO
     /// </summary>
     /// <param name="date"></param>
     /// <returns></returns>
@@ -109,7 +109,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// Get timestamp range for given datetime
+    ///     Get timestamp range for given datetime
     /// </summary>
     /// <param name="dateTime"></param>
     /// <returns>dictionary</returns>
@@ -125,7 +125,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// ISO date to timestamp
+    ///     ISO date to timestamp
     /// </summary>
     /// <param name="isoDateString"></param>
     /// <returns>long</returns>
@@ -138,7 +138,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// ISO date from timestamp
+    ///     ISO date from timestamp
     /// </summary>
     /// <param name="timestamp"></param>
     /// <returns>string yyyy-MM-dd</returns>
@@ -148,19 +148,23 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get timestamp from current date time
+    ///     get timestamp from current date time
     /// </summary>
-    /// <returns><see cref="long"/></returns>
+    /// <returns>
+    ///     <see cref="long" />
+    /// </returns>
     public static long CurrentDateTimeToTimeStamp()
     {
         return Convert.ToUInt32(DateTimeToTimeStamp(DateTime.Now));
     }
 
     /// <summary>
-    /// get timestamp from date time
+    ///     get timestamp from date time
     /// </summary>
     /// <param name="dateTime"></param>
-    /// <returns><see cref="long"/></returns>
+    /// <returns>
+    ///     <see cref="long" />
+    /// </returns>
     public static long DateTimeToTimeStamp(DateTime dateTime)
     {
         var bigDate = new DateTime(2038, 1, 19, 0, 0, 0, 0);
@@ -174,10 +178,12 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get date time from timestamp
+    ///     get date time from timestamp
     /// </summary>
     /// <param name="timeStamp"></param>
-    /// <returns><see cref="DateTime"/></returns>
+    /// <returns>
+    ///     <see cref="DateTime" />
+    /// </returns>
     public static DateTime TimeStampToDateTime(long timeStamp)
     {
         var nixDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
@@ -185,37 +191,43 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get seconds from timespan
+    ///     get seconds from timespan
     /// </summary>
     /// <param name="timespan"></param>
-    /// <returns><see cref="long"/></returns>
+    /// <returns>
+    ///     <see cref="long" />
+    /// </returns>
     public static long TimeSpanToSeconds(TimeSpan timespan)
     {
         return Convert.ToUInt32(timespan.Ticks / 10000000L);
     }
 
     /// <summary>
-    /// get timespan from seconds
+    ///     get timespan from seconds
     /// </summary>
     /// <param name="seconds"></param>
-    /// <returns><see cref="TimeSpan"/></returns>
+    /// <returns>
+    ///     <see cref="TimeSpan" />
+    /// </returns>
     public static TimeSpan SecondsToTimeSpan(long seconds)
     {
         return TimeSpan.FromTicks(10000000L * seconds);
     }
 
     /// <summary>
-    /// get minutes from timespan
+    ///     get minutes from timespan
     /// </summary>
     /// <param name="timespan"></param>
-    /// <returns><see cref="long"/></returns>
+    /// <returns>
+    ///     <see cref="long" />
+    /// </returns>
     public static long TimespanToMinutes(TimeSpan timespan)
     {
         return Convert.ToUInt32(timespan.Ticks / 10000000L) / 60;
     }
 
     /// <summary>
-    /// reverse boolean
+    ///     reverse boolean
     /// </summary>
     /// <param name="value"></param>
     /// <returns>bool</returns>
@@ -225,7 +237,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// number from bool
+    ///     number from bool
     /// </summary>
     /// <param name="value"></param>
     /// <returns>integer</returns>
@@ -235,7 +247,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// string from bool
+    ///     string from bool
     /// </summary>
     /// <param name="value"></param>
     /// <returns>string true/false</returns>
@@ -245,7 +257,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get bool from integer
+    ///     get bool from integer
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -255,7 +267,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get the number value from enum
+    ///     get the number value from enum
     /// </summary>
     /// <param name="enumeration"></param>
     /// <returns>int</returns>
@@ -265,7 +277,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get string from enum
+    ///     get string from enum
     /// </summary>
     /// <param name="value"></param>
     /// <returns>string - name of the enum</returns>
@@ -275,7 +287,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get list of enum of type T
+    ///     get list of enum of type T
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns>list of enum</returns>
@@ -286,7 +298,7 @@ public static class Mogrify
 
 
     /// <summary>
-    /// get enum from integer of type T
+    ///     get enum from integer of type T
     /// </summary>
     /// <param name="value"></param>
     /// <typeparam name="T"></typeparam>
@@ -297,7 +309,7 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get string from list using semicolon separator
+    ///     get string from list using semicolon separator
     /// </summary>
     /// <param name="list"></param>
     /// <typeparam name="T"></typeparam>
@@ -308,12 +320,14 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get string from list using delimiter
+    ///     get string from list using delimiter
     /// </summary>
     /// <param name="list"></param>
     /// <param name="delimiter"></param>
     /// <typeparam name="T"></typeparam>
-    /// <returns><see cref="string"/></returns>
+    /// <returns>
+    ///     <see cref="string" />
+    /// </returns>
     public static string ListToString<T>(List<T> list, string delimiter)
     {
         var empty = string.Empty;
@@ -327,10 +341,12 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get lowercase dash separated string from Pascal case
+    ///     get lowercase dash separated string from Pascal case
     /// </summary>
     /// <param name="value"></param>
-    /// <returns><see cref="string"/></returns>
+    /// <returns>
+    ///     <see cref="string" />
+    /// </returns>
     public static string PascalToLower(string value)
     {
         var result = string.Join("-", Regex.Split(value, @"(?<!^)(?=[A-Z])").ToArray());
@@ -338,10 +354,12 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get bool from string
+    ///     get bool from string
     /// </summary>
     /// <param name="value"></param>
-    /// <returns><see cref="bool"/></returns>
+    /// <returns>
+    ///     <see cref="bool" />
+    /// </returns>
     public static bool StringToBool(string value)
     {
         if (string.IsNullOrEmpty(value))
@@ -365,10 +383,12 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get decimal from string
+    ///     get decimal from string
     /// </summary>
     /// <param name="inString"></param>
-    /// <returns><see cref="decimal"/></returns>
+    /// <returns>
+    ///     <see cref="decimal" />
+    /// </returns>
     public static decimal? StringToDecimal(string inString)
     {
         if (string.IsNullOrEmpty(inString)) return 0;
@@ -380,34 +400,40 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get enum of type T from string 
+    ///     get enum of type T from string
     /// </summary>
     /// <param name="value"></param>
     /// <typeparam name="T"></typeparam>
-    /// <returns><see cref="Enum"/></returns>
+    /// <returns>
+    ///     <see cref="Enum" />
+    /// </returns>
     public static T StringToEnum<T>(string value)
     {
         return (T)Enum.Parse(typeof(T), value, true);
     }
 
     /// <summary>
-    /// get list from string using semicolon
+    ///     get list from string using semicolon
     /// </summary>
     /// <param name="value"></param>
     /// <typeparam name="T"></typeparam>
-    /// <returns><see cref="List{T}"/></returns>
+    /// <returns>
+    ///     <see cref="List{T}" />
+    /// </returns>
     public static List<T> StringToList<T>(string value)
     {
         return StringToList<T>(value, ";");
     }
 
     /// <summary>
-    /// get list from string using delimiter
+    ///     get list from string using delimiter
     /// </summary>
     /// <param name="value"></param>
     /// <param name="delimiter"></param>
     /// <typeparam name="T"></typeparam>
-    /// <returns><see cref="List{T}"/></returns>
+    /// <returns>
+    ///     <see cref="List{T}" />
+    /// </returns>
     /// <exception cref="ArgumentNullException"></exception>
     public static List<T> StringToList<T>(string value, string delimiter)
     {
@@ -440,21 +466,25 @@ public static class Mogrify
     }
 
     /// <summary>
-    /// get string from stream (default encoding)
+    ///     get string from stream (default encoding)
     /// </summary>
     /// <param name="value"></param>
-    /// <returns><see cref="Stream"/></returns>
+    /// <returns>
+    ///     <see cref="Stream" />
+    /// </returns>
     public static Stream StringToStream(string value)
     {
         return StringToStream(value, Encoding.Default);
     }
 
     /// <summary>
-    /// get stream from string (using encoding)
+    ///     get stream from string (using encoding)
     /// </summary>
     /// <param name="value"></param>
     /// <param name="encoding"></param>
-    /// <returns><see cref="Stream"/></returns>
+    /// <returns>
+    ///     <see cref="Stream" />
+    /// </returns>
     public static Stream StringToStream(string value, Encoding encoding)
     {
         return encoding == null ? null : new MemoryStream(encoding.GetBytes(value ?? ""));

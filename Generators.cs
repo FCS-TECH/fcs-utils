@@ -1,10 +1,10 @@
 ﻿// ***********************************************************************
 // Assembly         : FCS.Lib.Utility
-// Author          : fhdk
-// Created          : 2023 02 02 06:59
+// Author           : 
+// Created          : 2023 10 01 11:03
 // 
-// Last Modified By: fhdk
-// Last Modified On : 2023 03 14 09:16
+// Last Modified By : root
+// Last Modified On : 2023 10 02 15:23
 // ***********************************************************************
 // <copyright file="Generators.cs" company="FCS">
 //     Copyright (C) 2023-2023 FCS Frede's Computer Services.
@@ -32,24 +32,26 @@ using System.Security.Cryptography;
 namespace FCS.Lib.Utility;
 
 /// <summary>
-/// Generators
+///     Generators
 /// </summary>
 public static class Generators
 {
     /// <summary>
-    /// Generate 6 character shortUrl
+    ///     Generate 6 character shortUrl
     /// </summary>
-    /// <returns><see cref="string"/> of 6 characters</returns>
+    /// <returns><see cref="string" /> of 6 characters</returns>
     public static string ShortUrlGenerator()
     {
         return ShortUrlGenerator(6);
     }
 
     /// <summary>
-    /// Generate shortUrl with length
+    ///     Generate shortUrl with length
     /// </summary>
     /// <param name="length">The length.</param>
-    /// <returns><see cref="string"/></returns>
+    /// <returns>
+    ///     <see cref="string" />
+    /// </returns>
     /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
     public static string ShortUrlGenerator(int length)
     {
@@ -165,11 +167,13 @@ public static class Generators
     }
 
     /// <summary>
-    /// Username generator
+    ///     Username generator
     /// </summary>
     /// <param name="options">The options.</param>
-    /// <returns><see cref="string"/></returns>
-    /// <seealso cref="StringOptions"/>
+    /// <returns>
+    ///     <see cref="string" />
+    /// </returns>
+    /// <seealso cref="StringOptions" />
     public static string GenerateUsername(StringOptions options = null)
     {
         options ??= new StringOptions
@@ -186,11 +190,13 @@ public static class Generators
     }
 
     /// <summary>
-    /// Password generator
+    ///     Password generator
     /// </summary>
     /// <param name="options">The options.</param>
-    /// <returns><see cref="string"/></returns>
-    /// <seealso cref="StringOptions"/>
+    /// <returns>
+    ///     <see cref="string" />
+    /// </returns>
+    /// <seealso cref="StringOptions" />
     public static string GeneratePassword(StringOptions options = null)
     {
         options ??= new StringOptions
@@ -207,10 +213,12 @@ public static class Generators
     }
 
     /// <summary>
-    /// Random string generator with length
+    ///     Random string generator with length
     /// </summary>
     /// <param name="length">The length.</param>
-    /// <returns><see cref="string"/></returns>
+    /// <returns>
+    ///     <see cref="string" />
+    /// </returns>
     public static string GenerateRandomText(int length)
     {
         const string consonants = "bcdfghjklmnprstvxzBDFGHJKLMNPRSTVXZ";
@@ -230,10 +238,12 @@ public static class Generators
     }
 
     /// <summary>
-    /// Random string generator - string options
+    ///     Random string generator - string options
     /// </summary>
     /// <param name="options">The options.</param>
-    /// <returns><see cref="string"/></returns>
+    /// <returns>
+    ///     <see cref="string" />
+    /// </returns>
     public static string GenerateRandomString(StringOptions options = null)
     {
         options ??= new StringOptions
@@ -288,11 +298,13 @@ public static class Generators
     }
 
     /// <summary>
-    /// Randomize random using RNGCrypto
+    ///     Randomize random using RNGCrypto
     /// </summary>
-    /// <returns><see cref="Random"/></returns>
+    /// <returns>
+    ///     <see cref="Random" />
+    /// </returns>
     /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
-    /// <seealso cref="RNGCryptoServiceProvider"/>
+    /// <seealso cref="RNGCryptoServiceProvider" />
     public static Random RandomSeed()
     {
         // As the default Random is based on the current time
