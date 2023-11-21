@@ -1,13 +1,13 @@
 ﻿// ***********************************************************************
 // Assembly         : FCS.Lib.Utility
 // Author           : 
-// Created          : 2023 10 01 11:03
+// Created          : 2023-10-09
 // 
 // Last Modified By : root
-// Last Modified On : 2023 10 02 15:23
+// Last Modified On : 2023-10-13 07:33
 // ***********************************************************************
 // <copyright file="Generators.cs" company="FCS">
-//     Copyright (C) 2023-2023 FCS Frede's Computer Services.
+//     Copyright (C) 2015 - 2023 FCS Fredes Computer Service.
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU Affero General Public License as
 //     published by the Free Software Foundation, either version 3 of the
@@ -55,8 +55,8 @@ public static class Generators
     /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
     public static string ShortUrlGenerator(int length)
     {
-        const string charsLower = "abcdefghijkmnopqrstuvwxyz";
-        const string charsUpper = "ABCDFEGHJKLMNPQRSTUVWXYZ-";
+        const string charsLower = "abcdefghijklmnopqrstuvwxyz";
+        const string charsUpper = "ABCDFEGHIJKLMNOPQRSTUVWXYZ";
         const string charsNumeric = "1234567890";
 
         // Create a local array containing supported short-url characters
