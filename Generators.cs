@@ -39,10 +39,10 @@ public static class Generators
     /// <summary>
     ///     Generate 6 character shortUrl
     /// </summary>
-    /// <returns><see cref="string" /> of 6 characters</returns>
+    /// <returns><see cref="string" /> of 8 characters</returns>
     public static string ShortUrlGenerator()
     {
-        return ShortUrlGenerator(6);
+        return ShortUrlGenerator(8);
     }
 
     /// <summary>
@@ -56,8 +56,8 @@ public static class Generators
     public static string ShortUrlGenerator(int length)
     {
         const string charsLower = "abcdefghijklmnopqrstuvwxyz";
-        const string charsUpper = "ABCDFEGHIJKLMNOPQRSTUVWXYZ";
-        const string charsNumeric = "1234567890";
+        const string charsUpper = "ABCDFEGHJKLMNPQRSTUVWXYZ";
+        const string charsNumeric = "123456789";
 
         // Create a local array containing supported short-url characters
         // grouped by types.
@@ -84,7 +84,7 @@ public static class Generators
             leftGroupsOrder[i] = i;
 
         // Using our private random number generator
-        var random = RandomSeed();
+        var random = RandomFromRngCrypto();
 
         // This array will hold short-url characters.
         // Allocate appropriate memory for the short-url.
@@ -225,7 +225,7 @@ public static class Generators
         const string vowels = "aeiouyAEIOUY";
 
         var rndString = "";
-        var randomNum = RandomSeed();
+        var randomNum = RandomFromRngCrypto();
 
         while (rndString.Length < length)
         {
@@ -266,7 +266,7 @@ public static class Generators
         };
 
         // Using our private random number generator
-        var rand = RandomSeed();
+        var rand = RandomFromRngCrypto();
 
         var chars = new List<char>();
 
@@ -305,7 +305,7 @@ public static class Generators
     /// </returns>
     /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
     /// <seealso cref="RNGCryptoServiceProvider" />
-    public static Random RandomSeed()
+    public static Random RandomFromRngCrypto()
     {
         // As the default Random is based on the current time
         // so it produces the same "random" number within a second
