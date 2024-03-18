@@ -67,6 +67,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AssemblyInfo.tt</DependentUpon>
     </Compile>
+    <Compile Include="StringChecker.cs" />
     <Compile Include="TaxIdFormatValidator.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="StringOptions.cs" />
