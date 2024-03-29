@@ -1,11 +1,11 @@
 ﻿// ***********************************************************************
 // Assembly         : FCS.Lib.Utility
-// Filename         : StringUtils.cs
+// Filename         : StringChecker.cs
 // Author           : Frede Hundewadt
-// Created          : 2024 03 17 07:54
+// Created          : 2024 03 24 11:22
 // 
 // Last Modified By : root
-// Last Modified On : 2024 03 17 07:54
+// Last Modified On : 2024 03 29 12:36
 // ***********************************************************************
 // <copyright company="FCS">
 //     Copyright (C) 2024-2024 FCS Frede's Computer Service.
@@ -24,8 +24,6 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-
-using System.Text.RegularExpressions;
 
 namespace FCS.Lib.Utility;
 

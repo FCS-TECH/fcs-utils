@@ -1,13 +1,14 @@
 ﻿// ***********************************************************************
 // Assembly         : FCS.Lib.Utility
-// Author           : 
-// Created          : 2023-10-09
+// Filename         : Generators.cs
+// Author           : Frede Hundewadt
+// Created          : 2024 03 29 05:13
 // 
 // Last Modified By : root
-// Last Modified On : 2023-10-13 07:33
+// Last Modified On : 2024 03 29 12:36
 // ***********************************************************************
-// <copyright file="Generators.cs" company="FCS">
-//     Copyright (C) 2015 - 2023 FCS Frede's Computer Service.
+// <copyright company="FCS">
+//     Copyright (C) 2024-2024 FCS Frede's Computer Service.
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU Affero General Public License as
 //     published by the Free Software Foundation, either version 3 of the
@@ -235,6 +236,15 @@ public static class Generators
         }
 
         return rndString;
+    }
+
+    public static int GenerateRandomNumber(int length)
+    {
+        const string digits = "123456789";
+        var rndString = "";
+        var randomNum = RandomFromRngCrypto();
+        while (rndString.Length < length) rndString += digits[randomNum.Next(digits.Length)];
+        return Convert.ToInt32(rndString);
     }
 
     /// <summary>
