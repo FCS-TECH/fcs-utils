@@ -2,13 +2,13 @@
 // Assembly         : FCS.Lib.Utility
 // Filename         : Squid.cs
 // Author           : Frede Hundewadt
-// Created          : 2023 12 31 16:24
+// Created          : 2024 03 29 12:36
 // 
 // Last Modified By : root
-// Last Modified On : 2024 03 29 12:36
+// Last Modified On : 2024 04 11 13:03
 // ***********************************************************************
 // <copyright company="FCS">
-//     Copyright (C) 2023-2024 FCS Frede's Computer Service.
+//     Copyright (C) 2024-2024 FCS Frede's Computer Service.
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU Affero General Public License as
 //     published by the Free Software Foundation, either version 3 of the
@@ -28,6 +28,7 @@
 using System;
 using System.Diagnostics;
 
+
 namespace FCS.Lib.Utility;
 
 /// <summary>
@@ -46,6 +47,7 @@ public readonly struct Squid : IEquatable<Squid>
     /// </summary>
     public static readonly Squid Empty = new(Guid.Empty);
 
+
     /// <summary>
     ///     Creates a new Squid from a Squid encoded string.
     /// </summary>
@@ -56,6 +58,7 @@ public readonly struct Squid : IEquatable<Squid>
         Guid = DecodeSquid(value);
     }
 
+
     /// <summary>
     ///     Creates a new Squid with the given <see cref="System.Guid" />.
     /// </summary>
@@ -65,6 +68,7 @@ public readonly struct Squid : IEquatable<Squid>
         Value = EncodeGuid(obj);
         Guid = obj;
     }
+
 
     /// <summary>
     ///     Gets the underlying <see cref="System.Guid" /> for the encoded Squid.
@@ -79,6 +83,7 @@ public readonly struct Squid : IEquatable<Squid>
     /// <value>The value.</value>
     public string Value { get; }
 
+
     /// <summary>
     ///     Returns the encoded URL-safe Base64 string.
     /// </summary>
@@ -87,6 +92,7 @@ public readonly struct Squid : IEquatable<Squid>
     {
         return Value;
     }
+
 
     /// <summary>
     ///     Returns a value indicating whether this object and a specified object represent the same type and value.
@@ -99,6 +105,7 @@ public readonly struct Squid : IEquatable<Squid>
         return obj is Squid other && Equals(other);
     }
 
+
     /// <summary>
     ///     Equality comparison
     /// </summary>
@@ -108,6 +115,7 @@ public readonly struct Squid : IEquatable<Squid>
     {
         return Guid.Equals(obj.Guid) && Value == obj.Value;
     }
+
 
     /// <summary>
     ///     Returns the hash code for the underlying <see cref="System.Guid" />.
@@ -121,6 +129,7 @@ public readonly struct Squid : IEquatable<Squid>
         }
     }
 
+
     /// <summary>
     ///     Initialises a new object of the Squid using <see cref="Guid.NewGuid()" />.
     /// </summary>
@@ -129,6 +138,7 @@ public readonly struct Squid : IEquatable<Squid>
     {
         return new Squid(Guid.NewGuid());
     }
+
 
     /// <summary>
     ///     Encode string as a new Squid encoded string.
@@ -142,6 +152,7 @@ public readonly struct Squid : IEquatable<Squid>
         var guid = new Guid(value);
         return EncodeGuid(guid);
     }
+
 
     /// <summary>
     ///     Encode a <see cref="System.Guid" /> object to Squid.
@@ -158,6 +169,7 @@ public readonly struct Squid : IEquatable<Squid>
             .Replace("+", "-");
         return encoded.Substring(0, 22);
     }
+
 
     /// <summary>
     ///     Decode Squid string to a <see cref="System.Guid" />.
@@ -177,6 +189,7 @@ public readonly struct Squid : IEquatable<Squid>
         return new Guid(blob);
     }
 
+
     /// <summary>
     ///     Squid to Guid.
     /// </summary>
@@ -186,6 +199,7 @@ public readonly struct Squid : IEquatable<Squid>
     {
         return obj.Guid;
     }
+
 
     /// <summary>
     ///     String to Squid.
@@ -198,6 +212,7 @@ public readonly struct Squid : IEquatable<Squid>
             return Empty;
         return TryParse(value, out Squid obj) ? obj : Empty;
     }
+
 
     /// <summary>
     ///     Decodes the given value to a <see cref="System.Guid" />.
@@ -220,6 +235,7 @@ public readonly struct Squid : IEquatable<Squid>
             return false;
         }
     }
+
 
     /// <summary>
     ///     Tries to parse the given string value and
@@ -248,6 +264,7 @@ public readonly struct Squid : IEquatable<Squid>
         return false;
     }
 
+
     /// <summary>
     ///     Tries to parse the string value and
     ///     outputs the underlying <see cref="System.Guid" /> object.
@@ -269,8 +286,8 @@ public readonly struct Squid : IEquatable<Squid>
         return false;
     }
 
-    #region Operators
 
+    #region Operators
     /// <summary>
     ///     Determines if both Squid objects have the same
     ///     underlying <see cref="System.Guid" /> value.
@@ -282,6 +299,7 @@ public readonly struct Squid : IEquatable<Squid>
     {
         return x.Guid == y.Guid;
     }
+
 
     /// <summary>
     ///     Determines if both objects have the same
@@ -295,6 +313,7 @@ public readonly struct Squid : IEquatable<Squid>
         return x.Guid == y;
     }
 
+
     /// <summary>
     ///     Determines if both objects have the same
     ///     underlying <see cref="System.Guid" /> value.
@@ -306,6 +325,7 @@ public readonly struct Squid : IEquatable<Squid>
     {
         return y == x; // NB: order of arguments
     }
+
 
     /// <summary>
     ///     Determines if both Squid objects do not have the same
@@ -319,6 +339,7 @@ public readonly struct Squid : IEquatable<Squid>
         return !(x == y);
     }
 
+
     /// <summary>
     ///     Determines if both objects do not have the same
     ///     underlying <see cref="System.Guid" /> value.
@@ -330,6 +351,7 @@ public readonly struct Squid : IEquatable<Squid>
     {
         return !(x == y);
     }
+
 
     /// <summary>
     ///     Determines if both objects do not have the same
@@ -343,6 +365,7 @@ public readonly struct Squid : IEquatable<Squid>
         return !(x == y);
     }
 
+
     /// <summary>
     ///     Implicitly converts the Squid to
     ///     its string equivalent.
@@ -354,6 +377,7 @@ public readonly struct Squid : IEquatable<Squid>
         return oSquid.Value;
     }
 
+
     /// <summary>
     ///     Implicitly converts the Squid to
     ///     its <see cref="System.Guid" /> equivalent.
@@ -364,6 +388,7 @@ public readonly struct Squid : IEquatable<Squid>
     {
         return oSquid.Guid;
     }
+
 
     /// <summary>
     ///     Implicitly converts the string to a Squid.
@@ -378,6 +403,7 @@ public readonly struct Squid : IEquatable<Squid>
         return TryParse(value, out Squid oSquid) ? oSquid : Empty;
     }
 
+
     /// <summary>
     ///     Implicitly converts the <see cref="System.Guid" /> to a Squid.
     /// </summary>
@@ -387,6 +413,5 @@ public readonly struct Squid : IEquatable<Squid>
     {
         return oGuid == Guid.Empty ? Empty : new Squid(oGuid);
     }
-
     #endregion
 }

@@ -2,13 +2,13 @@
 // Assembly         : FCS.Lib.Utility
 // Filename         : IAsyncReadonlyRepo.cs
 // Author           : Frede Hundewadt
-// Created          : 2023 12 31 16:24
+// Created          : 2024 03 29 12:36
 // 
 // Last Modified By : root
-// Last Modified On : 2024 03 29 12:36
+// Last Modified On : 2024 04 11 13:03
 // ***********************************************************************
 // <copyright company="FCS">
-//     Copyright (C) 2023-2024 FCS Frede's Computer Service.
+//     Copyright (C) 2024-2024 FCS Frede's Computer Service.
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU Affero General Public License as
 //     published by the Free Software Foundation, either version 3 of the
@@ -31,6 +31,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
+
 namespace FCS.Lib.Utility;
 
 /// <summary>
@@ -45,12 +46,14 @@ public interface IAsyncReadonlyRepo<TEntity> where TEntity : class
     /// <returns>IQueryable&lt;TEntity&gt;.</returns>
     IQueryable<TEntity> All();
 
+
     /// <summary>
     ///     All items asynchronous.
     /// </summary>
     /// <param name="predicate">The predicate.</param>
     /// <returns>Task&lt;IList&lt;TEntity&gt;&gt;.</returns>
     Task<IList<TEntity>> AllAsync(Expression<Func<TEntity, bool>> predicate);
+
 
     /// <summary>
     ///     Any item asynchronous.
@@ -59,12 +62,14 @@ public interface IAsyncReadonlyRepo<TEntity> where TEntity : class
     /// <returns>Task&lt;System.Boolean&gt;.</returns>
     Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate);
 
+
     /// <summary>
     ///     Finds the asynchronous.
     /// </summary>
     /// <param name="predicate">The predicate.</param>
     /// <returns>Task&lt;TEntity&gt;.</returns>
     Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate);
+
 
     /// <summary>
     ///     Firsts the asynchronous.
@@ -73,6 +78,7 @@ public interface IAsyncReadonlyRepo<TEntity> where TEntity : class
     /// <returns>Task&lt;TEntity&gt;.</returns>
     Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate);
 
+
     /// <summary>
     ///     Firsts the or default asynchronous.
     /// </summary>
@@ -80,12 +86,14 @@ public interface IAsyncReadonlyRepo<TEntity> where TEntity : class
     /// <returns>Task&lt;TEntity&gt;.</returns>
     Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
 
+
     /// <summary>
     ///     Anies the specified predicate.
     /// </summary>
     /// <param name="predicate">The predicate.</param>
     /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
     bool Any(Expression<Func<TEntity, bool>> predicate);
+
 
     /// <summary>
     ///     Gets the by identifier.

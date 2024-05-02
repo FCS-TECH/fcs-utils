@@ -2,13 +2,13 @@
 // Assembly         : FCS.Lib.Utility
 // Filename         : Mogrify.cs
 // Author           : Frede Hundewadt
-// Created          : 2023 12 31 16:24
+// Created          : 2024 03 29 12:36
 // 
 // Last Modified By : root
-// Last Modified On : 2024 03 29 12:36
+// Last Modified On : 2024 04 11 13:03
 // ***********************************************************************
 // <copyright company="FCS">
-//     Copyright (C) 2023-2024 FCS Frede's Computer Service.
+//     Copyright (C) 2024-2024 FCS Frede's Computer Service.
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU Affero General Public License as
 //     published by the Free Software Foundation, either version 3 of the
@@ -31,8 +31,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Text.RegularExpressions;
+
 
 namespace FCS.Lib.Utility;
 
@@ -41,6 +43,30 @@ namespace FCS.Lib.Utility;
 /// </summary>
 public static class Mogrify
 {
+
+    public static DateTime MonthStart(int day)
+    {
+        var month = DateTime.Now.Month;
+        if (DateTime.Now.Day < day)
+            month--;
+        if (month == 12)
+            month = 1;
+        return MonthStart(DateTime.Now.Year, month, day);
+    }
+
+
+    public static DateTime MonthStart(int month, int day)
+    {
+        return MonthStart(DateTime.Now.Year, month, day);
+    }
+
+
+    private static DateTime MonthStart(int year, int month, int day)
+    {
+        return new DateTime(year, month, day);
+    }
+
+
     /// <summary>
     ///     Sanitize phone number string - remove countrycode and alpha characters
     /// </summary>
@@ -55,6 +81,7 @@ public static class Mogrify
         return regexObj.Replace(phone, "");
     }
 
+
     /// <summary>
     ///     Sanitize zipcode string - alpha characters
     /// </summary>
@@ -68,6 +95,7 @@ public static class Mogrify
         return regexObj.Replace(zipCode, "");
     }
 
+
     /// <summary>
     ///     Get month from timestamp
     /// </summary>
@@ -77,6 +105,7 @@ public static class Mogrify
     {
         return TimeStampToDateTime(timeStamp).Month;
     }
+
 
     /// <summary>
     ///     validate if timestamp occurs in month
@@ -89,25 +118,6 @@ public static class Mogrify
         return TimeStampToDateTime(timestamp).Month == month;
     }
 
-    /// <summary>
-    ///     return iso8601 string from timestamp
-    /// </summary>
-    /// <param name="timestamp"></param>
-    /// <returns></returns>
-    public static string TimestampToIso8601(long timestamp)
-    {
-        return DateTimeIso8601(TimeStampToDateTime(timestamp));
-    }
-
-    /// <summary>
-    ///     return date as ISO
-    /// </summary>
-    /// <param name="date"></param>
-    /// <returns></returns>
-    public static string DateTimeIso8601(DateTime date)
-    {
-        return date.ToString("o", CultureInfo.InvariantCulture);
-    }
 
     /// <summary>
     ///     Get timestamp range for given datetime
@@ -125,8 +135,30 @@ public static class Mogrify
         };
     }
 
+
     /// <summary>
-    ///     ISO date to timestamp
+    ///     return iso8601 string from timestamp
+    /// </summary>
+    /// <param name="timestamp"></param>
+    /// <returns></returns>
+    public static string TimestampToIso8601(long timestamp)
+    {
+        return DateTimeIso8601(TimeStampToDateTime(timestamp));
+    }
+
+
+    /// <summary>
+    ///     return date as ISO 2000-01-01T00:00:00.0000000
+    /// </summary>
+    /// <param name="date"></param>
+    /// <returns></returns>
+    public static string DateTimeIso8601(DateTime date)
+    {
+        return date.ToString("o", CultureInfo.InvariantCulture);
+    }
+
+    /// <summary>
+    ///     ISO date 2000-01-01 to timestamp
     /// </summary>
     /// <param name="isoDateString"></param>
     /// <returns>long</returns>
@@ -138,8 +170,9 @@ public static class Mogrify
         return $"{test:yyyy-MM-dd}" == isoDateString ? DateTimeToTimeStamp(test) : 0;
     }
 
+
     /// <summary>
-    ///     ISO date from timestamp
+    ///     ISO date from timestamp 2000-01-01
     /// </summary>
     /// <param name="timestamp"></param>
     /// <returns>string yyyy-MM-dd</returns>
@@ -147,6 +180,7 @@ public static class Mogrify
     {
         return $"{TimeStampToDateTime(timestamp):yyyy-MM-dd}";
     }
+
 
     /// <summary>
     ///     get timestamp from current date time
@@ -158,6 +192,7 @@ public static class Mogrify
     {
         return Convert.ToUInt32(DateTimeToTimeStamp(DateTime.Now));
     }
+
 
     /// <summary>
     ///     get timestamp from date time
@@ -178,6 +213,7 @@ public static class Mogrify
         return Convert.ToInt64((dateTime - nixDate).TotalSeconds);
     }
 
+
     /// <summary>
     ///     get date time from timestamp
     /// </summary>
@@ -191,6 +227,7 @@ public static class Mogrify
         return nixDate.AddSeconds(timeStamp);
     }
 
+
     /// <summary>
     ///     get seconds from timespan
     /// </summary>
@@ -202,6 +239,7 @@ public static class Mogrify
     {
         return Convert.ToUInt32(timespan.Ticks / 10000000L);
     }
+
 
     /// <summary>
     ///     get timespan from seconds
@@ -215,6 +253,7 @@ public static class Mogrify
         return TimeSpan.FromTicks(10000000L * seconds);
     }
 
+
     /// <summary>
     ///     get minutes from timespan
     /// </summary>
@@ -227,6 +266,7 @@ public static class Mogrify
         return Convert.ToUInt32(timespan.Ticks / 10000000L) / 60;
     }
 
+
     /// <summary>
     ///     reverse boolean
     /// </summary>
@@ -236,6 +276,7 @@ public static class Mogrify
     {
         return !value;
     }
+
 
     /// <summary>
     ///     number from bool
@@ -247,6 +288,7 @@ public static class Mogrify
         return value ? 1 : 0;
     }
 
+
     /// <summary>
     ///     string from bool
     /// </summary>
@@ -256,6 +298,7 @@ public static class Mogrify
     {
         return value ? "true" : "false";
     }
+
 
     /// <summary>
     ///     get bool from integer
@@ -267,6 +310,7 @@ public static class Mogrify
         return value is > 0 or < 0;
     }
 
+
     /// <summary>
     ///     get the number value from enum
     /// </summary>
@@ -277,6 +321,7 @@ public static class Mogrify
         return Convert.ToInt32(enumeration, CultureInfo.InvariantCulture);
     }
 
+
     /// <summary>
     ///     get string from enum
     /// </summary>
@@ -286,6 +331,7 @@ public static class Mogrify
     {
         return value == null ? string.Empty : value.ToString();
     }
+
 
     /// <summary>
     ///     get list of enum of type T
@@ -309,6 +355,7 @@ public static class Mogrify
         return (T)Enum.ToObject(typeof(T), value);
     }
 
+
     /// <summary>
     ///     get string from list using semicolon separator
     /// </summary>
@@ -319,6 +366,7 @@ public static class Mogrify
     {
         return ListToString(list, ";");
     }
+
 
     /// <summary>
     ///     get string from list using delimiter
@@ -341,6 +389,7 @@ public static class Mogrify
         return empty;
     }
 
+
     /// <summary>
     ///     get lowercase dash separated string from Pascal case
     /// </summary>
@@ -353,6 +402,7 @@ public static class Mogrify
         var result = string.Join("-", Regex.Split(value, @"(?<!^)(?=[A-Z])").ToArray());
         return result.ToLower(CultureInfo.InvariantCulture);
     }
+
 
     /// <summary>
     ///     get bool from string
@@ -383,6 +433,7 @@ public static class Mogrify
         return flag;
     }
 
+
     /// <summary>
     ///     get decimal from string
     /// </summary>
@@ -400,6 +451,7 @@ public static class Mogrify
                 : decimal.Divide(num, new decimal((long)100));
     }
 
+
     /// <summary>
     ///     get enum of type T from string
     /// </summary>
@@ -413,6 +465,7 @@ public static class Mogrify
         return (T)Enum.Parse(typeof(T), value, true);
     }
 
+
     /// <summary>
     ///     get list from string using semicolon
     /// </summary>
@@ -425,6 +478,7 @@ public static class Mogrify
     {
         return StringToList<T>(value, ";");
     }
+
 
     /// <summary>
     ///     get list from string using delimiter
@@ -466,6 +520,7 @@ public static class Mogrify
         return ts;
     }
 
+
     /// <summary>
     ///     get string from stream (default encoding)
     /// </summary>
@@ -477,6 +532,7 @@ public static class Mogrify
     {
         return StringToStream(value, Encoding.Default);
     }
+
 
     /// <summary>
     ///     get stream from string (using encoding)

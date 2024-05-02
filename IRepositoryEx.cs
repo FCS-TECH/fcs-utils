@@ -2,13 +2,13 @@
 // Assembly         : FCS.Lib.Utility
 // Filename         : IRepositoryEx.cs
 // Author           : Frede Hundewadt
-// Created          : 2023 12 31 16:24
+// Created          : 2024 03 29 12:36
 // 
 // Last Modified By : root
-// Last Modified On : 2024 03 29 12:36
+// Last Modified On : 2024 04 11 13:03
 // ***********************************************************************
 // <copyright company="FCS">
-//     Copyright (C) 2023-2024 FCS Frede's Computer Service.
+//     Copyright (C) 2024-2024 FCS Frede's Computer Service.
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU Affero General Public License as
 //     published by the Free Software Foundation, either version 3 of the
@@ -30,6 +30,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
+
 namespace FCS.Lib.Utility;
 
 /// <summary>
@@ -45,12 +46,14 @@ public interface IRepositoryEx<TEntity> where TEntity : class
     /// <returns>Task&lt;System.Boolean&gt;</returns>
     Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate);
 
+
     /// <summary>
     ///     Find matching entity asynchronous
     /// </summary>
     /// <param name="predicate">Predicate</param>
     /// <returns>Task&lt;TEntity&gt;</returns>
     Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate);
+
 
     /// <summary>
     ///     Find first matching entity asynchronous
@@ -59,6 +62,7 @@ public interface IRepositoryEx<TEntity> where TEntity : class
     /// <returns>Task&lt;TEntity&gt;</returns>
     Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate);
 
+
     /// <summary>
     ///     Get first entity matching query or default entity asynchronous
     /// </summary>
@@ -66,11 +70,13 @@ public interface IRepositoryEx<TEntity> where TEntity : class
     /// <returns>Task&lt;TEntity&gt;</returns>
     Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
 
+
     /// <summary>
     ///     Add an entity
     /// </summary>
     /// <param name="entity">The entity.</param>
     void Add(TEntity entity);
+
 
     /// <summary>
     ///     Attach the entity
@@ -78,11 +84,13 @@ public interface IRepositoryEx<TEntity> where TEntity : class
     /// <param name="entity">The entity.</param>
     void Attach(TEntity entity);
 
+
     /// <summary>
     ///     Delete the entity
     /// </summary>
     /// <param name="entity">The entity.</param>
     void Delete(TEntity entity);
+
 
     /// <summary>
     ///     Anies the specified predicate.
@@ -91,12 +99,14 @@ public interface IRepositoryEx<TEntity> where TEntity : class
     /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
     bool Any(Expression<Func<TEntity, bool>> predicate);
 
+
     /// <summary>
     ///     Get entity by id
     /// </summary>
     /// <param name="id">The identifier.</param>
     /// <returns>TEntity</returns>
     TEntity GetById(string id);
+
 
     /// <summary>
     ///     Find first entity matching query
@@ -105,6 +115,7 @@ public interface IRepositoryEx<TEntity> where TEntity : class
     /// <returns>TEntity</returns>
     TEntity First(Expression<Func<TEntity, bool>> predicate);
 
+
     /// <summary>
     ///     Find first matching entity or default entity
     /// </summary>
@@ -112,12 +123,14 @@ public interface IRepositoryEx<TEntity> where TEntity : class
     /// <returns>TEntity</returns>
     TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
 
+
     /// <summary>
     ///     Find all matching entities matching query
     /// </summary>
     /// <param name="predicate">Predicate</param>
     /// <returns>IQueryable&lt;TEntity&gt;</returns>
     IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
+
 
     /// <summary>
     ///     Get all entities

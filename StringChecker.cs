@@ -2,10 +2,10 @@
 // Assembly         : FCS.Lib.Utility
 // Filename         : StringChecker.cs
 // Author           : Frede Hundewadt
-// Created          : 2024 03 24 11:22
+// Created          : 2024 03 29 12:36
 // 
 // Last Modified By : root
-// Last Modified On : 2024 03 29 12:36
+// Last Modified On : 2024 04 11 13:03
 // ***********************************************************************
 // <copyright company="FCS">
 //     Copyright (C) 2024-2024 FCS Frede's Computer Service.

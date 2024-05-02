@@ -2,13 +2,13 @@
 // Assembly         : FCS.Lib.Utility
 // Filename         : GuidGenerator.cs
 // Author           : Frede Hundewadt
-// Created          : 2023 12 31 16:24
+// Created          : 2024 03 29 12:36
 // 
 // Last Modified By : root
-// Last Modified On : 2024 03 29 12:36
+// Last Modified On : 2024 04 11 13:03
 // ***********************************************************************
 // <copyright company="FCS">
-//     Copyright (C) 2023-2024 FCS Frede's Computer Service.
+//     Copyright (C) 2024-2024 FCS Frede's Computer Service.
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU Affero General Public License as
 //     published by the Free Software Foundation, either version 3 of the
@@ -27,6 +27,7 @@
 
 using System;
 using System.Text;
+
 
 namespace FCS.Lib.Utility;
 
@@ -79,6 +80,7 @@ public static class GuidGenerator
     // offset to move from 1/1/0001, which is 0-time for .NET, to gregorian 0-time of 10/15/1582
     private static readonly DateTimeOffset GregorianCalendarStart = new(1582, 10, 15, 0, 0, 0, TimeSpan.Zero);
 
+
     static GuidGenerator()
     {
         DefaultClockSequence = new byte[2];
@@ -100,6 +102,7 @@ public static class GuidGenerator
     /// </summary>
     public static byte[] DefaultNode { get; set; }
 
+
     /// <summary>
     ///     Set default node
     /// </summary>
@@ -110,6 +113,7 @@ public static class GuidGenerator
         var node = $"{x:X}";
         DefaultNode = Encoding.UTF8.GetBytes(node.ToCharArray(), 0, 6);
     }
+
 
     /// <summary>
     ///     Get version
@@ -123,6 +127,7 @@ public static class GuidGenerator
         var bytes = guid.ToByteArray();
         return (GuidVersion)((bytes[VersionByte] & 0xFF) >> VersionByteShift);
     }
+
 
     /// <summary>
     ///     Get date time offset from guid
@@ -148,6 +153,7 @@ public static class GuidGenerator
         return new DateTimeOffset(ticks, TimeSpan.Zero);
     }
 
+
     /// <summary>
     ///     get date time from guid
     /// </summary>
@@ -159,6 +165,7 @@ public static class GuidGenerator
     {
         return GetDateTimeOffset(guid).DateTime;
     }
+
 
     /// <summary>
     ///     get local date time from guid
@@ -172,6 +179,7 @@ public static class GuidGenerator
         return GetDateTimeOffset(guid).LocalDateTime;
     }
 
+
     /// <summary>
     ///     get utc date time from guid
     /// </summary>
@@ -184,6 +192,7 @@ public static class GuidGenerator
         return GetDateTimeOffset(guid).UtcDateTime;
     }
 
+
     /// <summary>
     ///     Generate time based guid
     /// </summary>
@@ -194,6 +203,7 @@ public static class GuidGenerator
     {
         return GenerateTimeBasedGuid(DateTimeOffset.UtcNow, DefaultClockSequence, DefaultNode);
     }
+
 
     /// <summary>
     ///     Generate time based guid providing a NodeName string
@@ -210,6 +220,7 @@ public static class GuidGenerator
         return GenerateTimeBasedGuid(DateTimeOffset.UtcNow, DefaultClockSequence, defaultNode);
     }
 
+
     /// <summary>
     ///     Generate time based guid providing a valid DateTime object
     /// </summary>
@@ -222,6 +233,7 @@ public static class GuidGenerator
         return GenerateTimeBasedGuid(dateTime, DefaultClockSequence, DefaultNode);
     }
 
+
     /// <summary>
     ///     Generate time base guid providing a valid DateTimeOffset object
     /// </summary>
@@ -233,6 +245,7 @@ public static class GuidGenerator
     {
         return GenerateTimeBasedGuid(dateTime, DefaultClockSequence, DefaultNode);
     }
+
 
     /// <summary>
     ///     Generate time based guid providing a date time, byte array for clock sequence and node
@@ -247,6 +260,7 @@ public static class GuidGenerator
     {
         return GenerateTimeBasedGuid(new DateTimeOffset(dateTime), clockSequence, node);
     }
+
 
     /// <summary>
     ///     Generate time based guid providing a valid DateTimeOffset Object and byte arrays for clock sequence and node

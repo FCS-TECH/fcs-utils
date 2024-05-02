@@ -2,13 +2,13 @@
 // Assembly         : FCS.Lib.Utility
 // Filename         : Ean13Validator.cs
 // Author           : Frede Hundewadt
-// Created          : 2023 12 31 16:24
+// Created          : 2024 03 29 12:36
 // 
 // Last Modified By : root
-// Last Modified On : 2024 03 29 12:36
+// Last Modified On : 2024 04 11 13:03
 // ***********************************************************************
 // <copyright company="FCS">
-//     Copyright (C) 2023-2024 FCS Frede's Computer Service.
+//     Copyright (C) 2024-2024 FCS Frede's Computer Service.
 //     This program is free software: you can redistribute it and/or modify
 //     it under the terms of the GNU Affero General Public License as
 //     published by the Free Software Foundation, either version 3 of the
@@ -27,11 +27,13 @@
 
 using System;
 
+
 namespace FCS.Lib.Utility;
 
 public class Ean13Validator
 {
     private const int Size = 12;
+
 
     public static bool Validate(string number)
     {
@@ -39,6 +41,7 @@ public class Ean13Validator
             return false;
         return number == ParsedNumber(number.Substring(0, 12));
     }
+
 
     private static string Ean13(int[] firstDigits)
     {
@@ -77,6 +80,7 @@ public class Ean13Validator
             checkDigit = 0;
         return string.Join("", firstDigits) + checkDigit;
     }
+
 
     private static string ParsedNumber(string number)
     {

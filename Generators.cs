@@ -2,10 +2,10 @@
 // Assembly         : FCS.Lib.Utility
 // Filename         : Generators.cs
 // Author           : Frede Hundewadt
-// Created          : 2024 03 29 05:13
+// Created          : 2024 03 29 12:36
 // 
 // Last Modified By : root
-// Last Modified On : 2024 03 29 12:36
+// Last Modified On : 2024 04 11 13:03
 // ***********************************************************************
 // <copyright company="FCS">
 //     Copyright (C) 2024-2024 FCS Frede's Computer Service.
@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 
+
 namespace FCS.Lib.Utility;
 
 /// <summary>
@@ -45,6 +46,7 @@ public static class Generators
     {
         return ShortUrlGenerator(8);
     }
+
 
     /// <summary>
     ///     Generate shortUrl with length
@@ -167,6 +169,7 @@ public static class Generators
         return new string(shortUrl);
     }
 
+
     /// <summary>
     ///     Username generator
     /// </summary>
@@ -190,6 +193,7 @@ public static class Generators
         return GenerateRandomString(options);
     }
 
+
     /// <summary>
     ///     Password generator
     /// </summary>
@@ -212,6 +216,7 @@ public static class Generators
         };
         return GenerateRandomString(options);
     }
+
 
     /// <summary>
     ///     Random string generator with length
@@ -238,6 +243,7 @@ public static class Generators
         return rndString;
     }
 
+
     public static int GenerateRandomNumber(int length)
     {
         const string digits = "123456789";
@@ -246,6 +252,7 @@ public static class Generators
         while (rndString.Length < length) rndString += digits[randomNum.Next(digits.Length)];
         return Convert.ToInt32(rndString);
     }
+
 
     /// <summary>
     ///     Random string generator - string options
@@ -306,6 +313,7 @@ public static class Generators
 
         return new string(chars.ToArray());
     }
+
 
     /// <summary>
     ///     Randomize random using RNGCrypto
