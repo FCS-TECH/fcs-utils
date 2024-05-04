@@ -43,27 +43,81 @@ namespace FCS.Lib.Utility;
 /// </summary>
 public static class Mogrify
 {
-
-    public static DateTime MonthStart(int day)
+    /// <summary>
+    /// Virtual Month Timestamp from date and day number
+    /// </summary>
+    /// <param name="date"></param>
+    /// <param name="beginAt"></param>
+    /// <returns></returns>
+    public static long VirtualMonthToTimestamp(string date, int beginAt)
     {
-        var month = DateTime.Now.Month;
-        if (DateTime.Now.Day < day)
-            month--;
-        if (month == 12)
-            month = 1;
-        return MonthStart(DateTime.Now.Year, month, day);
+        return DateTimeToTimeStamp(VirtualMonthStart(date, beginAt));
+    }
+
+    /// <summary>
+    /// Virtual Month from date and day number
+    /// </summary>
+    /// <param name="date"></param>
+    /// <param name="beginAt"></param>
+    /// <returns></returns>
+    public static DateTime VirtualMonthStart(string date, int beginAt)
+    {
+        var dt = DateTime.Parse(date);
+        if (dt.Day < beginAt)
+        {
+            return dt.Month == 1
+                ? new DateTime(dt.Year -1, 12, beginAt)
+                : new DateTime(dt.Year, dt.Month - 1, beginAt);
+        }
+        return new DateTime(dt.Year, dt.Month, beginAt);
     }
 
 
-    public static DateTime MonthStart(int month, int day)
+    /// <summary>
+    /// Virtual Month end from date and day number
+    /// </summary>
+    /// <param name="date"></param>
+    /// <param name="beginAt"></param>
+    /// <returns></returns>
+    public static DateTime VirtualMonthEnd(string date, int beginAt)
     {
-        return MonthStart(DateTime.Now.Year, month, day);
+        var dt = DateTime.Parse(date);
+        var endDay = EndDay(dt, beginAt);
+        if (dt.Day < beginAt)
+        {
+            return dt.Month == 12
+                ? new DateTime(dt.Year + 1, 1, endDay)
+                : new DateTime(dt.Year, dt.Month, endDay);
+        }
+
+        return beginAt == 1
+            ? new DateTime(dt.Year, dt.Month, endDay)
+            : new DateTime(dt.Year, dt.Month + 1, endDay);
     }
 
 
-    private static DateTime MonthStart(int year, int month, int day)
+    /// <summary>
+    /// Internal helper
+    /// </summary>
+    /// <param name="dt"></param>
+    /// <param name="beginAt"></param>
+    /// <returns>return correct date if begin day is first day of month</returns>
+    private static int EndDay(DateTime dt, int beginAt)
     {
-        return new DateTime(year, month, day);
+        var endDay = beginAt - 1;
+        if (endDay != 0) return endDay;
+
+        endDay = dt.Month switch
+        {
+            1 or 3 or 5 or 7 or 8 or 10 or 12 => 31,
+            4 or 6 or 9 or 11 => 30,
+            2 => 28,
+            _ => endDay
+        };
+        if (dt.Month == 2 && DateTime.IsLeapYear(dt.Year))
+            endDay = 29;
+
+        return endDay;
     }
 
 
