@@ -69,6 +69,7 @@ public static class Mogrify
                 ? new DateTime(dt.Year -1, 12, beginAt)
                 : new DateTime(dt.Year, dt.Month - 1, beginAt);
         }
+        
         return new DateTime(dt.Year, dt.Month, beginAt);
     }
 
@@ -88,6 +89,14 @@ public static class Mogrify
             return dt.Month == 12
                 ? new DateTime(dt.Year + 1, 1, endDay)
                 : new DateTime(dt.Year, dt.Month, endDay);
+        }
+
+        if (dt.Month == 12)
+        {
+            return beginAt == 1
+                ? new DateTime(dt.Year, dt.Month, endDay)
+                : new DateTime(dt.Year + 1, 1, endDay);
+
         }
 
         return beginAt == 1
