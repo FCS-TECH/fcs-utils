@@ -69,7 +69,7 @@ public static class Mogrify
                 ? new DateTime(dt.Year -1, 12, beginAt)
                 : new DateTime(dt.Year, dt.Month - 1, beginAt);
         }
-        
+
         return new DateTime(dt.Year, dt.Month, beginAt);
     }
 
@@ -113,20 +113,17 @@ public static class Mogrify
     /// <returns>return correct date if begin day is first day of month</returns>
     private static int EndDay(DateTime dt, int beginAt)
     {
-        var endDay = beginAt - 1;
+        var endDay = dayNumber - 1;
         if (endDay != 0) return endDay;
-
-        endDay = dt.Month switch
+        if (DateTime.IsLeapYear(dt.Year) && dt.Month == 2)
+            return 29;
+        return dt.Month switch
         {
             1 or 3 or 5 or 7 or 8 or 10 or 12 => 31,
             4 or 6 or 9 or 11 => 30,
             2 => 28,
             _ => endDay
         };
-        if (dt.Month == 2 && DateTime.IsLeapYear(dt.Year))
-            endDay = 29;
-
-        return endDay;
     }
 
 
