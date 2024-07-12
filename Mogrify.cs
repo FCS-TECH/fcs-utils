@@ -43,17 +43,32 @@ namespace FCS.Lib.Utility;
 public static class Mogrify
 {
     /// <summary>
-    /// Virtual Month Timestamp from date and day number
+    /// Virtual Month Start Timestamp from date and day number
     /// </summary>
     /// <param name="date"></param>
     /// <param name="beginAt"></param>
     /// <returns>
-    /// returns a timestamp value for the beginning af the virtual month
+    /// returns a timestamp value for the beginning of the virtual month
     /// </returns>
-    public static long VirtualMonthToTimestamp(string date, int beginAt)
+    public static long VirtualMonthStartTimestamp(string date, int beginAt)
     {
         return DateTimeToTimeStamp(VirtualMonthStart(date, beginAt));
     }
+
+
+    /// <summary>
+    /// Virtual Month End Timestamp from date and day number
+    /// </summary>
+    /// <param name="date"></param>
+    /// <param name="beginAt"></param>
+    /// <returns>
+    /// returns a timestamp value for the en of the virtual month
+    /// </returns>
+    public static long VirtualMonthEndTimestamp(string date, int beginAt)
+    {
+        return DateTimeToTimeStamp(VirtualMonthEnd(date, beginAt));
+    }
+
 
     /// <summary>
     /// Virtual Month from date and day number
