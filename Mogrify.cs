@@ -31,7 +31,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -48,7 +47,9 @@ public static class Mogrify
     /// </summary>
     /// <param name="date"></param>
     /// <param name="beginAt"></param>
-    /// <returns></returns>
+    /// <returns>
+    /// returns a timestamp value for the beginning af the virtual month
+    /// </returns>
     public static long VirtualMonthToTimestamp(string date, int beginAt)
     {
         return DateTimeToTimeStamp(VirtualMonthStart(date, beginAt));
@@ -59,17 +60,26 @@ public static class Mogrify
     /// </summary>
     /// <param name="date"></param>
     /// <param name="beginAt"></param>
-    /// <returns></returns>
+    /// <returns>
+    /// a new datetime object as the beginning af the virtual month
+    /// </returns>
     public static DateTime VirtualMonthStart(string date, int beginAt)
     {
+        // create dateTime object from string
         var dt = DateTime.Parse(date);
+        // if the day number of the date parameter is less then beginAtDay
         if (dt.Day < beginAt)
         {
+            // if month number of the date parameter is 1
             return dt.Month == 1
+                // month virtual month started in december the preceding year
+                // return a new datetime object
                 ? new DateTime(dt.Year -1, 12, beginAt)
+                // otherwise the month started in the preceding month
+                // return a new datetime object
                 : new DateTime(dt.Year, dt.Month - 1, beginAt);
         }
-
+        // return a new dateTime object from 
         return new DateTime(dt.Year, dt.Month, beginAt);
     }
 
@@ -79,7 +89,9 @@ public static class Mogrify
     /// </summary>
     /// <param name="date"></param>
     /// <param name="beginAt"></param>
-    /// <returns></returns>
+    /// <returns>
+    /// returns a new datetime object as the end of the virtual month
+    /// </returns>
     public static DateTime VirtualMonthEnd(string date, int beginAt)
     {
         var dt = DateTime.Parse(date);
@@ -110,7 +122,7 @@ public static class Mogrify
     /// </summary>
     /// <param name="dt"></param>
     /// <param name="beginAt"></param>
-    /// <returns>return correct date if begin day is first day of month</returns>
+    /// <returns>return the number of the day if begin day is first day of month</returns>
     private static int EndDay(DateTime dt, int beginAt)
     {
         var endDay = beginAt - 1;
@@ -131,7 +143,7 @@ public static class Mogrify
     ///     Sanitize phone number string - remove countrycode and alpha characters
     /// </summary>
     /// <param name="phone"></param>
-    /// <returns></returns>
+    /// <returns>returns a string with unneeded chars removed</returns>
     public static string SanitizePhone(string phone)
     {
         if (string.IsNullOrWhiteSpace(phone))
