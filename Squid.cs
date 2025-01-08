@@ -1,42 +1,41 @@
-﻿// ***********************************************************************
-// Assembly         : FCS.Lib.Utility
-// Filename         : Squid.cs
-// Author           : Frede Hundewadt
-// Created          : 2024 03 29 12:36
-// 
-// Last Modified By : root
-// Last Modified On : 2024 04 11 13:03
-// ***********************************************************************
-// <copyright company="FCS">
-//     Copyright (C) 2024-2024 FCS Frede's Computer Service.
-//     This program is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU Affero General Public License as
-//     published by the Free Software Foundation, either version 3 of the
-//     License, or (at your option) any later version.
-// 
-//     This program is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU Affero General Public License for more details.
-// 
-//     You should have received a copy of the GNU Affero General Public License
-//     along with this program.  If not, see [https://www.gnu.org/licenses]
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
+﻿// // ***********************************************************************
+// // Solution         : Inno.Api.v2
+// // Assembly         : FCS.Lib.Utility
+// // Filename         : Squid.cs
+// // Created          : 2025-01-03 14:01
+// // Last Modified By : dev
+// // Last Modified On : 2025-01-04 12:01
+// // ***********************************************************************
+// // <copyright company="Frede Hundewadt">
+// //     Copyright (C) 2010-2025 Frede Hundewadt
+// //     This program is free software: you can redistribute it and/or modify
+// //     it under the terms of the GNU Affero General Public License as
+// //     published by the Free Software Foundation, either version 3 of the
+// //     License, or (at your option) any later version.
+// //
+// //     This program is distributed in the hope that it will be useful,
+// //     but WITHOUT ANY WARRANTY; without even the implied warranty of
+// //     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// //     GNU Affero General Public License for more details.
+// //
+// //     You should have received a copy of the GNU Affero General Public License
+// //     along with this program.  If not, see [https://www.gnu.org/licenses]
+// // </copyright>
+// // <summary></summary>
+// // ***********************************************************************
 
 using System;
 using System.Diagnostics;
 
-
 namespace FCS.Lib.Utility;
 
 /// <summary>
-///     A wrapper for handling URL-safe Base64 encoded globally unique identifiers (GUID).
+///     Represents a globally unique identifier (GUID) encoded in a custom format.
 /// </summary>
 /// <remarks>
-///     Special characters are replaced (/, +) or removed (==).
-///     Derived from https:github.com/csharpvitamins/CSharpVitamins.ShortGuid
+///     The <see cref="FCS.Lib.Utility.Squid" /> struct provides functionality for encoding and decoding GUIDs
+///     into a custom string format, as well as creating new GUIDs and performing various operations
+///     such as equality checks and conversions.
 /// </remarks>
 [DebuggerDisplay("{" + nameof(Value) + "}")]
 public readonly struct Squid : IEquatable<Squid>
@@ -288,6 +287,7 @@ public readonly struct Squid : IEquatable<Squid>
 
 
     #region Operators
+
     /// <summary>
     ///     Determines if both Squid objects have the same
     ///     underlying <see cref="System.Guid" /> value.
@@ -413,5 +413,6 @@ public readonly struct Squid : IEquatable<Squid>
     {
         return oGuid == Guid.Empty ? Empty : new Squid(oGuid);
     }
+
     #endregion
 }

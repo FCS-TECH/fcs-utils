@@ -1,44 +1,41 @@
 ﻿// ***********************************************************************
-// Assembly         : FCS.Lib.Utility
-// Filename         : GuidGenerator.cs
-// Author           : Frede Hundewadt
-// Created          : 2024 03 29 12:36
+//  Solution         : Inno.Api.v2
+//  Assembly         : FCS.Lib.Utility
+//  Filename         : GuidGenerator.cs
+//  Created          : 2025-01-03 14:01
+//  Last Modified By : dev
+//  Last Modified On : 2025-01-08 13:01
+//  ***********************************************************************
+//  <copyright company="Frede Hundewadt">
+//      Copyright (C) 2010-2025 Frede Hundewadt
+//      This program is free software: you can redistribute it and/or modify
+//      it under the terms of the GNU Affero General Public License as
+//      published by the Free Software Foundation, either version 3 of the
+//      License, or (at your option) any later version.
 // 
-// Last Modified By : root
-// Last Modified On : 2024 04 11 13:03
-// ***********************************************************************
-// <copyright company="FCS">
-//     Copyright (C) 2024-2024 FCS Frede's Computer Service.
-//     This program is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU Affero General Public License as
-//     published by the Free Software Foundation, either version 3 of the
-//     License, or (at your option) any later version.
+//      This program is distributed in the hope that it will be useful,
+//      but WITHOUT ANY WARRANTY; without even the implied warranty of
+//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//      GNU Affero General Public License for more details.
 // 
-//     This program is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU Affero General Public License for more details.
-// 
-//     You should have received a copy of the GNU Affero General Public License
-//     along with this program.  If not, see [https://www.gnu.org/licenses]
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
+//      You should have received a copy of the GNU Affero General Public License
+//      along with this program.  If not, see [https://www.gnu.org/licenses]
+//  </copyright>
+//  <summary></summary>
+//  ***********************************************************************
 
 using System;
 using System.Text;
 
-
 namespace FCS.Lib.Utility;
 
 /// <summary>
-///     Used for generating UUID based on RFC 4122.
+///     Provides utility methods for generating and manipulating GUIDs, including time-based GUIDs.
 /// </summary>
-/// <seealso href="http://www.ietf.org/rfc/rfc4122.txt">RFC 4122 - A Universally Unique IDentifier (UUID) URN Namespace</seealso>
 public static class GuidGenerator
 {
     /// <summary>
-    ///     number of bytes in guid
+    ///     byte array size
     /// </summary>
     public const int ByteArraySize = 16;
 
@@ -142,6 +139,7 @@ public static class GuidGenerator
 
         // reverse the version
         bytes[VersionByte] &= VersionByteMask;
+        // ReSharper disable once ShiftExpressionResultEqualsZero
         bytes[VersionByte] |= (byte)GuidVersion.TimeBased >> VersionByteShift;
 
         var timestampBytes = new byte[8];

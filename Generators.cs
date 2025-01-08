@@ -1,47 +1,45 @@
-﻿// ***********************************************************************
-// Assembly         : FCS.Lib.Utility
-// Filename         : Generators.cs
-// Author           : Frede Hundewadt
-// Created          : 2024 03 29 12:36
-// 
-// Last Modified By : root
-// Last Modified On : 2024 04 11 13:03
-// ***********************************************************************
-// <copyright company="FCS">
-//     Copyright (C) 2024-2024 FCS Frede's Computer Service.
-//     This program is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU Affero General Public License as
-//     published by the Free Software Foundation, either version 3 of the
-//     License, or (at your option) any later version.
-// 
-//     This program is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU Affero General Public License for more details.
-// 
-//     You should have received a copy of the GNU Affero General Public License
-//     along with this program.  If not, see [https://www.gnu.org/licenses]
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
+﻿// // ***********************************************************************
+// // Solution         : Inno.Api.v2
+// // Assembly         : FCS.Lib.Utility
+// // Filename         : Generators.cs
+// // Created          : 2025-01-03 14:01
+// // Last Modified By : dev
+// // Last Modified On : 2025-01-04 11:01
+// // ***********************************************************************
+// // <copyright company="Frede Hundewadt">
+// //     Copyright (C) 2010-2025 Frede Hundewadt
+// //     This program is free software: you can redistribute it and/or modify
+// //     it under the terms of the GNU Affero General Public License as
+// //     published by the Free Software Foundation, either version 3 of the
+// //     License, or (at your option) any later version.
+// //
+// //     This program is distributed in the hope that it will be useful,
+// //     but WITHOUT ANY WARRANTY; without even the implied warranty of
+// //     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// //     GNU Affero General Public License for more details.
+// //
+// //     You should have received a copy of the GNU Affero General Public License
+// //     along with this program.  If not, see [https://www.gnu.org/licenses]
+// // </copyright>
+// // <summary></summary>
+// // ***********************************************************************
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 
-
 namespace FCS.Lib.Utility;
 
 /// <summary>
-///     Generators
+///     Provides utility methods for generating various types of random strings, numbers, and other data.
 /// </summary>
 public static class Generators
 {
     /// <summary>
-    ///     Generate 6 character shortUrl
+    ///     Generates a short URL string with a default length of 8 characters.
     /// </summary>
-    /// <returns><see cref="string" /> of 8 characters</returns>
+    /// <returns>A randomly generated short URL string.</returns>
     public static string ShortUrlGenerator()
     {
         return ShortUrlGenerator(8);
@@ -49,15 +47,12 @@ public static class Generators
 
 
     /// <summary>
-    ///     Generate shortUrl with length
     /// </summary>
-    /// <param name="length">The length.</param>
-    /// <returns>
-    ///     <see cref="string" />
-    /// </returns>
-    /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
+    /// <param name="length"></param>
+    /// <returns></returns>
     public static string ShortUrlGenerator(int length)
     {
+        // <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
         const string charsLower = "abcdefghijklmnopqrstuvwxyz";
         const string charsUpper = "ABCDFEGHJKLMNPQRSTUVWXYZ";
         const string charsNumeric = "123456789";
@@ -171,13 +166,14 @@ public static class Generators
 
 
     /// <summary>
-    ///     Username generator
+    ///     Generates a username based on the specified options or default settings.
     /// </summary>
-    /// <param name="options">The options.</param>
-    /// <returns>
-    ///     <see cref="string" />
-    /// </returns>
-    /// <seealso cref="StringOptions" />
+    /// <param name="options">
+    ///     An instance of <see cref="StringOptions" /> specifying the rules for generating the username.
+    ///     If <c>null</c>, default options will be used, requiring a length of 16 characters,
+    ///     at least one digit, one lowercase letter, one uppercase letter, and four unique characters.
+    /// </param>
+    /// <returns>A randomly generated username string that adheres to the specified or default options.</returns>
     public static string GenerateUsername(StringOptions options = null)
     {
         options ??= new StringOptions
@@ -195,13 +191,24 @@ public static class Generators
 
 
     /// <summary>
-    ///     Password generator
+    ///     Generates a random password based on the specified options or default settings.
     /// </summary>
-    /// <param name="options">The options.</param>
+    /// <param name="options">
+    ///     An instance of <see cref="StringOptions" /> that specifies the password requirements.
+    ///     If <c>null</c>, default options will be used, which include:
+    ///     <list type="bullet">
+    ///         <item>RequiredLength: 16</item>
+    ///         <item>RequireDigit: true</item>
+    ///         <item>RequireLowercase: true</item>
+    ///         <item>RequireUppercase: true</item>
+    ///         <item>RequiredUniqueChars: 8</item>
+    ///         <item>RequireNonLetterOrDigit: false</item>
+    ///         <item>RequireNonAlphanumeric: false</item>
+    ///     </list>
+    /// </param>
     /// <returns>
-    ///     <see cref="string" />
+    ///     A randomly generated password that satisfies the provided or default requirements.
     /// </returns>
-    /// <seealso cref="StringOptions" />
     public static string GeneratePassword(StringOptions options = null)
     {
         options ??= new StringOptions
@@ -219,12 +226,10 @@ public static class Generators
 
 
     /// <summary>
-    ///     Random string generator with length
+    ///     Generates a random text string of the specified length, alternating between consonants and vowels.
     /// </summary>
-    /// <param name="length">The length.</param>
-    /// <returns>
-    ///     <see cref="string" />
-    /// </returns>
+    /// <param name="length">The desired length of the generated text.</param>
+    /// <returns>A randomly generated string of the specified length.</returns>
     public static string GenerateRandomText(int length)
     {
         const string consonants = "bcdfghjklmnprstvxzBDFGHJKLMNPRSTVXZ";
@@ -243,7 +248,11 @@ public static class Generators
         return rndString;
     }
 
-
+    /// <summary>
+    ///     Generates a random number of the specified length using cryptographic randomness.
+    /// </summary>
+    /// <param name="length">The length of the random number to generate.</param>
+    /// <returns>A random integer of the specified length.</returns>
     public static int GenerateRandomNumber(int length)
     {
         const string digits = "123456789";
@@ -255,12 +264,19 @@ public static class Generators
 
 
     /// <summary>
-    ///     Random string generator - string options
+    ///     Generates a random string based on the specified options.
     /// </summary>
-    /// <param name="options">The options.</param>
+    /// <param name="options">
+    ///     The <see cref="StringOptions" /> object that specifies the requirements for the generated string.
+    ///     If not provided, default options will be used.
+    /// </param>
     /// <returns>
-    ///     <see cref="string" />
+    ///     A randomly generated string that meets the specified criteria.
     /// </returns>
+    /// <remarks>
+    ///     The generated string can include uppercase letters, lowercase letters, digits, and non-alphanumeric characters,
+    ///     depending on the provided options.
+    /// </remarks>
     public static string GenerateRandomString(StringOptions options = null)
     {
         options ??= new StringOptions
@@ -314,15 +330,18 @@ public static class Generators
         return new string(chars.ToArray());
     }
 
-
     /// <summary>
-    ///     Randomize random using RNGCrypto
+    ///     Generates a new instance of <see cref="System.Random" /> seeded with a cryptographically secure random value.
     /// </summary>
+    /// <remarks>
+    ///     This method uses <see cref="System.Security.Cryptography.RNGCryptoServiceProvider" /> to generate a secure seed
+    ///     value,
+    ///     ensuring that the resulting random number generator produces less predictable sequences compared to the default
+    ///     implementation.
+    /// </remarks>
     /// <returns>
-    ///     <see cref="Random" />
+    ///     A new instance of <see cref="System.Random" /> seeded with a cryptographically secure random value.
     /// </returns>
-    /// <remarks>derived from https://sourceforge.net/projects/shorturl-dotnet/</remarks>
-    /// <seealso cref="RNGCryptoServiceProvider" />
     public static Random RandomFromRngCrypto()
     {
         // As the default Random is based on the current time

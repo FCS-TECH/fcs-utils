@@ -1,29 +1,28 @@
-// ***********************************************************************
-// Assembly         : FCS.Lib.Utility
-// Filename         : Mogrify.cs
-// Author           : Frede Hundewadt
-// Created          : 2024 03 29 12:36
-// 
-// Last Modified By : root
-// Last Modified On : 2024 04 11 13:03
-// ***********************************************************************
-// <copyright company="FCS">
-//     Copyright (C) 2024-2024 FCS Frede's Computer Service.
-//     This program is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU Affero General Public License as
-//     published by the Free Software Foundation, either version 3 of the
-//     License, or (at your option) any later version.
-// 
-//     This program is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU Affero General Public License for more details.
-// 
-//     You should have received a copy of the GNU Affero General Public License
-//     along with this program.  If not, see [https://www.gnu.org/licenses]
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
+// // ***********************************************************************
+// // Solution         : Inno.Api.v2
+// // Assembly         : FCS.Lib.Utility
+// // Filename         : Mogrify.cs
+// // Created          : 2025-01-03 14:01
+// // Last Modified By : dev
+// // Last Modified On : 2025-01-04 12:01
+// // ***********************************************************************
+// // <copyright company="Frede Hundewadt">
+// //     Copyright (C) 2010-2025 Frede Hundewadt
+// //     This program is free software: you can redistribute it and/or modify
+// //     it under the terms of the GNU Affero General Public License as
+// //     published by the Free Software Foundation, either version 3 of the
+// //     License, or (at your option) any later version.
+// //
+// //     This program is distributed in the hope that it will be useful,
+// //     but WITHOUT ANY WARRANTY; without even the implied warranty of
+// //     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// //     GNU Affero General Public License for more details.
+// //
+// //     You should have received a copy of the GNU Affero General Public License
+// //     along with this program.  If not, see [https://www.gnu.org/licenses]
+// // </copyright>
+// // <summary></summary>
+// // ***********************************************************************
 
 using System;
 using System.Collections;
@@ -34,22 +33,24 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-
 namespace FCS.Lib.Utility;
 
 /// <summary>
-///     Mogrify between units
+///     Provides a collection of utility methods for various data transformations and operations.
 /// </summary>
+/// <remarks>
+///     This static class includes methods for handling date and time conversions,
+///     string manipulations, enumeration conversions, and other general-purpose utilities.
+///     It is designed to simplify common operations and ensure consistency across the application.
+/// </remarks>
 public static class Mogrify
 {
     /// <summary>
-    /// Virtual Month Start Timestamp from date and day number
+    ///     Calculates the Unix timestamp for the start of a virtual month based on the provided date and starting day.
     /// </summary>
-    /// <param name="date"></param>
-    /// <param name="beginAt"></param>
-    /// <returns>
-    /// returns a timestamp value for the beginning of the virtual month
-    /// </returns>
+    /// <param name="date">The date in string format (e.g., "yyyy-MM-dd") to calculate the virtual month's start.</param>
+    /// <param name="beginAt">The day of the month that marks the beginning of the virtual month (e.g., 1 for the 1st day).</param>
+    /// <returns>The Unix timestamp representing the start of the virtual month.</returns>
     public static long VirtualMonthStartTimestamp(string date, int beginAt)
     {
         return DateTimeToTimeStamp(VirtualMonthStart(date, beginAt));
@@ -57,13 +58,12 @@ public static class Mogrify
 
 
     /// <summary>
-    /// Virtual Month End Timestamp from date and day number
+    ///     Calculates the Unix timestamp for the virtual end of a month based on the provided date and the specified starting
+    ///     day of the month.
     /// </summary>
-    /// <param name="date"></param>
-    /// <param name="beginAt"></param>
-    /// <returns>
-    /// returns a timestamp value for the en of the virtual month
-    /// </returns>
+    /// <param name="date">The date in string format (e.g., ISO 8601) used to determine the virtual month's end.</param>
+    /// <param name="beginAt">The day of the month that marks the start of the virtual month (e.g., 1 for the 1st day).</param>
+    /// <returns>The Unix timestamp representing the virtual month's end.</returns>
     public static long VirtualMonthEndTimestamp(string date, int beginAt)
     {
         return DateTimeToTimeStamp(VirtualMonthEnd(date, beginAt));
@@ -71,60 +71,49 @@ public static class Mogrify
 
 
     /// <summary>
-    /// Virtual Month from date and day number
+    ///     Calculates the start date of a virtual month based on the given date and the specified starting day of the month.
     /// </summary>
-    /// <param name="date"></param>
-    /// <param name="beginAt"></param>
-    /// <returns>
-    /// a new datetime object as the beginning af the virtual month
-    /// </returns>
+    /// <param name="date">The date in string format to determine the virtual month's start date.</param>
+    /// <param name="beginAt">The day of the month that marks the start of the virtual month.</param>
+    /// <returns>A <see cref="DateTime" /> representing the start date of the virtual month.</returns>
+    /// <exception cref="FormatException">Thrown when the <paramref name="date" /> is not in a valid date format.</exception>
     public static DateTime VirtualMonthStart(string date, int beginAt)
     {
         // create dateTime object from string
         var dt = DateTime.Parse(date);
         // if the day number of the date parameter is less then beginAtDay
         if (dt.Day < beginAt)
-        {
             // if month number of the date parameter is 1
             return dt.Month == 1
                 // month virtual month started in december the preceding year
                 // return a new datetime object
-                ? new DateTime(dt.Year -1, 12, beginAt)
+                ? new DateTime(dt.Year - 1, 12, beginAt)
                 // otherwise the month started in the preceding month
                 // return a new datetime object
                 : new DateTime(dt.Year, dt.Month - 1, beginAt);
-        }
         // return a new dateTime object from 
         return new DateTime(dt.Year, dt.Month, beginAt);
     }
 
-
     /// <summary>
-    /// Virtual Month end from date and day number
+    ///     Calculates the virtual month-end date based on the provided date and the starting day of the virtual month.
     /// </summary>
-    /// <param name="date"></param>
-    /// <param name="beginAt"></param>
-    /// <returns>
-    /// returns a new datetime object as the end of the virtual month
-    /// </returns>
+    /// <param name="date">The date in string format to calculate the virtual month-end for.</param>
+    /// <param name="beginAt">The starting day of the virtual month.</param>
+    /// <returns>A <see cref="DateTime" /> representing the virtual month-end date.</returns>
     public static DateTime VirtualMonthEnd(string date, int beginAt)
     {
         var dt = DateTime.Parse(date);
         var endDay = EndDay(dt, beginAt);
         if (dt.Day < beginAt)
-        {
             return dt.Month == 12
                 ? new DateTime(dt.Year + 1, 1, endDay)
                 : new DateTime(dt.Year, dt.Month, endDay);
-        }
 
         if (dt.Month == 12)
-        {
             return beginAt == 1
                 ? new DateTime(dt.Year, dt.Month, endDay)
                 : new DateTime(dt.Year + 1, 1, endDay);
-
-        }
 
         return beginAt == 1
             ? new DateTime(dt.Year, dt.Month, endDay)
@@ -133,11 +122,10 @@ public static class Mogrify
 
 
     /// <summary>
-    /// Internal helper
     /// </summary>
     /// <param name="dt"></param>
     /// <param name="beginAt"></param>
-    /// <returns>return the number of the day if begin day is first day of month</returns>
+    /// <returns></returns>
     private static int EndDay(DateTime dt, int beginAt)
     {
         var endDay = beginAt - 1;
@@ -155,10 +143,13 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     Sanitize phone number string - remove countrycode and alpha characters
+    ///     Sanitizes the provided phone number by removing specific country codes and non-numeric characters.
     /// </summary>
-    /// <param name="phone"></param>
-    /// <returns>returns a string with unneeded chars removed</returns>
+    /// <param name="phone">The phone number to sanitize.</param>
+    /// <returns>
+    ///     A sanitized phone number containing only numeric characters.
+    ///     Returns an empty string if the input is null, empty, or consists solely of whitespace.
+    /// </returns>
     public static string SanitizePhone(string phone)
     {
         if (string.IsNullOrWhiteSpace(phone))
@@ -170,10 +161,13 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     Sanitize zipcode string - alpha characters
+    ///     Sanitizes the provided zip code by removing all non-numeric characters.
     /// </summary>
-    /// <param name="zipCode"></param>
-    /// <returns></returns>
+    /// <param name="zipCode">The zip code to sanitize.</param>
+    /// <returns>
+    ///     A sanitized zip code containing only numeric characters. Returns an empty string if the input is null, empty,
+    ///     or consists only of whitespace.
+    /// </returns>
     public static string SanitizeZipCode(string zipCode)
     {
         if (string.IsNullOrWhiteSpace(zipCode))
@@ -184,22 +178,23 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     Get month from timestamp
+    ///     Extracts the month component from a given Unix timestamp.
     /// </summary>
-    /// <param name="timeStamp"></param>
-    /// <returns>integer</returns>
+    /// <param name="timeStamp">The Unix timestamp to extract the month from.</param>
+    /// <returns>An integer representing the month (1 for January, 2 for February, etc.).</returns>
     public static int MonthFromTimestamp(long timeStamp)
     {
         return TimeStampToDateTime(timeStamp).Month;
     }
 
-
     /// <summary>
-    ///     validate if timestamp occurs in month
+    ///     Determines whether the specified Unix timestamp falls within the specified month.
     /// </summary>
-    /// <param name="timestamp"></param>
-    /// <param name="month"></param>
-    /// <returns>boolean</returns>
+    /// <param name="timestamp">The Unix timestamp to evaluate.</param>
+    /// <param name="month">The month to check against, represented as an integer (1 for January, 2 for February, etc.).</param>
+    /// <returns>
+    ///     <c>true</c> if the timestamp corresponds to the specified month; otherwise, <c>false</c>.
+    /// </returns>
     public static bool TimestampInMonth(long timestamp, int month)
     {
         return TimeStampToDateTime(timestamp).Month == month;
@@ -207,10 +202,26 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     Get timestamp range for given datetime
+    ///     Converts a given <see cref="DateTime" /> to a range of Unix timestamps representing the start and end of the day.
     /// </summary>
-    /// <param name="dateTime"></param>
-    /// <returns>dictionary</returns>
+    /// <param name="dateTime">The <see cref="DateTime" /> to be converted.</param>
+    /// <returns>
+    ///     A <see cref="Dictionary{TKey, TValue}" /> containing two key-value pairs:
+    ///     <list type="bullet">
+    ///         <item>
+    ///             <term>"lower"</term>
+    ///             <description>The Unix timestamp for the start of the day (00:00:00).</description>
+    ///         </item>
+    ///         <item>
+    ///             <term>"upper"</term>
+    ///             <description>The Unix timestamp for the end of the day (23:59:59).</description>
+    ///         </item>
+    ///     </list>
+    /// </returns>
+    /// <remarks>
+    ///     This method is useful for generating a timestamp range for a specific day,
+    ///     which can be used in filtering or querying operations.
+    /// </remarks>
     public static Dictionary<string, long> DateToTimestampRange(DateTime dateTime)
     {
         var dt1 = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
@@ -224,10 +235,10 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     return iso8601 string from timestamp
+    ///     Converts a Unix timestamp to an ISO 8601 formatted string.
     /// </summary>
-    /// <param name="timestamp"></param>
-    /// <returns></returns>
+    /// <param name="timestamp">The Unix timestamp to convert.</param>
+    /// <returns>An ISO 8601 formatted string representing the given timestamp.</returns>
     public static string TimestampToIso8601(long timestamp)
     {
         return DateTimeIso8601(TimeStampToDateTime(timestamp));
@@ -235,20 +246,23 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     return date as ISO 2000-01-01T00:00:00.0000000
+    ///     Converts the specified <see cref="DateTime" /> to an ISO 8601 formatted string.
     /// </summary>
-    /// <param name="date"></param>
-    /// <returns></returns>
+    /// <param name="date">The <see cref="DateTime" /> to be converted.</param>
+    /// <returns>A string representation of the <paramref name="date" /> in ISO 8601 format.</returns>
     public static string DateTimeIso8601(DateTime date)
     {
         return date.ToString("o", CultureInfo.InvariantCulture);
     }
 
     /// <summary>
-    ///     ISO date 2000-01-01 to timestamp
+    ///     Converts an ISO 8601 formatted date string to a Unix timestamp.
     /// </summary>
-    /// <param name="isoDateString"></param>
-    /// <returns>long</returns>
+    /// <param name="isoDateString">The ISO 8601 formatted date string to convert.</param>
+    /// <returns>
+    ///     The Unix timestamp representing the specified date, or 0 if the input string is invalid
+    ///     or does not match the ISO 8601 format.
+    /// </returns>
     public static long IsoDateToTimestamp(string isoDateString)
     {
         var result = DateTime.TryParse(isoDateString, out var test);
@@ -259,21 +273,20 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     ISO date from timestamp 2000-01-01
+    ///     Converts a Unix timestamp to an ISO 8601 date string in the format "yyyy-MM-dd".
     /// </summary>
-    /// <param name="timestamp"></param>
-    /// <returns>string yyyy-MM-dd</returns>
+    /// <param name="timestamp">The Unix timestamp to convert.</param>
+    /// <returns>A string representing the ISO 8601 date.</returns>
     public static string TimestampToIsoDate(long timestamp)
     {
         return $"{TimeStampToDateTime(timestamp):yyyy-MM-dd}";
     }
 
-
     /// <summary>
-    ///     get timestamp from current date time
+    ///     Converts the current date and time to a Unix timestamp.
     /// </summary>
     /// <returns>
-    ///     <see cref="long" />
+    ///     A <see cref="long" /> representing the current date and time as a Unix timestamp.
     /// </returns>
     public static long CurrentDateTimeToTimeStamp()
     {
@@ -282,11 +295,12 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get timestamp from date time
+    ///     Converts a <see cref="DateTime" /> object to a Unix timestamp.
     /// </summary>
-    /// <param name="dateTime"></param>
+    /// <param name="dateTime">The <see cref="DateTime" /> to convert.</param>
     /// <returns>
-    ///     <see cref="long" />
+    ///     A <see cref="long" /> representing the Unix timestamp, which is the number of seconds
+    ///     that have elapsed since January 1, 1970 (UTC).
     /// </returns>
     public static long DateTimeToTimeStamp(DateTime dateTime)
     {
@@ -302,12 +316,10 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get date time from timestamp
+    ///     Converts a Unix timestamp to a <see cref="DateTime" /> object.
     /// </summary>
-    /// <param name="timeStamp"></param>
-    /// <returns>
-    ///     <see cref="DateTime" />
-    /// </returns>
+    /// <param name="timeStamp">The Unix timestamp to convert, representing the number of seconds since January 1, 1970 (UTC).</param>
+    /// <returns>A <see cref="DateTime" /> object representing the specified timestamp in UTC.</returns>
     public static DateTime TimeStampToDateTime(long timeStamp)
     {
         var nixDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
@@ -316,25 +328,20 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get seconds from timespan
+    ///     Converts a <see cref="TimeSpan" /> to its equivalent total number of seconds.
     /// </summary>
-    /// <param name="timespan"></param>
-    /// <returns>
-    ///     <see cref="long" />
-    /// </returns>
+    /// <param name="timespan">The <see cref="TimeSpan" /> to convert.</param>
+    /// <returns>The total number of seconds represented by the <paramref name="timespan" />.</returns>
     public static long TimeSpanToSeconds(TimeSpan timespan)
     {
         return Convert.ToUInt32(timespan.Ticks / 10000000L);
     }
 
-
     /// <summary>
-    ///     get timespan from seconds
+    ///     Converts a given number of seconds into a <see cref="TimeSpan" /> object.
     /// </summary>
-    /// <param name="seconds"></param>
-    /// <returns>
-    ///     <see cref="TimeSpan" />
-    /// </returns>
+    /// <param name="seconds">The number of seconds to convert.</param>
+    /// <returns>A <see cref="TimeSpan" /> representing the specified number of seconds.</returns>
     public static TimeSpan SecondsToTimeSpan(long seconds)
     {
         return TimeSpan.FromTicks(10000000L * seconds);
@@ -342,23 +349,23 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get minutes from timespan
+    ///     Converts a given <see cref="TimeSpan" /> to its equivalent total number of minutes.
     /// </summary>
-    /// <param name="timespan"></param>
-    /// <returns>
-    ///     <see cref="long" />
-    /// </returns>
+    /// <param name="timespan">The <see cref="TimeSpan" /> to be converted.</param>
+    /// <returns>The total number of minutes represented by the <paramref name="timespan" />.</returns>
     public static long TimespanToMinutes(TimeSpan timespan)
     {
         return Convert.ToUInt32(timespan.Ticks / 10000000L) / 60;
     }
 
-
     /// <summary>
-    ///     reverse boolean
+    ///     Reverses the given boolean value.
     /// </summary>
-    /// <param name="value"></param>
-    /// <returns>bool</returns>
+    /// <param name="value">The boolean value to be reversed.</param>
+    /// <returns>
+    ///     <c>true</c> if <paramref name="value" /> is <c>false</c>;
+    ///     otherwise, <c>false</c> if <paramref name="value" /> is <c>true</c>.
+    /// </returns>
     public static bool BoolReverse(bool value)
     {
         return !value;
@@ -366,10 +373,10 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     number from bool
+    ///     Converts a boolean value to its integer representation.
     /// </summary>
-    /// <param name="value"></param>
-    /// <returns>integer</returns>
+    /// <param name="value">The boolean value to convert.</param>
+    /// <returns>Returns 1 if <paramref name="value" /> is <c>true</c>, otherwise returns 0.</returns>
     public static int BoolToInt(bool value)
     {
         return value ? 1 : 0;
@@ -377,10 +384,13 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     string from bool
+    ///     Converts a boolean value to its string representation.
     /// </summary>
-    /// <param name="value"></param>
-    /// <returns>string true/false</returns>
+    /// <param name="value">The boolean value to convert.</param>
+    /// <returns>
+    ///     A string representation of the boolean value: "true" if the value is <c>true</c>,
+    ///     or "false" if the value is <c>false</c>.
+    /// </returns>
     public static string BoolToString(bool value)
     {
         return value ? "true" : "false";
@@ -388,7 +398,6 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get bool from integer
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -399,21 +408,27 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get the number value from enum
+    ///     Converts an enumeration value to its equivalent integer representation.
     /// </summary>
-    /// <param name="enumeration"></param>
-    /// <returns>int</returns>
+    /// <param name="enumeration">The enumeration value to be converted. Must be a valid enumeration type.</param>
+    /// <returns>The integer representation of the specified enumeration value.</returns>
+    /// <exception cref="InvalidCastException">
+    ///     Thrown if the provided <paramref name="enumeration" /> is not a valid enumeration type.
+    /// </exception>
+    /// <remarks>
+    ///     This method uses <see cref="Convert.ToInt32(object, IFormatProvider)" /> to perform the conversion.
+    ///     Ensure that the input is a valid enumeration value to avoid runtime exceptions.
+    /// </remarks>
     public static int EnumToInt(object enumeration)
     {
         return Convert.ToInt32(enumeration, CultureInfo.InvariantCulture);
     }
 
-
     /// <summary>
-    ///     get string from enum
+    ///     Converts the specified enumeration value to its string representation.
     /// </summary>
-    /// <param name="value"></param>
-    /// <returns>string - name of the enum</returns>
+    /// <param name="value">The enumeration value to convert. If <c>null</c>, an empty string is returned.</param>
+    /// <returns>The string representation of the enumeration value, or an empty string if the value is <c>null</c>.</returns>
     public static string EnumToString(Enum value)
     {
         return value == null ? string.Empty : value.ToString();
@@ -421,10 +436,17 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get list of enum of type T
+    ///     Retrieves a collection of all values of a specified enumeration type.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns>list of enum</returns>
+    /// <typeparam name="T">
+    ///     The enumeration type whose values are to be retrieved. This type parameter must be an enumeration.
+    /// </typeparam>
+    /// <returns>
+    ///     An <see cref="IEnumerable{T}" /> containing all values of the specified enumeration type.
+    /// </returns>
+    /// <exception cref="ArgumentException">
+    ///     Thrown if <typeparamref name="T" /> is not an enumeration type.
+    /// </exception>
     public static IEnumerable<T> GetEnumList<T>()
     {
         return (T[])Enum.GetValues(typeof(T));
@@ -432,11 +454,14 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get enum from integer of type T
+    ///     Converts an integer value to its corresponding enumeration value of type <typeparamref name="T" />.
     /// </summary>
-    /// <param name="value"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
+    /// <typeparam name="T">The enumeration type to which the integer value will be converted.</typeparam>
+    /// <param name="value">The integer value to be converted to the enumeration.</param>
+    /// <returns>The enumeration value of type <typeparamref name="T" /> that corresponds to the provided integer value.</returns>
+    /// <exception cref="ArgumentException">
+    ///     Thrown if <typeparamref name="T" /> is not an enumeration type.
+    /// </exception>
     public static T IntToEnum<T>(int value)
     {
         return (T)Enum.ToObject(typeof(T), value);
@@ -444,25 +469,31 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get string from list using semicolon separator
+    ///     Converts a list of elements into a single string, with elements separated by a default delimiter.
     /// </summary>
-    /// <param name="list"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    /// <param name="list">The list of elements to be converted into a string.</param>
+    /// <returns>
+    ///     A string representation of the list, where each element is separated by a semicolon (";").
+    ///     If the list is <c>null</c>, an empty string is returned.
+    /// </returns>
     public static string ListToString<T>(List<T> list)
     {
         return ListToString(list, ";");
     }
 
-
     /// <summary>
-    ///     get string from list using delimiter
+    ///     Converts a list of elements to a single string, with elements separated by a specified delimiter.
     /// </summary>
-    /// <param name="list"></param>
-    /// <param name="delimiter"></param>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    /// <param name="list">
+    ///     The list of elements to convert to a string. If the list is <c>null</c>, an empty string is
+    ///     returned.
+    /// </param>
+    /// <param name="delimiter">The string used to separate the elements in the resulting string.</param>
     /// <returns>
-    ///     <see cref="string" />
+    ///     A string representation of the list, with elements separated by the specified delimiter.
+    ///     If the list is empty or <c>null</c>, an empty string is returned.
     /// </returns>
     public static string ListToString<T>(List<T> list, string delimiter)
     {
@@ -478,12 +509,10 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get lowercase dash separated string from Pascal case
+    ///     Converts a PascalCase string to a lowercase string with words separated by hyphens.
     /// </summary>
-    /// <param name="value"></param>
-    /// <returns>
-    ///     <see cref="string" />
-    /// </returns>
+    /// <param name="value">The PascalCase string to be converted.</param>
+    /// <returns>A lowercase string with words separated by hyphens.</returns>
     public static string PascalToLower(string value)
     {
         var result = string.Join("-", Regex.Split(value, @"(?<!^)(?=[A-Z])").ToArray());
@@ -492,11 +521,14 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get bool from string
+    ///     Converts a string representation of a boolean value to its <see cref="bool" /> equivalent.
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="value">
+    ///     The string to convert. Accepted values are "true", "false", "1", or "0",
+    ///     in a case-insensitive manner. Any other value or <c>null</c> will result in <c>false</c>.
+    /// </param>
     /// <returns>
-    ///     <see cref="bool" />
+    ///     <c>true</c> if the input string represents "true" or "1"; otherwise, <c>false</c>.
     /// </returns>
     public static bool StringToBool(string value)
     {
@@ -522,12 +554,20 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get decimal from string
+    ///     Converts a string representation of a number into a nullable decimal value.
     /// </summary>
-    /// <param name="inString"></param>
+    /// <param name="inString">
+    ///     The input string containing the number to be converted.
+    ///     It may include commas or periods as separators.
+    /// </param>
     /// <returns>
-    ///     <see cref="decimal" />
+    ///     A nullable decimal value representing the converted number.
+    ///     Returns <c>null</c> if the conversion fails or the input string is invalid.
     /// </returns>
+    /// <remarks>
+    ///     This method attempts to parse the input string as a number, removing any commas or periods.
+    ///     If the parsing is successful, the resulting number is divided by 100 to produce the final decimal value.
+    /// </remarks>
     public static decimal? StringToDecimal(string inString)
     {
         if (string.IsNullOrEmpty(inString)) return 0;
@@ -540,13 +580,16 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get enum of type T from string
+    ///     Converts a string representation of an enumeration value to its strongly-typed enumeration equivalent.
     /// </summary>
-    /// <param name="value"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns>
-    ///     <see cref="Enum" />
-    /// </returns>
+    /// <typeparam name="T">The type of the enumeration to convert to. Must be an enumeration type.</typeparam>
+    /// <param name="value">The string representation of the enumeration value.</param>
+    /// <returns>The enumeration value of type <typeparamref name="T" /> corresponding to the specified string.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="value" /> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException">
+    ///     Thrown if <typeparamref name="T" /> is not an enumeration type or if
+    ///     <paramref name="value" /> is not a valid enumeration name.
+    /// </exception>
     public static T StringToEnum<T>(string value)
     {
         return (T)Enum.Parse(typeof(T), value, true);
@@ -554,29 +597,47 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get list from string using semicolon
+    ///     Converts a delimited string into a list of strongly-typed elements.
     /// </summary>
-    /// <param name="value"></param>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of elements in the resulting list.</typeparam>
+    /// <param name="value">The input string containing delimited values.</param>
     /// <returns>
-    ///     <see cref="List{T}" />
+    ///     A list of elements of type <typeparamref name="T" /> parsed from the input string.
     /// </returns>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when the <paramref name="value" /> is <c>null</c> or empty.
+    /// </exception>
+    /// <remarks>
+    ///     This method uses a default delimiter of ";" to split the input string into individual elements.
+    /// </remarks>
     public static List<T> StringToList<T>(string value)
     {
         return StringToList<T>(value, ";");
     }
 
-
     /// <summary>
-    ///     get list from string using delimiter
+    ///     Converts a delimited string into a list of strongly-typed elements.
     /// </summary>
-    /// <param name="value"></param>
-    /// <param name="delimiter"></param>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">
+    ///     The type of elements in the resulting list. Supported types include <see cref="string" />, <see cref="int" />, and
+    ///     <see cref="Guid" />.
+    /// </typeparam>
+    /// <param name="value">
+    ///     The input string to be converted. Each element in the string should be separated by the specified delimiter.
+    /// </param>
+    /// <param name="delimiter">
+    ///     The string used to separate elements in the input string.
+    /// </param>
     /// <returns>
-    ///     <see cref="List{T}" />
+    ///     A list of elements of type <typeparamref name="T" /> parsed from the input string.
     /// </returns>
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentNullException">
+    ///     Thrown when <paramref name="value" /> or <paramref name="delimiter" /> is <c>null</c> or empty.
+    /// </exception>
+    /// <remarks>
+    ///     This method supports parsing elements of type <see cref="string" />, <see cref="int" />, and <see cref="Guid" />.
+    ///     For other types, ensure that the input string can be converted to the specified type.
+    /// </remarks>
     public static List<T> StringToList<T>(string value, string delimiter)
     {
         if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value));
@@ -609,11 +670,11 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get string from stream (default encoding)
+    ///     Converts a string into a stream using the default encoding.
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="value">The string to be converted into a stream. If <c>null</c>, an empty stream will be returned.</param>
     /// <returns>
-    ///     <see cref="Stream" />
+    ///     A <see cref="Stream" /> containing the encoded bytes of the input string using the default encoding.
     /// </returns>
     public static Stream StringToStream(string value)
     {
@@ -622,12 +683,16 @@ public static class Mogrify
 
 
     /// <summary>
-    ///     get stream from string (using encoding)
+    ///     Converts a string into a stream using the specified encoding.
     /// </summary>
-    /// <param name="value"></param>
-    /// <param name="encoding"></param>
+    /// <param name="value">The string to be converted into a stream. If <c>null</c>, an empty stream will be returned.</param>
+    /// <param name="encoding">
+    ///     The character encoding to use for the conversion. If <c>null</c>, the method returns <c>null</c>
+    ///     .
+    /// </param>
     /// <returns>
-    ///     <see cref="Stream" />
+    ///     A <see cref="Stream" /> containing the encoded bytes of the input string, or <c>null</c> if the encoding is
+    ///     <c>null</c>.
     /// </returns>
     public static Stream StringToStream(string value, Encoding encoding)
     {
